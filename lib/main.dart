@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import 'package:share_sampatti_mvp/core/config/config.dart';
 import 'package:share_sampatti_mvp/core/routes/page_route.dart';
+
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
