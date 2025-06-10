@@ -22,7 +22,7 @@ class Inter extends StatelessWidget {
         fontFamily: "Inter",
         color: color ?? Theme.of(context).colorScheme.secondary,
         fontSize: fontSize ?? 14,
-        fontWeight: fontWeight ?? FontWeight.normal,
+        fontWeight: fontWeight ?? FontWeight.w400,
       ),
     );
   }
