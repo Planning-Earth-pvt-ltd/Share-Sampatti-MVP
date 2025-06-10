@@ -15,7 +15,7 @@ class Onboarding extends StatefulWidget {
 class _OnboardingState extends State<Onboarding> {
   late PageController _controller;
   List<String> title = [
-    "Your Gateway to Smart Real Estate Investment",
+    "Your Gateway to \n Smart Real Estate Investment",
     "Own Property Starting At Just ₹2000",
     "Smart Moves Rising Results",
   ];
@@ -50,14 +50,12 @@ class _OnboardingState extends State<Onboarding> {
                 controller: _controller,
                 itemBuilder: (context, index) => Column(
                   children: [
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Inter(
-                        text: title[index],
-                        color: AppColors.lightGreen,
-                        fontSize: 36,
-                        fontWeight: FontWeight.w500,
-                      ),
+                    Inter(
+                      text: title[index],
+                      textAlign: TextAlign.center,
+                      color: AppColors.lightGreen,
+                      fontSize: 36,
+                      fontWeight: FontWeight.w500,
                     ),
                     SizedBox(height: 100),
                     Image.asset(images[index]),
