@@ -30,10 +30,10 @@ class CustomTextField extends StatelessWidget {
       controller: controller,
       decoration: InputDecoration(
         hintText: hintText,
-        hintStyle: style(white),
+        hintStyle: style(AppColors.white),
         errorBorder: border(Colors.red),
         focusedBorder: border(Theme.of(context).colorScheme.primary),
-        border: border(darkGrey),
+        border: border(AppColors.darkGrey),
       ),
     );
   }

@@ -7,7 +7,6 @@ class AppConstants {
   static const String supportPhone = "";
 
   //fonts
-
- static const String interFontFamily = "Inter";
- static const String spaceGrotesk = "Space Grotesk";
+  static const String interFontFamily = "Inter";
+  static const String spaceGrotesk = "Space Grotesk";
 }
