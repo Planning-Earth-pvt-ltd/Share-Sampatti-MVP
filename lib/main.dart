@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:share_sampatti_mvp/common/custom_widgets/text_field.dart';
+
+import 'package:share_sampatti_mvp/core/config/config.dart';
+import 'package:share_sampatti_mvp/common/custom_widgets/custom_buttons/custom_base_button.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -13,14 +17,11 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Share Sampatti',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-      ),
-       home: HomeApp(),
+      theme: dark,
+      home: HomeApp(),
     );
   }
 }
-
 
 class HomeApp extends StatefulWidget {
   const HomeApp({super.key});
@@ -30,10 +31,25 @@ class HomeApp extends StatefulWidget {
 }
 
 class _HomeAppState extends State<HomeApp> {
+  final TextEditingController _controller = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      body: Column(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          CustomTextField(controller: _controller, hintText: "Name"),
+          SizedBox(height: 10),
+          CustomElevatedButton(
+            onpressed: () {},
+            text: "SEND OTP",
+            color: darkGrey,
+          ),
+        ],
+      ),
     );
   }
 }
