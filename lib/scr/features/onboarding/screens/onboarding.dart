@@ -29,13 +29,33 @@ class Onboarding extends ConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               // TITLE
-              Inter(
-                text: AppConstants.title[index],
+              RichText(
                 textAlign: TextAlign.center,
-                color: Theme.of(context).colorScheme.primary,
-                fontSize: 36,
-                fontWeight: FontWeight.w500,
+                text: TextSpan(
+                  style: TextStyle(
+                    fontFamily: 'Inter',
+                    color: Theme.of(context).colorScheme.primary,
+                    fontSize: 36,
+                    fontWeight: FontWeight.w500,
+                  ),
+                  children: [
+                    TextSpan(text: AppConstants.title[index][0]),
+                    TextSpan(
+                      text: AppConstants.title[index][1],
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.secondary,
+                      ),
+                    ),
+                  ],
+                ),
               ),
+              // Inter(
+              //   text: AppConstants.title[index],
+              //   textAlign: TextAlign.center,
+              //   color: Theme.of(context).colorScheme.primary,
+              //   fontSize: 36,
+              //   fontWeight: FontWeight.w500,
+              // ),
 
               // IMAGE
               Expanded(child: Image.asset(AppAssets.images[index])),
@@ -63,11 +83,14 @@ class Onboarding extends ConsumerWidget {
             SizedBox(height: 20),
 
             // GET STARTED BUTTON
-            CustomElevatedButton(
-              onpressed: () => context.push("/signUp"),
-              text: "Get Started",
-              textColor: Theme.of(context).colorScheme.tertiary,
-              fontWeight: FontWeight.w600,
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: CustomElevatedButton(
+                onpressed: () => context.push("/signUp"),
+                text: "Get Started",
+                textColor: Theme.of(context).colorScheme.tertiary,
+                fontWeight: FontWeight.w600,
+              ),
             ),
           ],
         ),

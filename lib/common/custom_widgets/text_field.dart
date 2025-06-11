@@ -16,7 +16,7 @@ class CustomTextField extends StatelessWidget {
 
   border(Color color) {
     return OutlineInputBorder(
-      borderSide: BorderSide(color: color),
+      borderSide: BorderSide(color: color, width: 2),
       borderRadius: BorderRadius.circular(radius ?? 10),
     );
   }
@@ -32,11 +32,14 @@ class CustomTextField extends StatelessWidget {
       focusNode: _focusNode,
       onTapOutside: (event) => _focusNode.unfocus(),
       decoration: InputDecoration(
+        filled: true,
+        fillColor: AppColors.grey,
         hintText: hintText.toUpperCase(),
         hintStyle: style(AppColors.white),
         errorBorder: border(AppColors.red),
         focusedBorder: border(Theme.of(context).colorScheme.primary),
         enabledBorder: border(AppColors.grey),
+        disabledBorder: border(AppColors.black),
       ),
     );
   }
