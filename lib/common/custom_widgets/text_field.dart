@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:share_sampatti_mvp/core/config/config.dart';
 
 class CustomTextField extends StatelessWidget {
-  const CustomTextField({
+  CustomTextField({
     super.key,
     required this.controller,
     required this.hintText,
@@ -12,6 +12,7 @@ class CustomTextField extends StatelessWidget {
   final TextEditingController controller;
   final String hintText;
   final double? radius;
+  final FocusNode _focusNode = FocusNode();
 
   border(Color color) {
     return OutlineInputBorder(
@@ -28,12 +29,14 @@ class CustomTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextField(
       controller: controller,
+      focusNode: _focusNode,
+      onTapOutside: (event) => _focusNode.unfocus(),
       decoration: InputDecoration(
-        hintText: hintText,
+        hintText: hintText.toUpperCase(),
         hintStyle: style(AppColors.white),
-        errorBorder: border(Colors.red),
+        errorBorder: border(AppColors.red),
         focusedBorder: border(Theme.of(context).colorScheme.primary),
-        border: border(AppColors.darkGrey),
+        enabledBorder: border(AppColors.grey),
       ),
     );
   }
