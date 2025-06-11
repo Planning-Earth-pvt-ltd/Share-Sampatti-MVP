@@ -9,4 +9,11 @@ class AppConstants {
   //fonts
   static const String interFontFamily = "Inter";
   static const String spaceGrotesk = "Space Grotesk";
+
+  // Onboarding Text
+  static const List<List<String>> title = [
+    ["Your Gateway to \n Smart ", "Real Estate Investment"],
+    ["Own Property Starting \n At Just \n", "₹2000"],
+    ["Smart Moves \n", "Rising Results"],
+  ];
 }
