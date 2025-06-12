@@ -75,25 +75,22 @@ class Onboarding extends ConsumerWidget {
           SizedBox(height: 20),
 
           // GET STARTED BUTTON
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: CustomElevatedButton(
-              onPressed: () {
-                if (nextIndex) {
-                  pageController.nextPage(
-                    duration: Duration(milliseconds: 500),
-                    curve: Curves.easeInOut,
-                  );
-                  ref.read(currentIndexProvider.notifier).state++;
-                } else {
-                  context.push("/signUp");
-                }
-              },
-              text: nextIndex ? "Next" : "Get Started",
-              textColor: Theme.of(context).colorScheme.tertiary,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
+          CustomElevatedButton(
+            onPressed: () {
+              if (nextIndex) {
+                pageController.nextPage(
+                  duration: Duration(milliseconds: 500),
+                  curve: Curves.easeInOut,
+                );
+                ref.read(currentIndexProvider.notifier).state++;
+              } else {
+                context.push("/login");
+              }
+            },
+            text: nextIndex ? "Next" : "Get Started",
+            textColor: AppColors.darkGrey,
+            fontWeight: FontWeight.w600,
+          ).withPadHorizontal(20),
         ],
       ).withPadCustom(const EdgeInsets.only(bottom: 50)),
     );
