@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:share_sampatti_mvp/common/custom_extension/custom_paddingAndMargin.dart';
 import 'package:share_sampatti_mvp/common/custom_widgets/custom_texts/inter.dart';
 
 class Login extends StatelessWidget {
@@ -14,7 +15,12 @@ class Login extends StatelessWidget {
           icon: Icon(Icons.arrow_back_ios),
         ),
       ),
-      body: Center(child: Inter(text: "Login")),
+      body:Column(
+        children: [
+          Center(child: Inter(text: "Login").withPadAll(8)
+          ),
+        ],
+      ),
     );
   }
 }

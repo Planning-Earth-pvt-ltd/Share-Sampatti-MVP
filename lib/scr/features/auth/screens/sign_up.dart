@@ -75,7 +75,7 @@ class SignUp extends ConsumerWidget {
                   children: [
                     // GET STARTED BUTTON
                     CustomElevatedButton(
-                      onpressed: () => context.push("/home"),
+                      onPressed: () => context.push("/home"),
                       text: "Send OTP",
                       textColor: Theme.of(context).colorScheme.tertiary,
                       fontWeight: FontWeight.w600,
