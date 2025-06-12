@@ -93,9 +93,74 @@ class SignUp extends ConsumerWidget {
                       decoration: TextDecoration.underline,
                     ),
                   ),
-                ],
-              ),
-            ],
+
+                ),
+                SizedBox(height: 20),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Inter(
+                        text: "Welcome",
+                        color: Theme.of(context).colorScheme.primary,
+                        fontSize: 40,
+                        fontWeight: FontWeight.w600,
+                      ),
+                      Inter(text: "Sign Up To Continue !", fontSize: 28),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 50),
+                Column(
+                  children: [
+                    CustomTextField(
+                      controller: controller["name"]!,
+                      hintText: "Name",
+                    ),
+                    SizedBox(height: 20),
+                    CustomTextField(
+                      controller: controller["mobileNumber"]!,
+                      hintText: "Mobile Number",
+                    ),
+                  ],
+                ),
+                Spacer(flex: 5),
+                Column(
+                  children: [
+                    // GET STARTED BUTTON
+                    CustomElevatedButton(
+                      onPressed: () => context.push("/home"),
+                      text: "Send OTP",
+                      textColor: Theme.of(context).colorScheme.tertiary,
+                      fontWeight: FontWeight.w600,
+                    ),
+                    SizedBox(height: 10),
+                    // CustomElevatedButton(
+                    //   onpressed: () => context.push("/home"),
+                    //   text: "Continue as a Guest",
+                    //   textColor: Theme.of(context).colorScheme.tertiary,
+                    //   fontWeight: FontWeight.w600,
+                    // ),
+                  ],
+                ),
+                Spacer(),
+                Wrap(
+                  children: [
+                    Inter(text: "Already A User? "),
+                    GestureDetector(
+                      onTap: () => context.push("/home"),
+                      child: Inter(
+                        text: "Sign In",
+                        color: Theme.of(context).colorScheme.primary,
+                        fontWeight: FontWeight.w500,
+                        decoration: TextDecoration.underline,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),

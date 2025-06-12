@@ -78,7 +78,7 @@ class Onboarding extends ConsumerWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: CustomElevatedButton(
-                onpressed: () => context.push("/signUp"),
+                onPressed: () => context.push("/signUp"),
                 text: "Get Started",
                 textColor: Theme.of(context).colorScheme.tertiary,
                 fontWeight: FontWeight.w600,
