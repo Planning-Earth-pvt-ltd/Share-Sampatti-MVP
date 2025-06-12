@@ -8,7 +8,8 @@ class CustomTextField extends StatelessWidget {
     required this.labelText,
     this.keyboardType,
     this.validator,
-    this.radius, required String hintText,
+    this.radius,
+    required String hintText,
   });
 
   final TextEditingController controller;
@@ -27,8 +28,12 @@ class CustomTextField extends StatelessWidget {
         filled: true,
         fillColor: AppColors.grey,
         labelText: labelText.toUpperCase(),
-        labelStyle: style(AppColors.white),
-        floatingLabelStyle: style(Theme.of(context).colorScheme.primary),
+        labelStyle: style(Colors.grey, 14, FontWeight.w400),
+        floatingLabelStyle: style(
+          Theme.of(context).colorScheme.primary,
+          16,
+          FontWeight.w600,
+        ),
         enabledBorder: border(AppColors.grey),
         focusedBorder: border(Theme.of(context).colorScheme.primary),
         errorBorder: border(AppColors.red),
@@ -44,7 +49,12 @@ class CustomTextField extends StatelessWidget {
     );
   }
 
-  TextStyle style(color) {
-    return TextStyle(fontFamily: "Inter", color: color, fontSize: 14);
+  TextStyle style(Color color, double fontSize, FontWeight fontWeight) {
+    return TextStyle(
+      fontFamily: "Inter",
+      color: color,
+      fontSize: fontSize,
+      fontWeight: fontWeight,
+    );
   }
 }

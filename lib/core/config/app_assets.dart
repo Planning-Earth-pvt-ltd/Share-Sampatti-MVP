@@ -1,4 +1,5 @@
 class AppAssets {
+  // MARK: Images
   static const String appLogo = "assets/images/appLogo.png";
   static const String splash = "assets/images/splash.png";
 
@@ -7,4 +8,6 @@ class AppAssets {
     "assets/images/onboarding2.png",
     "assets/images/onboarding3.png",
   ];
+
+  // MARK: Icons
 }

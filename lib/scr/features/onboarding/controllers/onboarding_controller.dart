@@ -8,3 +8,5 @@ final pageProvider = Provider.autoDispose<PageController>((ref) {
   });
   return controller;
 });
+
+final currentIndexProvider = StateProvider<int>((ref) => 0);
