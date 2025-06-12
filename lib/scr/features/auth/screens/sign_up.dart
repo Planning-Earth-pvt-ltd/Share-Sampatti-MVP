@@ -53,7 +53,7 @@ class SignUp extends ConsumerWidget {
               // NAME TEXT FIELD
               CustomTextField(
                 controller: controller["name"]!,
-                labelText: "Name",
+                labelText: "Name", hintText: '',
               ),
               SizedBox(height: 20),
 
@@ -61,7 +61,7 @@ class SignUp extends ConsumerWidget {
               CustomTextField(
                 controller: controller["mobileNumber"]!,
                 labelText: "Mobile Number",
-                keyboardType: TextInputType.number,
+                keyboardType: TextInputType.number, hintText: '',
               ),
             ],
           ),
@@ -73,7 +73,7 @@ class SignUp extends ConsumerWidget {
             children: [
               // GET STARTED BUTTON
               CustomElevatedButton(
-                onpressed: () => context.push("/home"),
+                onPressed: () => context.push("/home"),
                 text: "Send OTP",
                 textColor: Theme.of(context).colorScheme.tertiary,
                 fontWeight: FontWeight.w600,
@@ -93,8 +93,8 @@ class SignUp extends ConsumerWidget {
                       decoration: TextDecoration.underline,
                     ),
                   ),
-
-                ),
+      ]
+    ),
                 SizedBox(height: 20),
                 Align(
                   alignment: Alignment.centerLeft,
@@ -116,12 +116,12 @@ class SignUp extends ConsumerWidget {
                   children: [
                     CustomTextField(
                       controller: controller["name"]!,
-                      hintText: "Name",
+                      hintText: "Name", labelText: '',
                     ),
                     SizedBox(height: 20),
                     CustomTextField(
                       controller: controller["mobileNumber"]!,
-                      hintText: "Mobile Number",
+                      hintText: "Mobile Number", labelText: '',
                     ),
                   ],
                 ),
@@ -163,7 +163,6 @@ class SignUp extends ConsumerWidget {
             ),
           ),
         ),
-      ),
-    );
+      );
   }
 }
