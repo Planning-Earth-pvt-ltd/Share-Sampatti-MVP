@@ -8,6 +8,7 @@ import 'package:share_sampatti_mvp/scr/features/auth/controllers/auth_controller
 
 // COMPONENTS
 import 'package:share_sampatti_mvp/common/common.dart';
+import 'package:share_sampatti_mvp/core/core.dart';
 
 class SignUp extends ConsumerWidget {
   const SignUp({super.key});
@@ -73,9 +74,9 @@ class SignUp extends ConsumerWidget {
           children: [
             // GET STARTED BUTTON
             CustomElevatedButton(
-              onPressed: () => context.push("/home"),
+              onPressed: () => context.push("/otpScreen"),
               text: "Send OTP",
-              textColor: Theme.of(context).colorScheme.tertiary,
+              textColor: AppColors.darkGrey,
               fontWeight: FontWeight.w600,
             ),
             SizedBox(height: 50),
@@ -84,7 +85,7 @@ class SignUp extends ConsumerWidget {
               children: [
                 Inter(text: "Already A User? "),
                 GestureDetector(
-                  onTap: () => context.push("/home"),
+                  onTap: () => context.pushReplacement("/login"),
                   child: Inter(
                     text: "Sign In",
                     color: Theme.of(context).colorScheme.primary,

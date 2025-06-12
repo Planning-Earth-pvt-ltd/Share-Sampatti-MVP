@@ -28,7 +28,7 @@ class CustomTextField extends StatelessWidget {
         filled: true,
         fillColor: AppColors.grey,
         labelText: labelText.toUpperCase(),
-        labelStyle: style(Colors.grey, 14, FontWeight.w400),
+        labelStyle: style(AppColors.lightGrey, 14, FontWeight.w400),
         floatingLabelStyle: style(
           Theme.of(context).colorScheme.primary,
           16,

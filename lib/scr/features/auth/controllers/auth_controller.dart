@@ -15,3 +15,5 @@ final provider = Provider.autoDispose<Map<String, TextEditingController>>((
   });
   return controller;
 });
+
+final codeProvider = StateProvider<String>((ref) => "");
