@@ -1,9 +1,6 @@
 import 'package:go_router/go_router.dart';
 
-import 'package:share_sampatti_mvp/scr/features/home/screens/home.dart';
-import 'package:share_sampatti_mvp/scr/features/auth/screens/sign_up.dart';
-import 'package:share_sampatti_mvp/scr/features/auth/screens/login_screen.dart';
-import 'package:share_sampatti_mvp/scr/features/onboarding/screens/onboarding.dart';
+import 'package:share_sampatti_mvp/scr/src.dart';
 
 final route = GoRouter(
   routes: [
