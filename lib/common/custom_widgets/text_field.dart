@@ -8,7 +8,7 @@ class CustomTextField extends StatelessWidget {
     required this.labelText,
     this.keyboardType,
     this.validator,
-    this.radius,
+    this.radius, required String hintText,
   });
 
   final TextEditingController controller;
