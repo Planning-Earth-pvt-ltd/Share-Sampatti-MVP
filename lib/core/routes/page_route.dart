@@ -1,6 +1,10 @@
 import 'package:go_router/go_router.dart';
+<<<<<<< Updated upstream
 import 'package:share_sampatti_mvp/scr/src.dart';
 import '../../app/splash_screen/splash_screen.dart';
+=======
+import 'package:share_sampatti_mvp/app/app.dart';
+>>>>>>> Stashed changes
 
 final route = GoRouter(
   routes: [
