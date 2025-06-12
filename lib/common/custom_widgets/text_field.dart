@@ -2,45 +2,49 @@ import 'package:flutter/material.dart';
 import 'package:share_sampatti_mvp/core/config/config.dart';
 
 class CustomTextField extends StatelessWidget {
-  CustomTextField({
+  const CustomTextField({
     super.key,
     required this.controller,
-    required this.hintText,
+    required this.labelText,
+    this.keyboardType,
+    this.validator,
     this.radius,
   });
 
   final TextEditingController controller;
-  final String hintText;
+  final TextInputType? keyboardType;
+  final String? Function(String?)? validator;
+  final String labelText;
   final double? radius;
-  final FocusNode _focusNode = FocusNode();
 
-  border(Color color) {
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      controller: controller,
+      keyboardType: keyboardType ?? TextInputType.text,
+      validator: validator,
+      decoration: InputDecoration(
+        filled: true,
+        fillColor: AppColors.grey,
+        labelText: labelText.toUpperCase(),
+        labelStyle: style(AppColors.white),
+        floatingLabelStyle: style(Theme.of(context).colorScheme.primary),
+        enabledBorder: border(AppColors.grey),
+        focusedBorder: border(Theme.of(context).colorScheme.primary),
+        errorBorder: border(AppColors.red),
+        disabledBorder: border(AppColors.black),
+      ),
+    );
+  }
+
+  OutlineInputBorder border(Color color) {
     return OutlineInputBorder(
       borderSide: BorderSide(color: color, width: 2),
       borderRadius: BorderRadius.circular(radius ?? 10),
     );
   }
 
-  style(color) {
+  TextStyle style(color) {
     return TextStyle(fontFamily: "Inter", color: color, fontSize: 14);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return TextField(
-      controller: controller,
-      focusNode: _focusNode,
-      onTapOutside: (event) => _focusNode.unfocus(),
-      decoration: InputDecoration(
-        filled: true,
-        fillColor: AppColors.grey,
-        hintText: hintText.toUpperCase(),
-        hintStyle: style(AppColors.white),
-        errorBorder: border(AppColors.red),
-        focusedBorder: border(Theme.of(context).colorScheme.primary),
-        enabledBorder: border(AppColors.grey),
-        disabledBorder: border(AppColors.black),
-      ),
-    );
   }
 }

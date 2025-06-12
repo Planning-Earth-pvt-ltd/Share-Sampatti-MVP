@@ -8,7 +8,6 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:share_sampatti_mvp/scr/features/onboarding/controllers/onboarding_controller.dart';
 
 // COMPONENTS
-import 'package:share_sampatti_mvp/common/custom_widgets/custom_texts/inter.dart';
 import 'package:share_sampatti_mvp/common/custom_widgets/custom_buttons/custom_base_button.dart';
 import 'package:share_sampatti_mvp/core/config/config.dart';
 
@@ -49,13 +48,6 @@ class Onboarding extends ConsumerWidget {
                   ],
                 ),
               ),
-              // Inter(
-              //   text: AppConstants.title[index],
-              //   textAlign: TextAlign.center,
-              //   color: Theme.of(context).colorScheme.primary,
-              //   fontSize: 36,
-              //   fontWeight: FontWeight.w500,
-              // ),
 
               // IMAGE
               Expanded(child: Image.asset(AppAssets.images[index])),

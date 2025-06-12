@@ -12,33 +12,88 @@ class SignUp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final Map<String, TextEditingController> controller = ref.watch(provider);
-    final Size size = MediaQuery.of(context).size;
 
-    return Scaffold(
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.only(
-          left: 20,
-          right: 20,
-          top: 50,
-          bottom: 30,
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: Scaffold(
+        body: SingleChildScrollView(
+          padding: const EdgeInsets.only(left: 20, right: 20, top: 50),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // SKIP
+              Align(
+                alignment: Alignment.centerRight,
+                child: GestureDetector(
+                  onTap: () => context.push("/home"),
+                  child: Inter(
+                    text: "Skip",
+                    color: Theme.of(context).colorScheme.primary,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                    decoration: TextDecoration.underline,
+                  ),
+                ),
+              ),
+              SizedBox(height: 20),
+
+              // WELCOME
+              Inter(
+                text: "Welcome",
+                color: Theme.of(context).colorScheme.primary,
+                fontSize: 40,
+                fontWeight: FontWeight.w600,
+              ),
+
+              // SIGN UP
+              Inter(text: "Sign Up To Continue !", fontSize: 28),
+              SizedBox(height: 50),
+
+              // NAME TEXT FIELD
+              CustomTextField(
+                controller: controller["name"]!,
+                labelText: "Name",
+              ),
+              SizedBox(height: 20),
+
+              // MOBILE TEXT FIELD
+              CustomTextField(
+                controller: controller["mobileNumber"]!,
+                labelText: "Mobile Number",
+                keyboardType: TextInputType.number,
+              ),
+            ],
+          ),
         ),
-        child: ConstrainedBox(
-          constraints: BoxConstraints(minHeight: size.height - 80),
-          child: IntrinsicHeight(
-            child: Column(
-              children: [
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: GestureDetector(
+        bottomNavigationBar: Padding(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // GET STARTED BUTTON
+              CustomElevatedButton(
+                onpressed: () => context.push("/home"),
+                text: "Send OTP",
+                textColor: Theme.of(context).colorScheme.tertiary,
+                fontWeight: FontWeight.w600,
+              ),
+              SizedBox(height: 50),
+
+              // ALREADY A USER
+              Wrap(
+                children: [
+                  Inter(text: "Already A User? "),
+                  GestureDetector(
                     onTap: () => context.push("/home"),
                     child: Inter(
-                      text: "Skip",
+                      text: "Sign In",
                       color: Theme.of(context).colorScheme.primary,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600,
+                      fontWeight: FontWeight.w500,
                       decoration: TextDecoration.underline,
                     ),
                   ),
+
                 ),
                 SizedBox(height: 20),
                 Align(
