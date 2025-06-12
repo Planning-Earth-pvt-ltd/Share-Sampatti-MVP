@@ -21,7 +21,7 @@ class AppDimensions {
   //Font Size
   double fontSmall(BuildContext context) => screenWidth(context) * 0.04;
   double fontMedium(BuildContext context) => screenWidth(context) * 0.05;
-  double fontLarge(BuildContext context) => screenWidth(context) * 0.06;
+  double fontLarge(BuildContext context) => screenWidth(context) * 0.11;
 
   //Radius
   double radiusSmall(BuildContext context) => screenWidth(context) * 0.01;
