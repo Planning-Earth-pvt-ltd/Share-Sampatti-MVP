@@ -1,9 +1,13 @@
+// PACKAGE
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:share_sampatti_mvp/app/app.dart';
+import 'package:share_sampatti_mvp/app/auth_check/authCheck_controller.dart';
 import 'package:share_sampatti_mvp/app/splash_screen/splash_controller.dart';
+
+// COMPONENTS
+import 'package:share_sampatti_mvp/app/app.dart';
 
 class SplashScreen extends ConsumerStatefulWidget {
   const SplashScreen({super.key});
@@ -16,21 +20,29 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    Future.microtask(
-      () => ref.read(splashControllerProvider.notifier).startSplash(),
-    );
+    Future.microtask(() {
+      ref.read(splashControllerProvider.notifier).startSplash();
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     final appDimens = ref.watch(appDimensionsProvider);
-    ref.listen(splashControllerProvider, (provider, state) {
+
+    ref.listen(splashControllerProvider, (_, state) {
       if (state is SplashCompleted) {
-        context.pushReplacement('/onboarding');
+        final authState = ref.watch(authProvider);
+        if (authState.isFirstInstall) {
+          context.pushReplacement('/onboarding');
+        } else if (authState.isLoggedIn) {
+          context.pushReplacement('/home');
+        } else {
+          context.pushReplacement('/login');
+        }
       } else if (state is SplashError) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Inter(text: state.message!)));
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Inter(text: state.message ?? 'Network Problem')),
+        );
       }
     });
     return Scaffold(
