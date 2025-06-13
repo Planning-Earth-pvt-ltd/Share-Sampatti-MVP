@@ -1,0 +1,56 @@
+name: Flutter CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+      - uses: actions/checkout@v3
+
+      - name: Set up Dart
+        uses: actions/setup-dart@v2
+        with:
+          flutter-version: "3.32.1"
+
+      - name: Run Pub get
+        run: flutter pub get
+
+      - name: Run Test
+        run: flutter test
+
+      - name: Build APK
+        run: flutter build apk --release
+
+      - name: Upload APK as artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: release-apk
+          path: build/app/outputs/flutter-apk/app-release.apk
+
+#This is for Play Store  deployment
+      # - name: Setup Java (For Fastlane / Play Store)
+      #   uses: actions/setup-java@v3
+      #   with:
+      #     distribution: 'temurin'
+      #     java-version: '17'
+
+      # - name: Decode keystore
+      #   run: |
+      #     echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > android/app/upload-keystore.jks
+
+      # - name: Build App Bundle for Play Store
+      #   run: flutter build appbundle --release
+
+      # - name: Upload to Play Store
+      #   uses: r0adkll/upload-google-play@v1
+      #   with:
+      #     serviceAccountJsonPlainText: ${{ secrets.GOOGLE_PLAY_KEY }}
+      #     packageName: com.example.your_app
+      #     releaseFiles: build/app/outputs/bundle/release/app-release.aab
+      #     track: internal
