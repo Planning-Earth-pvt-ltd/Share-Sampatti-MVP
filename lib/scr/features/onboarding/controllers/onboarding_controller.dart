@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+// PAGE
 final pageProvider = Provider.autoDispose<PageController>((ref) {
   final controller = PageController();
   ref.onDispose(() {
@@ -9,4 +10,5 @@ final pageProvider = Provider.autoDispose<PageController>((ref) {
   return controller;
 });
 
-final currentIndexProvider = StateProvider<int>((ref) => 0);
+// AUTO SCROLL
+final currentPageProvider = StateProvider<int>((ref) => 0);

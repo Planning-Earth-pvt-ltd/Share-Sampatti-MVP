@@ -1,4 +1,7 @@
 // PACKAGE
+import 'dart:async';
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -11,21 +14,57 @@ import 'package:share_sampatti_mvp/scr/features/onboarding/onboarding.dart';
 import 'package:share_sampatti_mvp/common/common.dart';
 import 'package:share_sampatti_mvp/core/core.dart';
 
-class Onboarding extends ConsumerWidget {
+class Onboarding extends ConsumerStatefulWidget {
   const Onboarding({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<Onboarding> createState() => _OnboardingState();
+}
+
+class _OnboardingState extends ConsumerState<Onboarding> {
+  Timer? _timer;
+  final int totalPages = 3;
+  bool hasPrecache = true;
+  @override
+  void initState() {
+    super.initState();
+    _autoScroll();
+  }
+
+  _autoScroll() {
+    _timer = Timer.periodic(Duration(seconds: 6), (_) {
+      final pageController = ref.read(pageProvider);
+      final currentPage = ref.read(currentPageProvider);
+
+      log(currentPage.toString());
+      if (currentPage < totalPages - 1) {
+        pageController.animateToPage(
+          currentPage + 1,
+          duration: Duration(seconds: 1),
+          curve: Curves.easeInOut,
+        );
+        ref.read(currentPageProvider.notifier).state++;
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final pageController = ref.watch(pageProvider);
-    final nextIndex =
-        ref.watch(currentIndexProvider) < AppConstants.title.length - 1;
+    final currentPage = ref.watch(currentPageProvider) < totalPages - 1;
 
     return Scaffold(
       body: PageView.builder(
         controller: pageController,
         itemCount: AppConstants.title.length,
         onPageChanged: (index) =>
-            ref.read(currentIndexProvider.notifier).state = index,
+            ref.read(currentPageProvider.notifier).state = index,
         itemBuilder: (context, index) => Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -77,17 +116,17 @@ class Onboarding extends ConsumerWidget {
           // GET STARTED BUTTON
           CustomElevatedButton(
             onPressed: () {
-              if (nextIndex) {
+              if (currentPage) {
                 pageController.nextPage(
                   duration: Duration(milliseconds: 500),
                   curve: Curves.easeInOut,
                 );
-                ref.read(currentIndexProvider.notifier).state++;
+                ref.read(currentPageProvider.notifier).state++;
               } else {
                 context.push("/login");
               }
             },
-            text: nextIndex ? "Next" : "Get Started",
+            text: currentPage ? "Next" : "Get Started",
             textColor: AppColors.darkGrey,
             fontWeight: FontWeight.w600,
           ).withPadHorizontal(20),
