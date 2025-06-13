@@ -1,9 +1,14 @@
+// PACKAGE
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:share_sampatti_mvp/app/app.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+// RIVERPOD
 import 'package:share_sampatti_mvp/app/splash_screen/splash_controller.dart';
+
+// COMPONENTS
+import 'package:share_sampatti_mvp/app/app.dart';
 
 class SplashScreen extends ConsumerStatefulWidget {
   const SplashScreen({super.key});
