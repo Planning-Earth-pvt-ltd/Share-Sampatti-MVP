@@ -9,7 +9,6 @@ class CustomTextField extends StatelessWidget {
     this.keyboardType,
     this.validator,
     this.radius,
-    required String hintText,
   });
 
   final TextEditingController controller;
@@ -37,6 +36,7 @@ class CustomTextField extends StatelessWidget {
         enabledBorder: border(AppColors.grey),
         focusedBorder: border(Theme.of(context).colorScheme.primary),
         errorBorder: border(AppColors.red),
+        focusedErrorBorder: border(AppColors.red),
         disabledBorder: border(AppColors.black),
       ),
     );
