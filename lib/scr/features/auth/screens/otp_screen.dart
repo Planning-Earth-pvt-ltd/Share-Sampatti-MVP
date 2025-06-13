@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -13,7 +15,8 @@ class OtpScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final code = ref.watch(codeProvider);
+    final controller = ref.watch(provider);
+    final otpTimer = ref.watch(otpTimerProvider);
 
     pinTheme(Color color) {
       return PinTheme(
@@ -50,8 +53,25 @@ class OtpScreen extends ConsumerWidget {
               text: "Let's Secure \n Your Account",
               color: Theme.of(context).colorScheme.primary,
               fontSize: 36,
-              fontWeight: FontWeight.w600,
+              fontWeight: FontWeight.w500,
               textAlign: TextAlign.center,
+            ),
+            Wrap(
+              children: [
+                Inter(
+                  text:
+                      "OTP sent to +91 XXXXXX${controller["mobileNumber"]?.text.substring(6, 10)} ",
+                ),
+                GestureDetector(
+                  onTap: () => context.pushReplacement("/login"),
+                  child: Inter(
+                    text: "Edit",
+                    color: Theme.of(context).colorScheme.primary,
+                    fontWeight: FontWeight.w500,
+                    decoration: TextDecoration.underline,
+                  ),
+                ),
+              ],
             ),
             SizedBox(height: 100),
             Pinput(
@@ -66,25 +86,25 @@ class OtpScreen extends ConsumerWidget {
               errorPinTheme: pinTheme(AppColors.red),
             ),
             SizedBox(height: 20),
-            Align(
-              alignment: Alignment.centerRight,
-              child: Inter(text: "05 Seconds"),
-            ),
+            if (otpTimer > 0)
+              Align(
+                alignment: Alignment.centerRight,
+                child: Inter(text: "$otpTimer Seconds"),
+              ),
             Spacer(),
-            Wrap(
-              children: [
-                Inter(text: "Haven't received a code? "),
-                GestureDetector(
-                  onTap: () => context.pushReplacement("/home"),
-                  child: Inter(
+            if (otpTimer == 0)
+              Wrap(
+                children: [
+                  Inter(text: "Haven't received a code? "),
+                  CustomTextButton(
                     text: "Resend Now!",
-                    color: Theme.of(context).colorScheme.primary,
-                    fontWeight: FontWeight.w500,
-                    decoration: TextDecoration.underline,
+                    onTap: () {
+                      log("message");
+                      ref.read(otpTimerProvider.notifier).start();
+                    },
                   ),
-                ),
-              ],
-            ),
+                ],
+              ),
           ],
         ).withPadCustom(const EdgeInsets.all(20)),
       ),
