@@ -17,8 +17,8 @@ class OtpScreen extends ConsumerWidget {
 
     pinTheme(Color color) {
       return PinTheme(
-        height: 56,
-        width: 56,
+        height: 50,
+        width: 50,
         decoration: BoxDecoration(
           color: Colors.transparent,
           border: Border.all(width: 2, color: color),

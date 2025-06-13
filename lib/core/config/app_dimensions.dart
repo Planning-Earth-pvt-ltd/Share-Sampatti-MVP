@@ -13,9 +13,7 @@ class AppDimensions {
 
   //Screen Padding
   double paddingSmall(BuildContext context) => screenWidth(context) * 0.02;
-
   double paddingMedium(BuildContext context) => screenWidth(context) * 0.04;
-
   double paddingLarge(BuildContext context) => screenWidth(context) * 0.06;
 
   //Font Size
