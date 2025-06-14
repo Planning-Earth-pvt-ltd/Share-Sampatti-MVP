@@ -29,9 +29,6 @@ class CustomElevatedButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // final Size size = MediaQuery.of(context).size;
-    // final double sizeHeight = (height ?? 0.05) * size.height;
-    // final double sizeWidth = (width ?? 0.6) * size.width;
     final appDimens = ref.watch(appDimensionsProvider);
 
     return ElevatedButton(
@@ -40,8 +37,8 @@ class CustomElevatedButton extends ConsumerWidget {
         backgroundColor:
             backgroundColor ?? Theme.of(context).colorScheme.primary,
         foregroundColor: AppColors.black,
-        minimumSize: Size.fromHeight(height ?? 50),
-        // minimumSize: Size(width ?? 300, height ?? 45),
+        // minimumSize: Size.fromHeight(height ?? 50),
+        minimumSize: Size(width ?? double.infinity, height ?? 45),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(
             radius ?? appDimens.radiusLarge(context),
