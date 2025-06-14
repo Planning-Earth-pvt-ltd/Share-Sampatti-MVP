@@ -91,7 +91,7 @@ class _OnboardingState extends ConsumerState<Onboarding> {
             ),
 
             // IMAGE
-            Expanded(child: Image.asset(AppAssets.images[index])),
+            Expanded(child: Image.asset(AppAssets.onboardingImages[index])),
             SizedBox(height: 10),
           ],
         ).withPadAllCustom(70, 0, 20, 20),

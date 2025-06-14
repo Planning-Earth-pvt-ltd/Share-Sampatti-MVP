@@ -51,6 +51,23 @@ final mobileValidatorProvider = Provider<String? Function(String?)?>((ref) {
   };
 });
 
+final otpValidatorProvider = Provider<String? Function(String?)?>((ref) {
+  final RegExp otpRegex = RegExp(r'^[0-9]+$');
+
+  return (String? otp) {
+    if (otp == null || otp.isEmpty) {
+      return "Please enter the OTP";
+    }
+    if (!otpRegex.hasMatch(otp)) {
+      return "Enter a valid OTP";
+    }
+    if (otp != "000000") {
+      return "Invalid OTP";
+    }
+    return null;
+  };
+});
+
 final otpTimerProvider = StateNotifierProvider<TimeProvider, int>(
   (ref) => TimeProvider(),
 );

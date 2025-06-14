@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 extension PaddingExtensions on Widget {
   //All Padding
   Widget withPadAll(double val) =>
-      Padding(padding: EdgeInsetsGeometry.all(val));
+      Padding(padding: EdgeInsetsGeometry.all(val), child: this);
 
   //Horizontal Padding
   Widget withPadHorizontal(double val) => Padding(

@@ -16,4 +16,19 @@ class AppConstants {
     ["Own Property Starting \n At Just \n", "₹2000"],
     ["Smart Moves \n", "Rising Results"],
   ];
+
+  // Home Regions
+  static const List<String> regions = [
+    "Mohali",
+    "Dhulera",
+    "Himachal",
+    "Chandigarh",
+  ];
+
+  // Home Themes
+  static const List<String> themes = [
+    "Residential",
+    "Commercial",
+    "Holiday Homes",
+  ];
 }
