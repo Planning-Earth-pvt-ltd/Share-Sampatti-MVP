@@ -11,19 +11,18 @@ class Advertisment extends StatefulWidget {
 }
 
 class _AdvertismentState extends State<Advertisment> {
-  late PageController _pageController;
+  final PageController _pageController = PageController();
   Timer? _timer;
   int _currentAdv = 0;
 
   @override
   void initState() {
     super.initState();
-    _pageController = PageController();
     _autoScroll();
   }
 
   _autoScroll() {
-    Timer.periodic(Duration(seconds: 5), (_) {
+    _timer = Timer.periodic(Duration(seconds: 5), (_) {
       _currentAdv = (_currentAdv + 1) % AppAssets.advertismentImages.length;
       _pageController.animateToPage(
         _currentAdv,

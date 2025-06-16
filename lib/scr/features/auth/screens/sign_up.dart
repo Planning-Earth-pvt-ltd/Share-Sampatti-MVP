@@ -35,7 +35,7 @@ class SignUp extends ConsumerWidget {
                 child: CustomTextButton(
                   text: "Skip",
                   fontSize: 18,
-                  onTap: () => context.go("/home"),
+                  onTap: () => context.go("/navigation"),
                 ),
               ),
               SizedBox(height: 20),

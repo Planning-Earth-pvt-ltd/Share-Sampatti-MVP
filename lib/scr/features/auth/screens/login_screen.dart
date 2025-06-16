@@ -3,11 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-// RIVERPOD
-import 'package:share_sampatti_mvp/scr/features/auth/controllers/auth_controller.dart';
-
 // COMPONENT
-import 'package:share_sampatti_mvp/common/common.dart';
+import 'package:share_sampatti_mvp/app/app.dart';
 
 class Login extends ConsumerWidget {
   const Login({super.key});
@@ -33,7 +30,7 @@ class Login extends ConsumerWidget {
                 child: CustomTextButton(
                   text: "Skip",
                   fontSize: 18,
-                  onTap: () => context.go("/home"),
+                  onTap: () => context.go("/navigation"),
                 ),
               ),
               SizedBox(height: 20),
