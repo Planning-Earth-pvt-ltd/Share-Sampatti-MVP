@@ -7,6 +7,7 @@ class AppColors {
   static const Color lightGrey = Color(0xFF7F7F80);
   static const Color grey = Color(0xFF2A2929);
   static const Color darkGrey = Color(0xFF101010);
+  static const Color divider = Color(0xFF2F2F2F);
   static const Color red = Colors.red;
   static const Color profileBackground = Color(0xFF1D7ADD);
 }

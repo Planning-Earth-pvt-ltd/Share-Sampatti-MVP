@@ -82,7 +82,7 @@ class OtpScreen extends ConsumerWidget {
                 validator: otpValidator,
                 onCompleted: (_) {
                   if (key.currentState!.validate()) {
-                    context.go("/home");
+                    context.go("/navigation");
                   }
                 },
                 defaultPinTheme: pinTheme(

@@ -8,6 +8,7 @@ final route = GoRouter(
     GoRoute(path: '/login', builder: (context, state) => Login()),
     GoRoute(path: '/signUp', builder: (context, state) => SignUp()),
     GoRoute(path: '/otpScreen', builder: (context, state) => OtpScreen()),
-    GoRoute(path: '/home', builder: (context, state) => Home()),
+    GoRoute(path: '/navigation', builder: (context, state) => Navigation()),
+    GoRoute(path: '/profile', builder: (context, state) => Profile()),
   ],
 );
