@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:share_sampatti_mvp/app/app.dart';
-import 'package:share_sampatti_mvp/scr/features/home/screens/advertisment.dart';
-import 'package:share_sampatti_mvp/scr/features/home/screens/explore.dart';
-import 'package:share_sampatti_mvp/scr/features/home/screens/invest.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
@@ -11,18 +8,20 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
 
+    // MARK: Name
     name() {
       return Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Inter(
-            text: "Namaste, User",
-            fontSize: 22,
+            text: "Namaste, Shubham",
+            fontSize: 22.78,
             fontWeight: FontWeight.w600,
           ),
           CircleAvatar(
             radius: 15,
-            child: Inter(text: "U", fontSize: 16, fontWeight: FontWeight.w500),
+            backgroundColor: AppColors.profileBackground,
+            child: Inter(text: "S", fontSize: 16, fontWeight: FontWeight.w500),
           ),
         ],
       );
@@ -35,7 +34,7 @@ class Home extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // NAME
-              name().withPadAllCustom(20, 0, 20, 20),
+              name().withPadAll(20),
 
               // NET WORTH
               NetWorth(),
@@ -43,7 +42,7 @@ class Home extends StatelessWidget {
               // START INVESTMENT NOW
               Inter(
                 text: "Start Investing Now",
-                fontSize: 22,
+                fontSize: 22.78,
                 fontWeight: FontWeight.w600,
               ).withPadAllCustom(0, 0, 20, 0),
               Inter(
@@ -128,7 +127,7 @@ class Home extends StatelessWidget {
                 ),
                 padding: const EdgeInsets.all(20),
                 decoration: BoxDecoration(
-                  color: AppColors.grey,
+                  color: AppColors.darkGrey,
                   borderRadius: BorderRadius.circular(11),
                 ),
                 child: Column(

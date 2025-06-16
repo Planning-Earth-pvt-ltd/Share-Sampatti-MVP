@@ -8,7 +8,7 @@ class NetWorth extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(bottom: 30),
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       decoration: BoxDecoration(
         border: Border(
           bottom: BorderSide(color: Theme.of(context).colorScheme.secondary),
@@ -24,19 +24,22 @@ class NetWorth extends StatelessWidget {
             fontWeight: FontWeight.w500,
             color: AppColors.lightGrey,
           ),
-          SizedBox(height: 10),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Inter(
                 text: "₹ 2,34,560",
-                fontSize: 22,
+                fontSize: 22.78,
                 fontWeight: FontWeight.w500,
               ),
-              Icon(
-                Icons.arrow_forward_ios,
-                size: 20,
-                color: AppColors.lightGrey,
+              IconButton(
+                onPressed: () {},
+                icon: Icon(
+                  Icons.arrow_forward_ios,
+                  size: 20,
+                  color: AppColors.lightGrey,
+                ),
               ),
             ],
           ),

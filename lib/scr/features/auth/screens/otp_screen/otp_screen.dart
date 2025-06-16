@@ -15,7 +15,6 @@ class OtpScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final controller = ref.watch(provider);
-    // final otpTimer = ref.watch(otpTimerProvider);
     final otpValidator = ref.watch(otpValidatorProvider);
     final GlobalKey<FormState> key = GlobalKey<FormState>();
 
@@ -66,7 +65,7 @@ class OtpScreen extends ConsumerWidget {
                         "OTP sent to +91 XXXXXX${controller["mobileNumber"]?.text.substring(6, 10)} ",
                   ),
                   GestureDetector(
-                    onTap: () => context.pushReplacement("/login"),
+                    onTap: () => context.go("/login"),
                     child: Inter(
                       text: "Edit",
                       color: Theme.of(context).colorScheme.primary,
@@ -83,7 +82,7 @@ class OtpScreen extends ConsumerWidget {
                 validator: otpValidator,
                 onCompleted: (_) {
                   if (key.currentState!.validate()) {
-                    context.push("/home");
+                    context.go("/home");
                   }
                 },
                 defaultPinTheme: pinTheme(
