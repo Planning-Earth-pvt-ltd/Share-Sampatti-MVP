@@ -19,9 +19,24 @@ class Explore extends StatelessWidget {
         padding: const EdgeInsets.only(right: 20),
         itemBuilder: (context, index) => Column(
           children: [
-            CircleAvatar(
-              radius: 40,
-              backgroundImage: AssetImage(images[index]),
+            Container(
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                boxShadow: [
+                  BoxShadow(
+                    offset: Offset(0, 0),
+                    color: Theme.of(
+                      context,
+                    ).colorScheme.secondary.withAlpha(100),
+                    spreadRadius: 1,
+                    blurRadius: 14.8,
+                  ),
+                ],
+              ),
+              child: CircleAvatar(
+                radius: 79.87 * 0.5,
+                backgroundImage: AssetImage(images[index]),
+              ),
             ),
             SizedBox(height: 10),
             Inter(

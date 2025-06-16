@@ -31,4 +31,37 @@ class AppConstants {
     "Commercial",
     "Holiday Homes",
   ];
+
+  // Profile account details
+  static const List<String> accountDetails = [
+    "Personal Details",
+    "KYC's",
+    "Bank Details",
+  ];
+
+  // Profile account details
+  static const List<String> accountSubDetails = [
+    "My Documents",
+    "My Documents",
+    "My Documents",
+  ];
+
+  // Profile account
+  static const List<String> account = [
+    "Watchlist",
+    "Realised Profit & Loss",
+    "Resource Center",
+  ];
+
+  // Profile account
+  static const List<String> about = [
+    "About Us",
+    "Terms and Conditions",
+    "Privacy Policy",
+    "Resource Center",
+    "FAQ's",
+  ];
+
+  // Profile logout
+  static const List<String> logout = ["Settings", "Logout"];
 }

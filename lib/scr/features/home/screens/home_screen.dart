@@ -68,14 +68,14 @@ class Home extends StatelessWidget {
             children: [
               Inter(
                 text: "Explore By Regions",
-                fontSize: 22,
-                fontWeight: FontWeight.w600,
+                fontSize: 20.58,
+                fontWeight: FontWeight.w500,
               ),
               CustomElevatedButton(
                 onPressed: () {},
                 text: "View All",
-                width: 88,
-                height: 22,
+                width: 72,
+                height: 25,
                 radius: 6,
                 fontSize: 12,
                 fontWeight: FontWeight.w500,
@@ -88,10 +88,24 @@ class Home extends StatelessWidget {
           ),
 
           // TRACK NOW
-          ClipRRect(
-            borderRadius: BorderRadiusGeometry.circular(15),
-            child: Image.asset(AppAssets.trackNow),
-          ).withPadSymmetric(0, 20),
+          Stack(
+            alignment: Alignment.bottomLeft,
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadiusGeometry.circular(15),
+                child: Image.asset(AppAssets.trackNow),
+              ).withPadSymmetric(0, 20),
+              CustomElevatedButton(
+                onPressed: () {},
+                text: "Track Now",
+                width: 91,
+                height: 27,
+                radius: 6,
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+              ).withPadAllCustom(0, 40, 40, 0),
+            ],
+          ),
 
           //EXPLORE BY Theme
           Row(
@@ -99,39 +113,58 @@ class Home extends StatelessWidget {
             children: [
               Inter(
                 text: "Explore By Theme",
-                fontSize: 22,
-                fontWeight: FontWeight.w600,
+                fontSize: 20.58,
+                fontWeight: FontWeight.w500,
               ),
               CustomElevatedButton(
                 onPressed: () {},
                 text: "View All",
-                width: 88,
-                height: 22,
+                width: 72,
+                height: 25,
                 radius: 6,
                 fontSize: 12,
                 fontWeight: FontWeight.w500,
               ),
             ],
           ).withPadAll(20),
-          Explore(
-            explore: AppConstants.themes,
-            images: AppAssets.regionsImages,
-          ),
+          Explore(explore: AppConstants.themes, images: AppAssets.themesImages),
 
           // CALL NOW
-          ClipRRect(
-            borderRadius: BorderRadiusGeometry.circular(15),
-            child: Image.asset(AppAssets.callNow),
-          ).withPadSymmetric(0, 20),
+          Stack(
+            alignment: Alignment.bottomRight,
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadiusGeometry.circular(15),
+                child: Image.asset(AppAssets.callNow),
+              ).withPadSymmetric(0, 20),
+              CustomElevatedButton(
+                onPressed: () {},
+                text: "Call Now",
+                width: 91,
+                height: 27,
+                radius: 6,
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+              ).withPadAllCustom(0, 20, 0, 40),
+            ],
+          ),
 
           //PROPERTY
           Container(
-            height: size.width * 0.7,
+            height: size.width * 0.55,
             margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
               color: AppColors.darkGrey,
               borderRadius: BorderRadius.circular(11),
+              boxShadow: [
+                BoxShadow(
+                  offset: Offset(0, 0),
+                  color: Theme.of(context).colorScheme.secondary.withAlpha(50),
+                  blurRadius: 25.6,
+                  spreadRadius: 0,
+                ),
+              ],
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -159,12 +192,13 @@ class Home extends StatelessWidget {
                     ),
                     SizedBox(width: 20),
 
-                    Expanded(
-                      flex: 2,
-
-                      child: ClipRRect(
-                        borderRadius: BorderRadiusGeometry.circular(11),
-                        child: Image.asset(AppAssets.advertismentImages[0]),
+                    ClipRRect(
+                      borderRadius: BorderRadiusGeometry.circular(11),
+                      child: Image.asset(
+                        AppAssets.advertismentImages[0],
+                        height: 115,
+                        width: 158,
+                        fit: BoxFit.cover,
                       ),
                     ),
                   ],
@@ -173,8 +207,8 @@ class Home extends StatelessWidget {
                 CustomElevatedButton(
                   onPressed: () {},
                   text: "Invest Now",
-                  fontSize: 16,
-                  fontWeight: FontWeight.w500,
+                  fontSize: 15,
+                  fontWeight: FontWeight.w600,
                 ),
               ],
             ),
