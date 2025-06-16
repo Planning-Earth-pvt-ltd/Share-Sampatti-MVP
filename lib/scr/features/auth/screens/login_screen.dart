@@ -33,7 +33,7 @@ class Login extends ConsumerWidget {
                 child: CustomTextButton(
                   text: "Skip",
                   fontSize: 18,
-                  onTap: () => context.push("/home"),
+                  onTap: () => context.go("/home"),
                 ),
               ),
               SizedBox(height: 20),
@@ -66,7 +66,7 @@ class Login extends ConsumerWidget {
               CustomElevatedButton(
                 onPressed: () {
                   if (key.currentState!.validate()) {
-                    context.push("/otpScreen");
+                    context.go("/otpScreen");
                   }
                 },
                 text: "Send OTP",

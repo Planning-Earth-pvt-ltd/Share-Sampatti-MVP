@@ -19,7 +19,7 @@ class Invest extends StatelessWidget {
           width: size.width * 0.65,
           margin: const EdgeInsets.only(left: 20),
           decoration: BoxDecoration(
-            color: AppColors.grey,
+            color: AppColors.darkGrey,
             borderRadius: BorderRadius.circular(11),
           ),
           child: Column(
@@ -46,11 +46,12 @@ class Invest extends StatelessWidget {
                         children: [
                           Inter(
                             text: "₹ 2,34,560 /-",
-                            fontSize: 18,
+                            fontSize: 16,
                             fontWeight: FontWeight.w500,
                           ),
                           Inter(
                             text: "per\nSQFT",
+                            color: AppColors.lightGrey,
                             fontSize: 8,
                             fontWeight: FontWeight.w400,
                           ),

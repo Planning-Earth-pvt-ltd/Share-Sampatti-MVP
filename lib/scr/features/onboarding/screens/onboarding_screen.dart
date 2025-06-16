@@ -7,12 +7,8 @@ import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-// RIVERPOD
-import 'package:share_sampatti_mvp/scr/features/onboarding/onboarding.dart';
-
 // COMPONENTS
-import 'package:share_sampatti_mvp/common/common.dart';
-import 'package:share_sampatti_mvp/core/core.dart';
+import 'package:share_sampatti_mvp/app/app.dart';
 
 class Onboarding extends ConsumerStatefulWidget {
   const Onboarding({super.key});
