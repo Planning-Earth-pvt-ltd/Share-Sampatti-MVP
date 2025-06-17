@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:share_sampatti_mvp/common/common.dart';
 
-class Investments extends StatelessWidget {
-  const Investments({super.key});
+class InvestmentsScreen extends StatelessWidget {
+  const InvestmentsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

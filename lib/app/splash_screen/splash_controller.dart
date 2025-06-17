@@ -1,4 +1,4 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:share_sampatti_mvp/app/app.dart';
 
 abstract class SplashState {}
 
@@ -24,5 +24,7 @@ class SplashController extends StateNotifier<SplashState> {
   }
 }
 
-final splashControllerProvider = StateNotifierProvider<SplashController,SplashState>(
-    (ref) => SplashController());
+final splashControllerProvider =
+    StateNotifierProvider<SplashController, SplashState>(
+      (ref) => SplashController(),
+    );

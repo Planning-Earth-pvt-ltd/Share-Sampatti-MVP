@@ -1,5 +1,3 @@
-//AuthCheck State
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:share_sampatti_mvp/app/app.dart';
 
 final authProvider = StateNotifierProvider<AuthController, AuthState>(

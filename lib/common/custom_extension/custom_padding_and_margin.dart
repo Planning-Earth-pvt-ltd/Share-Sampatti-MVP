@@ -38,20 +38,4 @@ extension PaddingExtensions on Widget {
     padding: EdgeInsetsGeometry.fromLTRB(left, top, right, bottom),
     child: this,
   );
-
-  //All Margin
-  Widget withMarginAll(double val) =>
-      Padding(padding: EdgeInsetsGeometry.all(val), child: this);
-
-  //Horizontal Margin
-  Widget withMarginHorizontal(double val) => Padding(
-    padding: EdgeInsetsGeometry.symmetric(horizontal: val),
-    child: this,
-  );
-
-  //Vertical Margin
-  Widget withMarginVertical(double val) => Padding(
-    padding: EdgeInsetsGeometry.symmetric(vertical: val),
-    child: this,
-  );
 }

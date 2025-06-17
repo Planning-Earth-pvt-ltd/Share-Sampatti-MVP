@@ -25,6 +25,7 @@ class FAQScreen extends StatelessWidget {
             children: [
               Inter(
                 text: "Don’t see the answer you’re looking for? ",
+                color: AppColors.lightGrey,
                 fontSize: 11,
               ),
               CustomTextButton(
@@ -36,6 +37,9 @@ class FAQScreen extends StatelessWidget {
           ),
           SizedBox(height: 50),
           ExpansionTileCard(
+            baseColor: AppColors.black,
+            expandedColor: AppColors.black,
+            shadowColor: Theme.of(context).colorScheme.secondary,
             title: Inter(
               text: "How to start to join this social media?",
               fontSize: 16,
@@ -46,7 +50,25 @@ class FAQScreen extends StatelessWidget {
                 text:
                     "Getting started with a new  social media platform is a straightforward process. Decide which social media platform you want to join (e.g., Facebook, Instagram,twitter, LinkedIn)",
                 color: AppColors.lightGrey,
-              ),
+              ).withPadAll(10),
+            ],
+          ),
+          Divider(color: AppColors.dividerColor),
+          ExpansionTileCard(
+            baseColor: AppColors.black,
+            expandedColor: AppColors.black,
+            shadowColor: Theme.of(context).colorScheme.secondary,
+            title: Inter(
+              text: "For what platforms the applications is available?",
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
+            ),
+            children: [
+              Inter(
+                text:
+                    "Getting started with a new  social media platform is a straightforward process. Decide which social media platform you want to join (e.g., Facebook, Instagram,twitter, LinkedIn)",
+                color: AppColors.lightGrey,
+              ).withPadAll(10),
             ],
           ),
         ],

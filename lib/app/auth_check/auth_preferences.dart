@@ -1,4 +1,4 @@
-import 'package:hive_flutter/adapters.dart';
+import 'package:share_sampatti_mvp/app/app.dart';
 
 class AuthPreference {
   static Future<void> init() async {
@@ -8,7 +8,7 @@ class AuthPreference {
 
   static bool isFirstInstall() {
     var box = Hive.box('authBox');
-    return box.get('isFirstInstall',defaultValue: true);
+    return box.get('isFirstInstall', defaultValue: true);
   }
 
   static void setFirstInstall() {
@@ -17,10 +17,10 @@ class AuthPreference {
 
   static bool isUserLoggedIn() {
     var box = Hive.box('authBox');
-    return box.get('isLoggedIn',defaultValue: false);
+    return box.get('isLoggedIn', defaultValue: false);
   }
 
-  static void setUserLoggedIn(bool status){
+  static void setUserLoggedIn(bool status) {
     Hive.box('authBox').put('isLoggedIn', status);
   }
 }
