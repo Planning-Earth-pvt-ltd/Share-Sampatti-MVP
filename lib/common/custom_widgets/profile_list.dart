@@ -1,11 +1,16 @@
-import 'package:flutter/material.dart';
 import 'package:share_sampatti_mvp/app/app.dart';
 
 class ProfileList extends StatelessWidget {
-  const ProfileList({super.key, required this.details, this.subDetails});
+  const ProfileList({
+    super.key,
+    required this.details,
+    this.subDetails,
+    this.onTap,
+  });
 
   final List<String> details;
   final List<String>? subDetails;
+  final List<Function()?>? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +22,7 @@ class ProfileList extends StatelessWidget {
         itemBuilder: (context, index) => Column(
           children: [
             InkWell(
-              onTap: () {},
+              onTap: onTap == null ? () {} : onTap![index],
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -49,7 +54,7 @@ class ProfileList extends StatelessWidget {
             if (index != details.length - 1)
               Divider(
                 thickness: 2,
-                color: AppColors.divider,
+                color: AppColors.dividerColor,
               ).withPadSymmetric(0, 20),
           ],
         ),
