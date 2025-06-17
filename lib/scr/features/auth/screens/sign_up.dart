@@ -1,91 +1,149 @@
-import 'package:share_sampatti_mvp/app/app.dart';
+// PACKAGE
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class SignUp extends ConsumerWidget {
-  const SignUp({super.key});
+// RIVERPOD
+import 'package:share_sampatti_mvp/scr/features/auth/controllers/auth_controller.dart';
+
+// COMPONENTS
+import 'package:share_sampatti_mvp/common/common.dart';
+import 'package:share_sampatti_mvp/core/core.dart';
+
+class SignUpScreen extends ConsumerStatefulWidget {
+  const SignUpScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<SignUpScreen> createState() => _SignUpScreenState();
+}
+
+class _SignUpScreenState extends ConsumerState<SignUpScreen> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  @override
+  Widget build(BuildContext context) {
     final Map<String, TextEditingController> controller = ref.watch(provider);
     final nameValidator = ref.watch(nameValidatorProvider);
     final mobileValidator = ref.watch(mobileValidatorProvider);
-    final GlobalKey<FormState> key = GlobalKey<FormState>();
+    final size = MediaQuery.of(context).size;
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: Scaffold(
+        body: LayoutBuilder(
+          builder: (context, constraints) {
+            return SingleChildScrollView(
+              padding: EdgeInsets.symmetric(horizontal: size.width * 0.02),
+              child: Center(
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // SKIP
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: CustomTextButton(
+                          text: "Skip",
+                          fontSize: 18,
+                          onTap: () => context.go("/home"),
+                        ),
+                      ),
+                      SizedBox(height: 20),
 
-    return Form(
-      key: key,
-      child: GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        onTap: () => FocusScope.of(context).unfocus(),
-        child: Scaffold(
-          body: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // SKIP
-              Align(
-                alignment: Alignment.centerRight,
-                child: CustomTextButton(
-                  text: "Skip",
-                  fontSize: 18,
-                  onTap: () => context.go("/navigation"),
+                      // WELCOME
+                      Inter(
+                        text: "Create Account",
+                        color: Theme.of(context).colorScheme.primary,
+                        fontSize: 40,
+                        fontWeight: FontWeight.w600,
+                      ),
+                      SizedBox(height: size.height * 0.01),
+
+                      // SIGN UP
+                      Inter(
+                        text: "Please SignUp to create an account",
+                        fontSize: 18,
+                      ),
+                      SizedBox(height: size.height * 0.09),
+
+                      Center(
+                        child: Inter(text: 'Enter your Details', fontSize: 28),
+                      ),
+                      SizedBox(height: size.height * 0.03),
+                      // NAME TEXT FIELD
+                      CustomTextField(
+                        controller: controller["name"]!,
+                        labelText: "Name",
+                        hintText: 'Enter Name',
+                        validator: nameValidator,
+                      ),
+                      SizedBox(height: 20),
+
+                      // MOBILE TEXT FIELD
+                      CustomTextField(
+                        controller: controller["mobileNumber"]!,
+                        labelText: "Phone Number",
+                        hintText: "Enter Phone Number",
+                        keyboardType: TextInputType.number,
+                        validator: mobileValidator,
+                      ),
+                      SizedBox(height: size.height * 0.03),
+                      CustomElevatedButton(
+                        height: 56,
+                        onPressed: () async {
+                          if (_formKey.currentState!.validate()) {
+                            final authController = ref.read(
+                              authProvider.notifier,
+                            );
+                            final controllers = ref.read(provider);
+                            final name = controllers['name']!.text.trim();
+                            final phone =
+                                "+91${controllers['mobileNumber']!.text.trim()}";
+                            authController.setAuthMode(AuthMode.signup);
+                            await authController.sendOtp(
+                              phone: phone,
+                              name: name,
+                            );
+                            if (ref.read(authProvider).error == null) {
+                              context.go("/otpScreen");
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(ref.read(authProvider).error!),
+                                ),
+                              );
+                            }
+                          }
+                        },
+                        text: "Send OTP",
+                        fontSize: 16,
+                        textColor: AppColors.darkGrey,
+                        fontWeight: FontWeight.w600,
+                      ),
+                      SizedBox(height: size.height * 0.02),
+
+                      Center(
+                        child: Wrap(
+                          children: [
+                            Inter(
+                              text: "Do you have an account? ",
+                              fontSize: 15,
+                            ),
+                            CustomTextButton(
+                              text: "Sign In",
+                              fontSize: 15,
+                              onTap: () => context.pushReplacement("/login"),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ).withPadAllCustom(50, 0, 20, 20),
                 ),
               ),
-              SizedBox(height: 20),
-
-              // WELCOME
-              Inter(
-                text: "Welcome",
-                color: Theme.of(context).colorScheme.primary,
-                fontSize: 40,
-                fontWeight: FontWeight.w600,
-              ),
-
-              // SIGN UP
-              Inter(text: "Sign Up To Continue !", fontSize: 28),
-              SizedBox(height: 50),
-
-              // NAME TEXT FIELD
-              CustomTextField(
-                controller: controller["name"]!,
-                labelText: "John doe",
-                validator: nameValidator,
-              ),
-              SizedBox(height: 20),
-
-              // MOBILE TEXT FIELD
-              CustomTextField(
-                controller: controller["mobileNumber"]!,
-                labelText: "1234567890",
-                keyboardType: TextInputType.number,
-                validator: mobileValidator,
-              ),
-            ],
-          ).withPadAllCustom(50, 0, 20, 20),
-          bottomNavigationBar: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              // GET STARTED BUTTON
-              CustomElevatedButton(
-                onPressed: () {
-                  if (key.currentState!.validate()) {
-                    context.go("/otpScreen");
-                  }
-                },
-                text: "Send OTP",
-                textColor: AppColors.darkGrey,
-                fontWeight: FontWeight.w600,
-              ),
-              SizedBox(height: 50),
-
-              Wrap(
-                children: [
-                  Inter(text: "Already A User? "),
-                  CustomTextButton(
-                    text: "Sign In",
-                    onTap: () => context.pushReplacement("/login"),
-                  ),
-                ],
-              ),
-            ],
-          ).withPadCustom(const EdgeInsets.all(20)),
+            );
+          },
         ),
       ),
     );

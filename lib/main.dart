@@ -4,6 +4,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
   await Hive.openBox('authBox');
+  await AuthPreference.init();
   runApp(ProviderScope(child: const MyApp()));
 }
 

@@ -1,3 +1,4 @@
+import 'package:expansion_tile_card/expansion_tile_card.dart';
 import 'package:share_sampatti_mvp/app/app.dart';
 
 class FAQScreen extends StatelessWidget {

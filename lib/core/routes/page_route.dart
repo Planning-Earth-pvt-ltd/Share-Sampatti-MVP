@@ -5,9 +5,9 @@ final route = GoRouter(
   routes: [
     GoRoute(path: '/', builder: (context, state) => SplashScreen()),
     GoRoute(path: '/onboarding', builder: (context, state) => Onboarding()),
-    GoRoute(path: '/login', builder: (context, state) => Login()),
-    GoRoute(path: '/signUp', builder: (context, state) => SignUp()),
-    GoRoute(path: '/otpScreen', builder: (context, state) => OtpScreen()),
+    GoRoute(path: '/login', builder: (context, state) => LogInScreen()),
+    GoRoute(path: '/signUp', builder: (context, state) => SignUpScreen()),
+    GoRoute(path: '/otpScreen', builder: (context, state) => OtpVerificationScreen()),
     GoRoute(
       path: '/navigation',
       builder: (context, state) => NavigationScreen(),

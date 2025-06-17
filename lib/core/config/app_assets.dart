@@ -1,6 +1,7 @@
 class AppAssets {
   // MARK: Images
   static const String appLogo = "assets/images/appLogo.png";
+  static const String bgLogo = "assets/images/bgLogo.png";
   static const String splash = "assets/images/splash.png";
   static const String splash12 = "assets/images/splash_12.png";
   static const String otpBackground = "assets/images/otp_background.png";

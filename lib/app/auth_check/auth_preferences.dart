@@ -1,26 +1,56 @@
-import 'package:share_sampatti_mvp/app/app.dart';
+import 'dart:convert';
+import 'package:hive_flutter/adapters.dart';
 
 class AuthPreference {
+  static late Box _box;
   static Future<void> init() async {
-    await Hive.initFlutter();
-    await Hive.openBox<String>('authBox');
+    _box = Hive.box('authBox');
   }
 
   static bool isFirstInstall() {
-    var box = Hive.box('authBox');
-    return box.get('isFirstInstall', defaultValue: true);
+    return _box.get('isFirstInstall',defaultValue: true);
   }
 
   static void setFirstInstall() {
-    Hive.box('authBox').put('isFirstInstall', false);
+    _box.put('isFirstInstall', false);
   }
 
   static bool isUserLoggedIn() {
-    var box = Hive.box('authBox');
-    return box.get('isLoggedIn', defaultValue: false);
+    return _box.get('isLoggedIn',defaultValue: false);
   }
 
-  static void setUserLoggedIn(bool status) {
-    Hive.box('authBox').put('isLoggedIn', status);
+  static void setUserLoggedIn(bool status){
+    _box.put('isLoggedIn', status);
+  }
+
+  //Save User Data after Login or SignUp
+  static Future<void> saveUserData({
+    required String accessToken,
+    required String refreshToken,
+    required Map<String,dynamic> user,
+  }) async {
+    var box = Hive.box('authBox');
+    await box.put('accessToken', accessToken);
+    await box.put('refreshToken', refreshToken);
+    await box.put('user', jsonEncode(user));
+    await box.put('isLoggedIn',true);
+  }
+  static String? getAccessToken() => _box.get('accessToken');
+  static String? getRefreshToken() => _box.get('refreshToken');
+
+  //Get Data from the hive
+  static Map<String,dynamic>? getUserData() {
+    final userJson = _box.get('user');
+    if(userJson != null){
+      return jsonDecode(userJson);
+    }
+    return null;
+  }
+  //clear all data or LogOut
+  static Future<void> logout() async {
+    await _box.delete('accessToken');
+    await _box.delete('refreshToken');
+    await _box.delete('user');
+    await _box.put('isLoggedIn', false);
   }
 }
