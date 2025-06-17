@@ -1,9 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:share_sampatti_mvp/app/app.dart';
 
-class Navigation extends ConsumerWidget {
-  const Navigation({super.key});
+class NavigationScreen extends ConsumerWidget {
+  const NavigationScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

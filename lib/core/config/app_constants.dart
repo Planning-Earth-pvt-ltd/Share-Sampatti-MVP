@@ -20,7 +20,7 @@ class AppConstants {
   // Home Regions
   static const List<String> regions = [
     "Mohali",
-    "Dhulera",
+    "Gujarat",
     "Himachal",
     "Chandigarh",
   ];
@@ -53,7 +53,7 @@ class AppConstants {
     "Resource Center",
   ];
 
-  // Profile account
+  // Profile about
   static const List<String> about = [
     "About Us",
     "Terms and Conditions",
@@ -62,6 +62,21 @@ class AppConstants {
     "FAQ's",
   ];
 
+  // Profile about
+  static const List<String> aboutRoutes = [
+    "/aboutUs",
+    "/termsAndConditions",
+    "/privacyPolicy",
+    "/resourceCenter",
+    "/faq",
+  ];
+
   // Profile logout
   static const List<String> logout = ["Settings", "Logout"];
+
+  // About us T&C
+  static const List<String> aboutUsItem = [
+    "Read Usage Terms & Conditions",
+    "Read Privacy Policy",
+  ];
 }

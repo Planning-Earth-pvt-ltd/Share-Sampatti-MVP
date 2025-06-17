@@ -1,14 +1,19 @@
-import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:share_sampatti_mvp/app/app.dart';
-import 'package:share_sampatti_mvp/scr/features/profile/screens/profile_heading.dart';
-import 'package:share_sampatti_mvp/scr/features/profile/screens/profile_list.dart';
 
 class Profile extends StatelessWidget {
   const Profile({super.key});
 
   @override
   Widget build(BuildContext context) {
+    buildHeading(String text) {
+      return Inter(
+        text: text,
+        color: AppColors.lightGrey,
+        fontSize: 18,
+        fontWeight: FontWeight.w600,
+      ).withPadAll(20);
+    }
+
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -16,12 +21,7 @@ class Profile extends StatelessWidget {
           icon: Icon(Icons.arrow_back_sharp),
           color: AppColors.lightGrey,
         ),
-        title: Inter(
-          text: "User Profile",
-          color: Theme.of(context).colorScheme.primary,
-          fontSize: 20.75,
-          fontWeight: FontWeight.w600,
-        ),
+        title: Text("User Profile"),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -71,15 +71,24 @@ class Profile extends StatelessWidget {
                 ],
               ),
             ),
-            ProfileHeading(text: "Account Details"),
+            buildHeading("Account Details"),
             ProfileList(
               details: AppConstants.accountDetails,
               subDetails: AppConstants.accountSubDetails,
             ),
-            ProfileHeading(text: "Account"),
+
+            buildHeading("Account"),
             ProfileList(details: AppConstants.account),
-            ProfileHeading(text: "About"),
-            ProfileList(details: AppConstants.about),
+
+            buildHeading("About"),
+            ProfileList(
+              details: AppConstants.about,
+              onTap: List.generate(
+                AppConstants.aboutRoutes.length,
+                (index) =>
+                    () => context.push(AppConstants.aboutRoutes[index]),
+              ),
+            ),
             SizedBox(height: 30),
             ProfileList(details: AppConstants.logout),
           ],

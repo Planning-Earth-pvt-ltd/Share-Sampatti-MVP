@@ -4,3 +4,4 @@ export 'package:share_sampatti_mvp/common/custom_widgets/custom_buttons/custom_t
 export 'package:share_sampatti_mvp/common/custom_widgets/custom_texts/inter.dart';
 export 'package:share_sampatti_mvp/common/custom_widgets/custom_texts/space_grotesk.dart';
 export 'package:share_sampatti_mvp/common/custom_widgets/custom_text_field/text_field.dart';
+export 'package:share_sampatti_mvp/common/custom_widgets/profile_list.dart';

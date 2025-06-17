@@ -1,7 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:share_sampatti_mvp/common/custom_widgets/custom_texts/inter.dart';
-import 'package:share_sampatti_mvp/core/config/config.dart';
+import 'package:share_sampatti_mvp/app/app.dart';
 
 class CustomElevatedButton extends ConsumerWidget {
   const CustomElevatedButton({
@@ -37,7 +34,6 @@ class CustomElevatedButton extends ConsumerWidget {
         backgroundColor:
             backgroundColor ?? Theme.of(context).colorScheme.primary,
         foregroundColor: AppColors.black,
-        // minimumSize: Size.fromHeight(height ?? 50),
         minimumSize: Size(width ?? double.infinity, height ?? 45),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(
