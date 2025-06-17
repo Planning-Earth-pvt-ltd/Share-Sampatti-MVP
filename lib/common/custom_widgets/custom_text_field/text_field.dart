@@ -6,6 +6,7 @@ class CustomTextField extends StatelessWidget {
     super.key,
     required this.controller,
     required this.labelText,
+    this.hintText,
     this.keyboardType,
     this.validator,
     this.radius,
@@ -16,6 +17,7 @@ class CustomTextField extends StatelessWidget {
   final String? Function(String?)? validator;
   final String labelText;
   final double? radius;
+  final String? hintText;
 
   @override
   Widget build(BuildContext context) {
@@ -26,8 +28,10 @@ class CustomTextField extends StatelessWidget {
       decoration: InputDecoration(
         filled: true,
         fillColor: AppColors.grey,
-        labelText: labelText.toUpperCase(),
-        labelStyle: style(AppColors.lightGrey, 14, FontWeight.w400),
+        labelText: labelText,
+        hintText: hintText,
+        hintStyle: style(AppColors.lightGrey, 15, FontWeight.w400),
+        labelStyle: style(AppColors.lightGrey, 16, FontWeight.w400),
         floatingLabelStyle: style(
           Theme.of(context).colorScheme.primary,
           16,
