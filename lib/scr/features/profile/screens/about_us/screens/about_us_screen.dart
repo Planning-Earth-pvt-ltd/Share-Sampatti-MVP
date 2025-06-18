@@ -1,7 +1,7 @@
 import 'package:share_sampatti_mvp/app/app.dart';
 
-class AboutUs extends StatelessWidget {
-  const AboutUs({super.key});
+class AboutUsScreen extends StatelessWidget {
+  const AboutUsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

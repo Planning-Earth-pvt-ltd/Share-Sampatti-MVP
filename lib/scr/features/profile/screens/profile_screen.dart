@@ -1,7 +1,7 @@
 import 'package:share_sampatti_mvp/app/app.dart';
 
-class Profile extends StatelessWidget {
-  const Profile({super.key});
+class ProfileScreen extends StatelessWidget {
+  const ProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +31,12 @@ class Profile extends StatelessWidget {
               color: AppColors.darkGrey,
               height: 90,
               margin: const EdgeInsets.only(top: 30),
-              padding: const EdgeInsets.all(20),
+              padding: const EdgeInsets.only(
+                top: 20,
+                bottom: 20,
+                left: 20,
+                right: 10,
+              ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -67,7 +72,19 @@ class Profile extends StatelessWidget {
                       ),
                     ],
                   ),
-                  CustomTextButton(text: "Edit"),
+                  IconButton(
+                    onPressed: () {},
+                    style: IconButton.styleFrom(
+                      shape: CircleBorder(
+                        side: BorderSide(color: AppColors.grey),
+                      ),
+                    ),
+                    icon: Icon(
+                      Icons.edit,
+                      color: Theme.of(context).colorScheme.primary,
+                      size: 20,
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -90,7 +107,7 @@ class Profile extends StatelessWidget {
               ),
             ),
             SizedBox(height: 30),
-            ProfileList(details: AppConstants.logout),
+            ProfileList(details: ["Logout"], color: AppColors.red),
           ],
         ),
       ),

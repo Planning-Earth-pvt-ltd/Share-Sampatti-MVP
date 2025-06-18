@@ -1,5 +1,4 @@
 import 'package:share_sampatti_mvp/app/app.dart';
-import 'package:share_sampatti_mvp/scr/features/profile/screens/privacy_policy/screens/privacy_policy_screen.dart';
 
 final route = GoRouter(
   routes: [
@@ -7,13 +6,16 @@ final route = GoRouter(
     GoRoute(path: '/onboarding', builder: (context, state) => Onboarding()),
     GoRoute(path: '/login', builder: (context, state) => LogInScreen()),
     GoRoute(path: '/signUp', builder: (context, state) => SignUpScreen()),
-    GoRoute(path: '/otpScreen', builder: (context, state) => OtpVerificationScreen()),
+    GoRoute(
+      path: '/otpScreen',
+      builder: (context, state) => OtpVerificationScreen(),
+    ),
     GoRoute(
       path: '/navigation',
       builder: (context, state) => NavigationScreen(),
     ),
-    GoRoute(path: '/profile', builder: (context, state) => Profile()),
-    GoRoute(path: '/aboutUs', builder: (context, state) => AboutUs()),
+    GoRoute(path: '/profile', builder: (context, state) => ProfileScreen()),
+    GoRoute(path: '/aboutUs', builder: (context, state) => AboutUsScreen()),
     GoRoute(
       path: '/termsAndConditions',
       builder: (context, state) => TermsAndConditionsScreen(),
@@ -23,5 +25,6 @@ final route = GoRouter(
       builder: (context, state) => PrivacyPolicyScreen(),
     ),
     GoRoute(path: '/faq', builder: (context, state) => FAQScreen()),
+    GoRoute(path: '/investNow', builder: (context, state) => InvestNowScreen()),
   ],
 );

@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:share_sampatti_mvp/core/services/auth_service.dart';
-import 'package:share_sampatti_mvp/scr/features/providers/auth_provider.dart';
 
 import '../../../../app/auth_check/auth_preferences.dart';
 
@@ -76,7 +75,7 @@ class AuthController extends StateNotifier<AuthState> {
   Future<bool> sendOtp({required String phone, String? name}) async {
     try {
       state = state.copyWith(isLoading: true, error: null);
-      final  message = await _authService.sendOtp(
+      final message = await _authService.sendOtp(
         phone: phone,
         name: _mode == AuthMode.signup ? name : null,
       );
@@ -120,7 +119,9 @@ class AuthController extends StateNotifier<AuthState> {
   }
 }
 
-final provider = Provider.autoDispose<Map<String, TextEditingController>>((ref) {
+final provider = Provider.autoDispose<Map<String, TextEditingController>>((
+  ref,
+) {
   final controller = {
     "name": TextEditingController(),
     "mobileNumber": TextEditingController(),
@@ -162,7 +163,7 @@ final mobileValidatorProvider = Provider<String? Function(String?)?>((ref) {
 });
 
 final otpTimerProvider = StateNotifierProvider<OtpTimerController, int>(
-      (ref) => OtpTimerController(),
+  (ref) => OtpTimerController(),
 );
 
 class OtpTimerController extends StateNotifier<int> {
@@ -190,5 +191,3 @@ class OtpTimerController extends StateNotifier<int> {
     super.dispose();
   }
 }
-
-

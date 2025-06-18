@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:share_sampatti_mvp/app/app.dart';
 
 class Explore extends StatelessWidget {
@@ -9,15 +8,21 @@ class Explore extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Size size = MediaQuery.of(context).size;
+    // final Size size = MediaQuery.of(context).size;
 
-    return SizedBox(
-      height: size.width * 0.35,
-      child: ListView.builder(
-        itemCount: explore.length,
-        scrollDirection: Axis.horizontal,
-        padding: const EdgeInsets.only(right: 20),
-        itemBuilder: (context, index) => Column(
+    // return SizedBox(
+    //   height: size.width * 0.35,
+    //   child: ListView.builder(
+    //     itemCount: explore.length,
+    //     scrollDirection: Axis.horizontal,
+    //     padding: const EdgeInsets.only(right: 20),
+    //     itemBuilder: (context, index) =>
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: List.generate(
+        explore.length,
+        (index) => Column(
           children: [
             Container(
               decoration: BoxDecoration(
@@ -45,8 +50,10 @@ class Explore extends StatelessWidget {
               fontWeight: FontWeight.w500,
             ),
           ],
-        ).withPadAllCustom(0, 0, 20, 0),
+        ),
       ),
     );
+    //   ),
+    // );
   }
 }
