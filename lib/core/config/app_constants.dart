@@ -38,6 +38,9 @@ class AppConstants {
   // Profile about details routes
   static const List<String> accountDetailsRoutes = ["/kyc", "/bankDetails"];
 
+  // Bank Details
+  static const List<String> bankDetails = ["Current", "Savings"];
+
   // Profile about
   static const List<String> about = [
     "About Us",

@@ -24,6 +24,11 @@ class CustomTextField extends StatelessWidget {
       controller: controller,
       keyboardType: keyboardType ?? TextInputType.text,
       validator: validator,
+      style: style(
+        Theme.of(context).colorScheme.secondary,
+        16,
+        FontWeight.w400,
+      ),
       decoration: InputDecoration(
         filled: true,
         fillColor: AppColors.darkGrey,

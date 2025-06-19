@@ -27,10 +27,17 @@ final route = GoRouter(
       builder: (context, state) => CompleteYourProfileScreen(),
     ),
     GoRoute(path: '/kyc', builder: (context, state) => KYCScreen()),
+
+    // BANK DETAILS
     GoRoute(
       path: '/bankDetails',
       builder: (context, state) => BankDetailsScreen(),
     ),
+    GoRoute(
+      path: '/enterBankDetails',
+      builder: (context, state) => EnterBankDetailsScreen(),
+    ),
+
     GoRoute(path: '/aboutUs', builder: (context, state) => AboutUsScreen()),
     GoRoute(
       path: '/termsAndConditions',
