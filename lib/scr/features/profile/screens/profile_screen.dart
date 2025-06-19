@@ -66,14 +66,13 @@ class ProfileScreen extends StatelessWidget {
                             text: "View Details",
                             color: AppColors.lightGrey,
                             fontSize: 10,
-                            fontWeight: FontWeight.w400,
                           ),
                         ],
                       ),
                     ],
                   ),
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () => context.push("/personalDetails"),
                     style: IconButton.styleFrom(
                       shape: CircleBorder(
                         side: BorderSide(color: AppColors.grey),
@@ -91,20 +90,13 @@ class ProfileScreen extends StatelessWidget {
             buildHeading("Account Details"),
             ProfileList(
               details: AppConstants.accountDetails,
-              subDetails: AppConstants.accountSubDetails,
+              onTap: AppConstants.accountDetailsRoutes,
             ),
-
-            buildHeading("Account"),
-            ProfileList(details: AppConstants.account),
 
             buildHeading("About"),
             ProfileList(
               details: AppConstants.about,
-              onTap: List.generate(
-                AppConstants.aboutRoutes.length,
-                (index) =>
-                    () => context.push(AppConstants.aboutRoutes[index]),
-              ),
+              onTap: AppConstants.aboutRoutes,
             ),
             SizedBox(height: 30),
             ProfileList(details: ["Logout"], color: AppColors.red),

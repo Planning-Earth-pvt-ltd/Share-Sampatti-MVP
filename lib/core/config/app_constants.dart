@@ -35,14 +35,8 @@ class AppConstants {
   // Profile account details
   static const List<String> accountDetails = ["KYC's", "Bank Details"];
 
-  // Profile account details
-  static const List<String> accountSubDetails = [
-    "My Documents",
-    "My Documents",
-  ];
-
-  // Profile account
-  static const List<String> account = ["Watchlist", "Resource Center"];
+  // Profile about details routes
+  static const List<String> accountDetailsRoutes = ["/kyc", "/bankDetails"];
 
   // Profile about
   static const List<String> about = [
@@ -52,7 +46,7 @@ class AppConstants {
     "FAQ's",
   ];
 
-  // Profile about
+  // Profile about routes
   static const List<String> aboutRoutes = [
     "/aboutUs",
     "/termsAndConditions",

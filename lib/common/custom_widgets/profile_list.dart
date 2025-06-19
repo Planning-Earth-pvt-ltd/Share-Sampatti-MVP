@@ -1,30 +1,23 @@
 import 'package:share_sampatti_mvp/app/app.dart';
 
 class ProfileList extends StatelessWidget {
-  const ProfileList({
-    super.key,
-    required this.details,
-    this.subDetails,
-    this.onTap,
-    this.color,
-  });
+  const ProfileList({super.key, required this.details, this.onTap, this.color});
 
   final List<String> details;
-  final List<String>? subDetails;
-  final List<Function()?>? onTap;
+  final List<String>? onTap;
   final Color? color;
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: subDetails == null ? details.length * 55 : details.length * 65,
+      height: details.length * 55,
       child: ListView.builder(
         itemCount: details.length,
         physics: NeverScrollableScrollPhysics(),
         itemBuilder: (context, index) => Column(
           children: [
             InkWell(
-              onTap: onTap == null ? () {} : onTap![index],
+              onTap: onTap == null ? () {} : () => context.push(onTap![index]),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -37,13 +30,6 @@ class ProfileList extends StatelessWidget {
                         fontSize: 15,
                         fontWeight: FontWeight.w500,
                       ),
-                      if (subDetails != null)
-                        Inter(
-                          text: subDetails![index],
-                          color: AppColors.lightGrey,
-                          fontSize: 10,
-                          fontWeight: FontWeight.w400,
-                        ),
                     ],
                   ),
                   Icon(

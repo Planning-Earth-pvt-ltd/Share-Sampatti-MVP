@@ -1,14 +1,4 @@
-// PACKAGE
-import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-// RIVERPOD
-import 'package:share_sampatti_mvp/scr/features/auth/controllers/auth_controller.dart';
-
-// COMPONENTS
-import 'package:share_sampatti_mvp/common/common.dart';
-import 'package:share_sampatti_mvp/core/core.dart';
+import 'package:share_sampatti_mvp/app/app.dart';
 
 class SignUpScreen extends ConsumerStatefulWidget {
   const SignUpScreen({super.key});

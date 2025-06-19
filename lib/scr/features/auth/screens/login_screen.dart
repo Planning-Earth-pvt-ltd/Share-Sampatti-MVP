@@ -1,13 +1,4 @@
-// PACKAGE
-import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-// RIVERPOD
-
-// COMPONENT
-import 'package:share_sampatti_mvp/common/common.dart';
-
-import '../controllers/auth_controller.dart';
+import 'package:share_sampatti_mvp/app/app.dart';
 
 class LogInScreen extends ConsumerStatefulWidget {
   const LogInScreen({super.key});

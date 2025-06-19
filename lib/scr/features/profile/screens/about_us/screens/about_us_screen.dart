@@ -29,7 +29,6 @@ class AboutUsScreen extends StatelessWidget {
               letterSpacing: 1,
               fontWeight: FontWeight.w500,
             ).withPadAll(20),
-            ProfileList(details: AppConstants.aboutUsItem),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.end,
@@ -57,6 +56,7 @@ class AboutUsScreen extends StatelessWidget {
               textAlign: TextAlign.center,
               letterSpacing: 1,
               fontSize: 12,
+              color: AppColors.lightGrey,
             ),
           ],
         ),

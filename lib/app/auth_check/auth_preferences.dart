@@ -8,7 +8,7 @@ class AuthPreference {
   }
 
   static bool isFirstInstall() {
-    return _box.get('isFirstInstall',defaultValue: true);
+    return _box.get('isFirstInstall', defaultValue: true);
   }
 
   static void setFirstInstall() {
@@ -16,10 +16,10 @@ class AuthPreference {
   }
 
   static bool isUserLoggedIn() {
-    return _box.get('isLoggedIn',defaultValue: false);
+    return _box.get('isLoggedIn', defaultValue: false);
   }
 
-  static void setUserLoggedIn(bool status){
+  static void setUserLoggedIn(bool status) {
     _box.put('isLoggedIn', status);
   }
 
@@ -27,25 +27,27 @@ class AuthPreference {
   static Future<void> saveUserData({
     required String accessToken,
     required String refreshToken,
-    required Map<String,dynamic> user,
+    required Map<String, dynamic> user,
   }) async {
     var box = Hive.box('authBox');
     await box.put('accessToken', accessToken);
     await box.put('refreshToken', refreshToken);
     await box.put('user', jsonEncode(user));
-    await box.put('isLoggedIn',true);
+    await box.put('isLoggedIn', true);
   }
+
   static String? getAccessToken() => _box.get('accessToken');
   static String? getRefreshToken() => _box.get('refreshToken');
 
   //Get Data from the hive
-  static Map<String,dynamic>? getUserData() {
+  static Map<String, dynamic>? getUserData() {
     final userJson = _box.get('user');
-    if(userJson != null){
+    if (userJson != null) {
       return jsonDecode(userJson);
     }
     return null;
   }
+
   //clear all data or LogOut
   static Future<void> logout() async {
     await _box.delete('accessToken');
