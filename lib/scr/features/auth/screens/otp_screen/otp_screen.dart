@@ -9,8 +9,6 @@ import 'package:share_sampatti_mvp/core/core.dart';
 import 'package:share_sampatti_mvp/scr/features/auth/screens/otp_screen/resend_now.dart';
 import 'package:share_sampatti_mvp/scr/src.dart';
 
-import '../../../providers/auth_provider.dart';
-
 //
 class OtpVerificationScreen extends ConsumerStatefulWidget {
   const OtpVerificationScreen({super.key});

@@ -41,7 +41,7 @@ class _LogInScreenState extends ConsumerState<LogInScreen> {
                       child: CustomTextButton(
                         text: "Skip",
                         fontSize: 18,
-                        onTap: () => context.go("/home"),
+                        onTap: () => context.go("/navigation"),
                       ),
                     ),
                     SizedBox(height: 20),
@@ -127,7 +127,7 @@ class _LogInScreenState extends ConsumerState<LogInScreen> {
                     Center(
                       child: Wrap(
                         children: [
-                          Inter(text: "Don’t have an account? ",fontSize: 16,),
+                          Inter(text: "Don’t have an account? ", fontSize: 16),
                           CustomTextButton(
                             text: "Sign Up",
                             fontSize: 16,

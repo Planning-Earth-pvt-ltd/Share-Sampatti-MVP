@@ -6,11 +6,13 @@ class ProfileList extends StatelessWidget {
     required this.details,
     this.subDetails,
     this.onTap,
+    this.color,
   });
 
   final List<String> details;
   final List<String>? subDetails;
   final List<Function()?>? onTap;
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +33,7 @@ class ProfileList extends StatelessWidget {
                     children: [
                       Inter(
                         text: details[index],
+                        color: color,
                         fontSize: 15,
                         fontWeight: FontWeight.w500,
                       ),

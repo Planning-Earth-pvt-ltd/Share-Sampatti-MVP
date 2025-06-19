@@ -1,4 +1,5 @@
 import 'package:share_sampatti_mvp/app/app.dart';
+import 'package:share_sampatti_mvp/common/custom_widgets/custom_url_launcher.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -84,6 +85,7 @@ class HomeScreen extends StatelessWidget {
             explore: AppConstants.regions,
             images: AppAssets.regionsImages,
           ),
+          SizedBox(height: 20),
 
           // TRACK NOW
           Stack(
@@ -126,6 +128,7 @@ class HomeScreen extends StatelessWidget {
             ],
           ).withPadAll(20),
           Explore(explore: AppConstants.themes, images: AppAssets.themesImages),
+          SizedBox(height: 20),
 
           // CALL NOW
           Stack(
@@ -136,7 +139,7 @@ class HomeScreen extends StatelessWidget {
                 child: Image.asset(AppAssets.callNow),
               ).withPadSymmetric(0, 20),
               CustomElevatedButton(
-                onPressed: () {},
+                onPressed: () => CustomUrlLauncher.telephone(),
                 text: "Call Now",
                 width: 91,
                 height: 27,
@@ -203,7 +206,7 @@ class HomeScreen extends StatelessWidget {
                 ),
 
                 CustomElevatedButton(
-                  onPressed: () {},
+                  onPressed: () => context.push("/investNow"),
                   text: "Invest Now",
                   fontSize: 15,
                   fontWeight: FontWeight.w600,

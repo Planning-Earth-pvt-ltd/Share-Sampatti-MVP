@@ -1,8 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../app/auth_check/auth_preferences.dart';
-import '../../../core/services/auth_service.dart';
-
 // enum AuthFlow {login,signup}
 //
 // final authFlowProvider = StateProvider<AuthFlow?> ((ref)=> null);

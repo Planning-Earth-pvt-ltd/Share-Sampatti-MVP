@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:share_sampatti_mvp/app/app.dart';
 
 class Invest extends StatelessWidget {
@@ -58,7 +57,7 @@ class Invest extends StatelessWidget {
                         ],
                       ),
                       GestureDetector(
-                        onTap: () {},
+                        onTap: () => context.push("/investNow"),
                         child: Inter(
                           text: "Invest Now",
                           color: Theme.of(context).colorScheme.primary,

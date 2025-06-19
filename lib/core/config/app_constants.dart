@@ -29,36 +29,26 @@ class AppConstants {
   static const List<String> themes = [
     "Residential",
     "Commercial",
-    "Holiday Homes",
+    "Holiday\nHomes",
   ];
 
   // Profile account details
-  static const List<String> accountDetails = [
-    "Personal Details",
-    "KYC's",
-    "Bank Details",
-  ];
+  static const List<String> accountDetails = ["KYC's", "Bank Details"];
 
   // Profile account details
   static const List<String> accountSubDetails = [
     "My Documents",
     "My Documents",
-    "My Documents",
   ];
 
   // Profile account
-  static const List<String> account = [
-    "Watchlist",
-    "Realised Profit & Loss",
-    "Resource Center",
-  ];
+  static const List<String> account = ["Watchlist", "Resource Center"];
 
   // Profile about
   static const List<String> about = [
     "About Us",
     "Terms and Conditions",
     "Privacy Policy",
-    "Resource Center",
     "FAQ's",
   ];
 
@@ -67,12 +57,8 @@ class AppConstants {
     "/aboutUs",
     "/termsAndConditions",
     "/privacyPolicy",
-    "/resourceCenter",
     "/faq",
   ];
-
-  // Profile logout
-  static const List<String> logout = ["Settings", "Logout"];
 
   // About us T&C
   static const List<String> aboutUsItem = [
