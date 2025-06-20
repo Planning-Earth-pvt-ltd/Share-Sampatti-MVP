@@ -7,15 +7,6 @@ class BankDetailsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
 
-    buildHeading(String text) {
-      return Inter(
-        text: text,
-        color: AppColors.lightGrey,
-        fontSize: 18,
-        fontWeight: FontWeight.w600,
-      );
-    }
-
     buildBody(String text) {
       return Inter(
         text: text,
@@ -26,33 +17,26 @@ class BankDetailsScreen extends StatelessWidget {
     }
 
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          onPressed: () => context.pop(),
-          icon: Icon(Icons.arrow_back_sharp),
-          color: AppColors.lightGrey,
-        ),
-        title: Text("Bank Details"),
-      ),
+      appBar: CustomAppBar.appbar(context, "Bank Details"),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          buildHeading("Account Holder Name"),
-          buildBody("Demo Gupta"),
+          CustomText.buildHeadingText("Account Holder Name"),
+          buildBody("Shubham Patel"),
           Divider(thickness: 2, color: AppColors.dividerColor),
           SizedBox(height: size.height * 0.03),
 
-          buildHeading("Account Number"),
+          CustomText.buildHeadingText("Account Number"),
           buildBody("XXXX XXXX XXXX 5678"),
           Divider(thickness: 2, color: AppColors.dividerColor),
           SizedBox(height: size.height * 0.03),
 
-          buildHeading("IFSC Code"),
+          CustomText.buildHeadingText("IFSC Code"),
           buildBody("HDFC000001234"),
           Divider(thickness: 2, color: AppColors.dividerColor),
           SizedBox(height: size.height * 0.03),
 
-          buildHeading("Account Type"),
+          CustomText.buildHeadingText("Account Type"),
           buildBody("Savings"),
           Divider(thickness: 2, color: AppColors.dividerColor),
           SizedBox(height: size.width * 0.2),
@@ -60,7 +44,6 @@ class BankDetailsScreen extends StatelessWidget {
           CustomElevatedButton(
             onPressed: () => context.push("/enterBankDetails"),
             text: "Add Bank Account",
-            textColor: AppColors.black,
           ),
         ],
       ).withPadAll(size.width * 0.05),

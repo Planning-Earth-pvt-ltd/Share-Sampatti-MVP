@@ -29,7 +29,7 @@ class _OtpVerificationScreenState extends ConsumerState<OtpVerificationScreen> {
   @override
   void initState() {
     super.initState();
-    final controller = ref.read(provider);
+    final controller = ref.read(profileProvider);
     name = controller["name"]?.text.trim() ?? "";
     phone = "+91${controller["mobileNumber"]!.text.trim()}";
 

@@ -1,6 +1,4 @@
 import 'package:share_sampatti_mvp/app/app.dart';
-import 'package:share_sampatti_mvp/scr/features/profile/screens/bank_details/bank_details.dart';
-import 'package:share_sampatti_mvp/scr/features/profile/screens/kyc/kyc.dart';
 
 final route = GoRouter(
   routes: [
@@ -27,6 +25,10 @@ final route = GoRouter(
       builder: (context, state) => CompleteYourProfileScreen(),
     ),
     GoRoute(path: '/kyc', builder: (context, state) => KYCScreen()),
+
+    // KYC
+    GoRoute(path: '/pan', builder: (context, state) => PanScreen()),
+    GoRoute(path: '/addhar', builder: (context, state) => AddharScreen()),
 
     // BANK DETAILS
     GoRoute(

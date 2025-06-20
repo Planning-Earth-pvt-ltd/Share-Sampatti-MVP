@@ -12,7 +12,9 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final Map<String, TextEditingController> controller = ref.watch(provider);
+    final Map<String, TextEditingController> controller = ref.watch(
+      profileProvider,
+    );
     final nameValidator = ref.watch(nameValidatorProvider);
     final mobileValidator = ref.watch(mobileValidatorProvider);
     final size = MediaQuery.of(context).size;
@@ -86,7 +88,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                             final authController = ref.read(
                               authProvider.notifier,
                             );
-                            final controllers = ref.read(provider);
+                            final controllers = ref.read(profileProvider);
                             final name = controllers['name']!.text.trim();
                             final phone =
                                 "+91${controllers['mobileNumber']!.text.trim()}";

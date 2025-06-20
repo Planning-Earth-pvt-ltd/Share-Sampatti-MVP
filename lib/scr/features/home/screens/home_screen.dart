@@ -1,15 +1,15 @@
 import 'package:share_sampatti_mvp/app/app.dart';
-import 'package:share_sampatti_mvp/common/custom_widgets/custom_url_launcher.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final Size size = MediaQuery.of(context).size;
+    final appDimensions = ref.watch(appDimensionsProvider);
 
     // MARK: Name
-    Row name() {
+    Widget name() {
       return Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -21,7 +21,7 @@ class HomeScreen extends StatelessWidget {
           GestureDetector(
             onTap: () => context.push("/profile"),
             child: CircleAvatar(
-              radius: 15,
+              radius: 16,
               backgroundColor: AppColors.profileBackground,
               child: Inter(
                 text: "S",
@@ -31,7 +31,7 @@ class HomeScreen extends StatelessWidget {
             ),
           ),
         ],
-      );
+      ).withPadAll(20);
     }
 
     return SingleChildScrollView(
@@ -39,7 +39,7 @@ class HomeScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // NAME
-          name().withPadAll(20),
+          name(),
 
           // NET WORTH
           NetWorth(),
@@ -77,7 +77,6 @@ class HomeScreen extends StatelessWidget {
                 height: 25,
                 radius: 6,
                 fontSize: 12,
-                fontWeight: FontWeight.w500,
               ),
             ],
           ).withPadAll(20),

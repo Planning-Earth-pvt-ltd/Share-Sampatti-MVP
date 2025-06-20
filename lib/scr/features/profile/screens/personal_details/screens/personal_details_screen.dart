@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'package:share_sampatti_mvp/app/app.dart';
 
 class CompleteYourProfileScreen extends ConsumerStatefulWidget {
@@ -10,37 +11,29 @@ class CompleteYourProfileScreen extends ConsumerStatefulWidget {
 
 class _CompleteYourProfileScreenState
     extends ConsumerState<CompleteYourProfileScreen> {
+  // FORM KEY
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
-    final Map<String, TextEditingController> controller = ref.watch(provider);
-    final nameValidator = ref.watch(nameValidatorProvider);
-    final mobileValidator = ref.watch(mobileValidatorProvider);
-    final emailValidator = ref.watch(emailValidatorProvider);
-    final panValidator = ref.watch(panValidatorProvider);
 
-    buildHeading(String text) {
-      return Inter(
-        text: text,
-        color: AppColors.lightGrey,
-        fontSize: 18,
-        fontWeight: FontWeight.w600,
-      );
-    }
+    // CONTROLLER
+    final Map<String, TextEditingController> profileController = ref.watch(
+      profileProvider,
+    );
+    final Map<String, TextEditingController> documentController = ref.watch(
+      documentProvider,
+    );
+
+    // VALIDATOR
+    final nameValidator = ref.watch(nameValidatorProvider);
+    final emailValidator = ref.watch(emailValidatorProvider);
 
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
-        appBar: AppBar(
-          leading: IconButton(
-            onPressed: () => context.pop(),
-            icon: Icon(Icons.arrow_back_sharp),
-            color: AppColors.lightGrey,
-          ),
-          title: Text("Complete Your Profile"),
-        ),
+        appBar: CustomAppBar.appbar(context, "Complete Your Profile"),
         body: SingleChildScrollView(
           padding: EdgeInsets.all(size.width * 0.05),
           child: Form(
@@ -56,31 +49,34 @@ class _CompleteYourProfileScreenState
                 ),
                 SizedBox(height: size.height * 0.03),
 
-                buildHeading("Name"),
+                // NAME
+                CustomText.buildHeadingText("Name"),
                 SizedBox(height: size.height * 0.01),
                 CustomTextField(
-                  controller: controller["name"]!,
-                  hintText: 'Demo Gupta',
+                  controller: profileController["name"]!,
+                  hintText: 'Ravi Gupta',
                   validator: nameValidator,
                 ),
                 SizedBox(height: size.height * 0.03),
 
-                buildHeading("Email Address"),
+                // EMAIL ADDRESS
+                CustomText.buildHeadingText("Email Address"),
                 SizedBox(height: size.height * 0.01),
                 CustomTextField(
-                  controller: controller["emailAddress"]!,
-                  hintText: '007.demo@gmail.com',
+                  controller: profileController["emailAddress"]!,
+                  hintText: 'ravi.gupta007@gmail.com',
                   validator: emailValidator,
                   keyboardType: TextInputType.emailAddress,
                 ),
                 SizedBox(height: size.height * 0.03),
 
-                buildHeading("Phone Number"),
+                // PHONE NUMBER
+                CustomText.buildHeadingText("Phone Number"),
                 SizedBox(height: size.height * 0.01),
                 CustomTextField(
-                  controller: controller["mobileNumber"]!,
-                  hintText: '987654XXXX',
-                  validator: mobileValidator,
+                  controller: profileController["mobileNumber"]!,
+                  hintText: '9876543210',
+                  readOnly: true,
                   keyboardType: TextInputType.phone,
                 ),
                 SizedBox(height: size.height * 0.01),
@@ -91,12 +87,13 @@ class _CompleteYourProfileScreenState
                 ),
                 SizedBox(height: size.height * 0.03),
 
-                buildHeading("PAN"),
+                // PAN CARD
+                CustomText.buildHeadingText("PAN"),
                 SizedBox(height: size.height * 0.01),
                 CustomTextField(
-                  controller: controller["pan"]!,
+                  controller: documentController["pan"]!,
                   hintText: 'XXXXXX756C',
-                  validator: panValidator,
+                  readOnly: true,
                 ),
                 SizedBox(height: size.height * 0.01),
                 Wrap(
@@ -106,6 +103,8 @@ class _CompleteYourProfileScreenState
                       fontSize: 12,
                       color: AppColors.lightGrey,
                     ),
+
+                    // LEARN MORE
                     CustomTextButton(
                       text: "Learn more",
                       fontSize: 12,
@@ -118,15 +117,23 @@ class _CompleteYourProfileScreenState
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
+                    // RESET BUTTON
                     CustomElevatedButton(
-                      onPressed: () {},
+                      onPressed: () => ref.invalidate(profileProvider),
                       text: "Reset",
                       width: size.width * 0.43,
                       backgroundColor: AppColors.darkGrey,
                       textColor: Theme.of(context).colorScheme.primary,
                     ),
+
+                    // SAVE BUTTON
                     CustomElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                          log("Profile check");
+                          context.pop();
+                        }
+                      },
                       text: "Save",
                       width: size.width * 0.43,
                       textColor: AppColors.black,

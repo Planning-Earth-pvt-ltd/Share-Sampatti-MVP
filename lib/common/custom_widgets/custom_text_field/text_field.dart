@@ -4,6 +4,7 @@ class CustomTextField extends StatelessWidget {
   const CustomTextField({
     super.key,
     required this.controller,
+    this.readOnly,
     this.labelText,
     this.hintText,
     this.keyboardType,
@@ -12,6 +13,7 @@ class CustomTextField extends StatelessWidget {
   });
 
   final TextEditingController controller;
+  final bool? readOnly;
   final TextInputType? keyboardType;
   final String? Function(String?)? validator;
   final String? labelText;
@@ -22,8 +24,9 @@ class CustomTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       controller: controller,
-      keyboardType: keyboardType ?? TextInputType.text,
       validator: validator,
+      readOnly: readOnly ?? false,
+      keyboardType: keyboardType ?? TextInputType.text,
       style: style(
         Theme.of(context).colorScheme.secondary,
         16,
@@ -45,7 +48,7 @@ class CustomTextField extends StatelessWidget {
         focusedBorder: border(Theme.of(context).colorScheme.primary),
         errorBorder: border(AppColors.red),
         focusedErrorBorder: border(AppColors.red),
-        disabledBorder: border(AppColors.black),
+        disabledBorder: border(AppColors.darkGrey),
       ),
     );
   }

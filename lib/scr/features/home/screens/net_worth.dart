@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:share_sampatti_mvp/app/app.dart';
 
 class NetWorth extends StatelessWidget {

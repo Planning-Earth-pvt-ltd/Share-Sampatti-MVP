@@ -11,7 +11,9 @@ class _LogInScreenState extends ConsumerState<LogInScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
-    final Map<String, TextEditingController> controller = ref.watch(provider);
+    final Map<String, TextEditingController> controller = ref.watch(
+      profileProvider,
+    );
     final mobileValidator = ref.watch(mobileValidatorProvider);
     final size = MediaQuery.of(context).size;
     return GestureDetector(
@@ -84,7 +86,7 @@ class _LogInScreenState extends ConsumerState<LogInScreen> {
                           final authController = ref.read(
                             authProvider.notifier,
                           );
-                          final controllers = ref.read(provider);
+                          final controllers = ref.read(profileProvider);
                           final phone =
                               "+91${controllers['mobileNumber']!.text.trim()}";
                           authController.setAuthMode(AuthMode.login);

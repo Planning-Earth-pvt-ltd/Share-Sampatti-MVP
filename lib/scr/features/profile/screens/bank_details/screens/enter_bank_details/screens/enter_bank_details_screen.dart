@@ -16,37 +16,32 @@ class _EnterBankDetailsScreenState
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
-    final Map<String, TextEditingController> controller = ref.watch(
+    final appDimensions = ref.watch(appDimensionsProvider);
+
+    // CONTROLLERS
+    final Map<String, TextEditingController> profileController = ref.watch(
+      profileProvider,
+    );
+    final Map<String, TextEditingController> bankController = ref.watch(
       bankProvider,
     );
 
-    buildHeading(String text) {
-      return Inter(
-        text: text,
-        color: AppColors.lightGrey,
-        fontSize: 18,
-        fontWeight: FontWeight.w600,
-      );
-    }
+    // VALIDATORS
+    final nameValidator = ref.watch(nameValidatorProvider);
 
     OutlineInputBorder border(Color color) {
       return OutlineInputBorder(
         borderSide: BorderSide(color: color, width: 2),
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(
+          appDimensions.radiusMedium(context),
+        ),
       );
     }
 
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
-        appBar: AppBar(
-          leading: IconButton(
-            onPressed: () => context.pop(),
-            icon: Icon(Icons.arrow_back_sharp),
-            color: AppColors.lightGrey,
-          ),
-          title: Text("Enter Your Bank Details"),
-        ),
+        appBar: CustomAppBar.appbar(context, "Enter Your Bank Details"),
         body: SingleChildScrollView(
           padding: EdgeInsets.all(size.width * 0.05),
           child: Form(
@@ -54,45 +49,50 @@ class _EnterBankDetailsScreenState
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                buildHeading("Account Holder Name"),
+                // ACCOUNT HOLDER NAME
+                CustomText.buildHeadingText("Account Holder Name"),
                 SizedBox(height: size.height * 0.01),
                 CustomTextField(
-                  controller: controller["name"]!,
-                  hintText: 'Demo Gupta',
-                  // validator: nameValidator,
+                  controller: profileController["name"]!,
+                  hintText: 'Ravi Gupta',
+                  validator: nameValidator,
                 ),
                 SizedBox(height: size.height * 0.03),
 
-                buildHeading("Account Number"),
+                // ACCOUNT NUMBER
+                CustomText.buildHeadingText("Account Number"),
                 SizedBox(height: size.height * 0.01),
                 CustomTextField(
-                  controller: controller["accountNumber"]!,
+                  controller: bankController["accountNumber"]!,
                   hintText: 'XXXX XXXX XXXX 5748',
-                  // validator: mobileValidator,
+                  // validator: accountNumberValidator,
                   keyboardType: TextInputType.phone,
                 ),
                 SizedBox(height: size.height * 0.03),
 
-                buildHeading("Confirm Account Number"),
+                // CONFIRM ACCOUNT NUMBER
+                CustomText.buildHeadingText("Confirm Account Number"),
                 SizedBox(height: size.height * 0.01),
                 CustomTextField(
-                  controller: controller["confirmAccountNumber"]!,
+                  controller: bankController["confirmAccountNumber"]!,
                   hintText: 'XXXX XXXX XXXX 5748',
-                  // validator: mobileValidator,
+                  // validator: confirmAccountNumberValidator,
                   keyboardType: TextInputType.phone,
                 ),
                 SizedBox(height: size.height * 0.03),
 
-                buildHeading("IFSC Code"),
+                // IFSC CODE
+                CustomText.buildHeadingText("IFSC Code"),
                 SizedBox(height: size.height * 0.01),
                 CustomTextField(
-                  controller: controller["ifscCode"]!,
+                  controller: bankController["ifscCode"]!,
                   hintText: 'HDFC000001234',
-                  // validator: mobileValidator,
+                  // validator: ifscValidator,
                 ),
                 SizedBox(height: size.height * 0.03),
 
-                buildHeading("Account Type"),
+                // ACCOUNT TYPE
+                CustomText.buildHeadingText("Account Type"),
                 SizedBox(height: size.width * 0.02),
                 DropdownButtonFormField<String>(
                   value: _currentValue,
@@ -113,7 +113,7 @@ class _EnterBankDetailsScreenState
                         ),
                       )
                       .toList(),
-                  // validator: validator,
+                  // validator: accountTypeValidator,
                   decoration: InputDecoration(
                     filled: true,
                     fillColor: AppColors.darkGrey,
@@ -128,11 +128,8 @@ class _EnterBankDetailsScreenState
                 ),
                 SizedBox(height: size.width * 0.2),
 
-                CustomElevatedButton(
-                  onPressed: () {},
-                  text: "Save",
-                  textColor: AppColors.black,
-                ),
+                // SAVE BUTTON
+                CustomElevatedButton(onPressed: () {}, text: "Save"),
               ],
             ),
           ),
