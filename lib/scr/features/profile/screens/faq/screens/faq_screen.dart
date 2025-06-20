@@ -27,11 +27,11 @@ class FAQScreen extends StatelessWidget {
               Inter(
                 text: "Don’t see the answer you’re looking for? ",
                 color: AppColors.lightGrey,
-                fontSize: 11,
+                fontSize: 12,
               ),
               CustomTextButton(
                 text: "Get in touch",
-                fontSize: 11,
+                fontSize: 12,
                 onTap: () {},
               ),
             ],

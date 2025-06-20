@@ -2,9 +2,10 @@ import 'dart:convert';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:share_sampatti_mvp/app/app.dart';
-import 'package:share_sampatti_mvp/scr/features/model/user_model.dart';
+import 'package:share_sampatti_mvp/scr/model/user_model.dart';
 
 import 'base_services.dart';
+
 final authServiceProvider = Provider<AuthService>((ref) => AuthService());
 
 class AuthService {

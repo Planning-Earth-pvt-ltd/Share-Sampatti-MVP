@@ -1,11 +1,10 @@
-import 'package:flutter/material.dart';
-import 'package:share_sampatti_mvp/core/config/config.dart';
+import 'package:share_sampatti_mvp/app/app.dart';
 
 class CustomTextField extends StatelessWidget {
   const CustomTextField({
     super.key,
     required this.controller,
-    required this.labelText,
+    this.labelText,
     this.hintText,
     this.keyboardType,
     this.validator,
@@ -15,7 +14,7 @@ class CustomTextField extends StatelessWidget {
   final TextEditingController controller;
   final TextInputType? keyboardType;
   final String? Function(String?)? validator;
-  final String labelText;
+  final String? labelText;
   final double? radius;
   final String? hintText;
 
@@ -25,19 +24,24 @@ class CustomTextField extends StatelessWidget {
       controller: controller,
       keyboardType: keyboardType ?? TextInputType.text,
       validator: validator,
+      style: style(
+        Theme.of(context).colorScheme.secondary,
+        16,
+        FontWeight.w400,
+      ),
       decoration: InputDecoration(
         filled: true,
-        fillColor: AppColors.grey,
+        fillColor: AppColors.darkGrey,
         labelText: labelText,
         hintText: hintText,
-        hintStyle: style(AppColors.lightGrey, 15, FontWeight.w400),
-        labelStyle: style(AppColors.lightGrey, 16, FontWeight.w400),
+        hintStyle: style(AppColors.grey, 16, FontWeight.w400),
+        labelStyle: style(AppColors.grey, 16, FontWeight.w400),
         floatingLabelStyle: style(
           Theme.of(context).colorScheme.primary,
           16,
           FontWeight.w600,
         ),
-        enabledBorder: border(AppColors.grey),
+        enabledBorder: border(AppColors.darkGrey),
         focusedBorder: border(Theme.of(context).colorScheme.primary),
         errorBorder: border(AppColors.red),
         focusedErrorBorder: border(AppColors.red),

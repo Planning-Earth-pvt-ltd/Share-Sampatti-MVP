@@ -27,8 +27,12 @@ class NavigationScreen extends ConsumerWidget {
           ),
           items: [
             BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-            BottomNavigationBarItem(icon: Icon(Icons.search), label: "Search"),
-            BottomNavigationBarItem(icon: Icon(Icons.badge), label: "Invest"),
+            BottomNavigationBarItem(icon: Icon(Icons.layers), label: "Invest"),
+            BottomNavigationBarItem(icon: Icon(Icons.save), label: "Save"),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.badge),
+              label: "Portfolio",
+            ),
           ],
         ),
       ),

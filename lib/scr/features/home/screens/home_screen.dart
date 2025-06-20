@@ -9,7 +9,7 @@ class HomeScreen extends StatelessWidget {
     final Size size = MediaQuery.of(context).size;
 
     // MARK: Name
-    name() {
+    Row name() {
       return Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
