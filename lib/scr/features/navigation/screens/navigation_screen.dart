@@ -7,10 +7,13 @@ class NavigationScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final currentIndex = ref.watch(navigationProvider);
 
-    bottomIcon(String icon, Color color) {
+    navIcons(int currentIndex, int index) {
       return SvgPicture.asset(
-        icon,
-        colorFilter: ColorFilter.mode(color, BlendMode.srcIn),
+        AppAssets.navigationIcons[index],
+        colorFilter: ColorFilter.mode(
+          currentIndex == index ? AppColors.lightGreen : AppColors.lightGrey,
+          BlendMode.srcIn,
+        ),
       );
     }
 
@@ -34,31 +37,19 @@ class NavigationScreen extends ConsumerWidget {
           ),
           items: [
             BottomNavigationBarItem(
-              icon: bottomIcon(
-                AppAssets.home,
-                currentIndex == 0 ? AppColors.lightGreen : AppColors.lightGrey,
-              ),
+              icon: navIcons(currentIndex, 0),
               label: "Home",
             ),
             BottomNavigationBarItem(
-              icon: bottomIcon(
-                AppAssets.invest,
-                currentIndex == 1 ? AppColors.lightGreen : AppColors.lightGrey,
-              ),
+              icon: navIcons(currentIndex, 1),
               label: "Invest",
             ),
             BottomNavigationBarItem(
-              icon: bottomIcon(
-                AppAssets.save,
-                currentIndex == 2 ? AppColors.lightGreen : AppColors.lightGrey,
-              ),
+              icon: navIcons(currentIndex, 2),
               label: "Save",
             ),
             BottomNavigationBarItem(
-              icon: bottomIcon(
-                AppAssets.portfolio,
-                currentIndex == 3 ? AppColors.lightGreen : AppColors.lightGrey,
-              ),
+              icon: navIcons(currentIndex, 3),
               label: "Portfolio",
             ),
           ],

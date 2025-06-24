@@ -26,18 +26,21 @@ class CustomElevatedButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final appDimens = ref.watch(appDimensionsProvider);
+    final appDimensions = ref.watch(appDimensionsProvider);
 
     return ElevatedButton(
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
         backgroundColor:
             backgroundColor ?? Theme.of(context).colorScheme.primary,
-        foregroundColor: AppColors.darkGrey,
-        minimumSize: Size(width ?? double.infinity, height ?? 56),
+        foregroundColor: AppColors.black,
+        minimumSize: Size(
+          width ?? appDimensions.screenWidth(context),
+          height ?? 56,
+        ),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(
-            radius ?? appDimens.radiusMedium(context),
+            radius ?? appDimensions.radiusMedium(context),
           ),
         ),
       ),

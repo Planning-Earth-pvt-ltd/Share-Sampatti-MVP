@@ -44,8 +44,10 @@ class AppAssets {
   ];
 
   // MARK: Icons
-  static const String home = "assets/icons/home.svg";
-  static const String invest = "assets/icons/invest.svg";
-  static const String save = "assets/icons/save.svg";
-  static const String portfolio = "assets/icons/portfolio.svg";
+  static const List<String> navigationIcons = [
+    "assets/icons/home.svg",
+    "assets/icons/invest.svg",
+    "assets/icons/save.svg",
+    "assets/icons/portfolio.svg",
+  ];
 }
