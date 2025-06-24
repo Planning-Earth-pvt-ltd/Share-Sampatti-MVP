@@ -113,21 +113,26 @@ class InvestNowScreen extends ConsumerWidget {
 
     return SafeArea(
       child: Scaffold(
-        extendBodyBehindAppBar: true,
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          leading: IconButton(
-            onPressed: () => context.pop(),
-            style: IconButton.styleFrom(backgroundColor: AppColors.darkGrey),
-            icon: Icon(Icons.arrow_back_sharp, color: AppColors.lightGrey),
-          ),
-        ),
         body: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // PROPERTY IMAGE
-              Image.asset(AppAssets.investNowProperty),
+              Stack(
+                children: [
+                  Image.asset(AppAssets.investNowProperty),
+                  IconButton(
+                    onPressed: () => context.pop(),
+                    style: IconButton.styleFrom(
+                      backgroundColor: AppColors.darkGrey,
+                    ),
+                    icon: Icon(
+                      Icons.arrow_back_sharp,
+                      color: AppColors.lightGrey,
+                    ),
+                  ).withPadAll(width * 0.02),
+                ],
+              ),
 
               // CARDS
               Container(
