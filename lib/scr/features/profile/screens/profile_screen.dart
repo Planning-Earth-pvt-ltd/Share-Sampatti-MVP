@@ -5,7 +5,7 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    buildHeading(String text) {
+    buildHeadingText(String text) {
       return Inter(
         text: text,
         color: AppColors.lightGrey,
@@ -15,18 +15,12 @@ class ProfileScreen extends StatelessWidget {
     }
 
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          onPressed: () => context.pop(),
-          icon: Icon(Icons.arrow_back_sharp),
-          color: AppColors.lightGrey,
-        ),
-        title: Text("User Profile"),
-      ),
+      appBar: CustomAppBar.appbar(context, "User Profile"),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // PROFILE DETAILS
             Container(
               color: AppColors.darkGrey,
               height: 90,
@@ -43,6 +37,7 @@ class ProfileScreen extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
+                      // PROFILE PIC
                       CircleAvatar(
                         radius: 20,
                         backgroundColor: AppColors.profileBackground,
@@ -53,17 +48,22 @@ class ProfileScreen extends StatelessWidget {
                         ),
                       ),
                       SizedBox(width: 10),
+
+                      // USER DETAILS
                       Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          // NAME
                           Inter(
                             text: "Shubham Patel",
                             fontSize: 18,
                             fontWeight: FontWeight.w600,
                           ),
+
+                          // PHONE NUMBER
                           Inter(
-                            text: "View Details",
+                            text: "+91 XXXXXX4475",
                             color: AppColors.lightGrey,
                             fontSize: 10,
                           ),
@@ -71,6 +71,8 @@ class ProfileScreen extends StatelessWidget {
                       ),
                     ],
                   ),
+
+                  // EDIT PROFILE BUTTON
                   IconButton(
                     onPressed: () => context.push("/personalDetails"),
                     style: IconButton.styleFrom(
@@ -87,18 +89,23 @@ class ProfileScreen extends StatelessWidget {
                 ],
               ),
             ),
-            buildHeading("Account Details"),
+
+            // ACCOUNT DETAILS
+            buildHeadingText("Account Details"),
             ProfileList(
               details: AppConstants.accountDetails,
               onTap: AppConstants.accountDetailsRoutes,
             ),
 
-            buildHeading("About"),
+            // ABOUT
+            buildHeadingText("About"),
             ProfileList(
               details: AppConstants.about,
               onTap: AppConstants.aboutRoutes,
             ),
             SizedBox(height: 30),
+
+            // LOGOUT
             ProfileList(details: ["Logout"], color: AppColors.red),
           ],
         ),

@@ -6,14 +6,7 @@ class AboutUsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          onPressed: () => context.pop(),
-          icon: Icon(Icons.arrow_back_sharp),
-          color: AppColors.lightGrey,
-        ),
-        title: Text("About us"),
-      ),
+      appBar: CustomAppBar.appbar(context, "About us"),
       body: SingleChildScrollView(
         child: Column(
           children: [

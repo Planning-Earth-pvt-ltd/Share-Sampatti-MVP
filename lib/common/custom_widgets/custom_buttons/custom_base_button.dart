@@ -33,7 +33,7 @@ class CustomElevatedButton extends ConsumerWidget {
       style: ElevatedButton.styleFrom(
         backgroundColor:
             backgroundColor ?? Theme.of(context).colorScheme.primary,
-        foregroundColor: AppColors.black,
+        foregroundColor: AppColors.darkGrey,
         minimumSize: Size(width ?? double.infinity, height ?? 56),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(
@@ -43,9 +43,9 @@ class CustomElevatedButton extends ConsumerWidget {
       ),
       child: Inter(
         text: text,
-        color: textColor,
-        fontSize: 16,
-        fontWeight: FontWeight.w700,
+        color: textColor ?? AppColors.darkGrey,
+        fontSize: fontSize ?? 16,
+        fontWeight: fontWeight ?? FontWeight.w700,
       ),
     );
   }

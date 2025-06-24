@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:share_sampatti_mvp/app/app.dart';
 
 class Inter extends StatelessWidget {
   const Inter({
@@ -39,4 +39,23 @@ class Inter extends StatelessWidget {
       ),
     );
   }
+}
+
+class CustomText {
+  static buildHeadingText(String text) {
+    return Inter(
+      text: text,
+      color: AppColors.lightGrey,
+      fontSize: 18,
+      fontWeight: FontWeight.w600,
+    );
+  }
+
+  // static buildHelperText(String text) {
+  //   return Inter(
+  //     text: "+91 XXXXXX4475",
+  //     color: AppColors.lightGrey,
+  //     fontSize: 12,
+  //   );
+  // }
 }
