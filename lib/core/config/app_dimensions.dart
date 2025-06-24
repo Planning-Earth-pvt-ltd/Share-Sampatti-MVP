@@ -1,14 +1,12 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:share_sampatti_mvp/app/app.dart';
 
 final appDimensionsProvider = Provider<AppDimensions>((ref) => AppDimensions());
 
 class AppDimensions {
   //Screen Width and Height
-  static double screenWidth(BuildContext context) =>
-      MediaQuery.of(context).size.width;
+  double screenWidth(BuildContext context) => MediaQuery.of(context).size.width;
 
-  static double screenHeight(BuildContext context) =>
+  double screenHeight(BuildContext context) =>
       MediaQuery.of(context).size.height;
 
   //Screen Padding
