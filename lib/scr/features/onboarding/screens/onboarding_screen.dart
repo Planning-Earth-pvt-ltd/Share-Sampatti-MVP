@@ -1,26 +1,18 @@
-// PACKAGE
 import 'dart:async';
 import 'dart:developer';
-
-import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-
-// COMPONENTS
 import 'package:share_sampatti_mvp/app/app.dart';
 
-class Onboarding extends ConsumerStatefulWidget {
-  const Onboarding({super.key});
+class OnboardingScreen extends ConsumerStatefulWidget {
+  const OnboardingScreen({super.key});
 
   @override
-  ConsumerState<Onboarding> createState() => _OnboardingState();
+  ConsumerState<OnboardingScreen> createState() => _OnboardingState();
 }
 
-class _OnboardingState extends ConsumerState<Onboarding> {
+class _OnboardingState extends ConsumerState<OnboardingScreen> {
   Timer? _timer;
-  final int totalPages = 3;
   bool hasPrecache = true;
+
   @override
   void initState() {
     super.initState();
@@ -33,7 +25,7 @@ class _OnboardingState extends ConsumerState<Onboarding> {
       final currentPage = ref.read(currentPageProvider);
 
       log(currentPage.toString());
-      if (currentPage < totalPages - 1) {
+      if (currentPage < AppConstants.title.length - 1) {
         pageController.animateToPage(
           currentPage + 1,
           duration: Duration(seconds: 1),
@@ -52,8 +44,10 @@ class _OnboardingState extends ConsumerState<Onboarding> {
 
   @override
   Widget build(BuildContext context) {
+    final appDimensions = ref.watch(appDimensionsProvider);
     final pageController = ref.watch(pageProvider);
-    final currentPage = ref.watch(currentPageProvider) < totalPages - 1;
+    final currentPage =
+        ref.watch(currentPageProvider) < AppConstants.title.length - 1;
 
     return Scaffold(
       body: PageView.builder(

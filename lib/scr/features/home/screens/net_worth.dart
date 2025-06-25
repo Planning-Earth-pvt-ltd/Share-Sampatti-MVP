@@ -14,7 +14,7 @@ class NetWorth extends ConsumerWidget {
         border: Border(
           bottom: BorderSide(color: Theme.of(context).colorScheme.secondary),
         ),
-        borderRadius: BorderRadius.circular(appDimensions.radiusLarge(context)),
+        borderRadius: BorderRadius.circular(appDimensions.radiusM),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

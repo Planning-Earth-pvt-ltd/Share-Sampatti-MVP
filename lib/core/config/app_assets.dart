@@ -49,6 +49,8 @@ class AppAssets {
   // MARK: Icons
   static const String arrowUp = "assets/icons/arrow_up.svg";
   static const String arrowDown = "assets/icons/arrow_down.svg";
+  static const String file = "assets/icons/file.svg";
+  static const String download = "assets/icons/download.svg";
 
   static const List<String> navigationIcons = [
     "assets/icons/home.svg",

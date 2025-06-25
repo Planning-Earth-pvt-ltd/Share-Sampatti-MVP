@@ -6,8 +6,8 @@ class InvestNowScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final appDimensions = ref.watch(appDimensionsProvider);
-    final width = appDimensions.screenWidth(context);
-    final height = appDimensions.screenWidth(context);
+    final width = appDimensions.width;
+    final height = appDimensions.height;
 
     buildHeader(String text) {
       return Inter(text: text, fontSize: 24, fontWeight: FontWeight.w500);
@@ -19,9 +19,7 @@ class InvestNowScreen extends ConsumerWidget {
         decoration: BoxDecoration(
           color: backgroundColor,
           border: Border.all(color: Theme.of(context).colorScheme.primary),
-          borderRadius: BorderRadius.circular(
-            appDimensions.radiusMedium(context),
-          ),
+          borderRadius: BorderRadius.circular(appDimensions.radiusM),
         ),
         child: Inter(text: text, color: textColor, fontWeight: FontWeight.w500),
       );
@@ -40,9 +38,7 @@ class InvestNowScreen extends ConsumerWidget {
                 color: child != null
                     ? Theme.of(context).colorScheme.primary
                     : AppColors.darkGrey,
-                borderRadius: BorderRadius.circular(
-                  appDimensions.radiusMedium(context),
-                ),
+                borderRadius: BorderRadius.circular(appDimensions.radiusM),
                 boxShadow: [
                   BoxShadow(
                     offset: Offset(0, 0),
@@ -79,9 +75,7 @@ class InvestNowScreen extends ConsumerWidget {
                 child: Container(
                   height: 10,
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(
-                      appDimensions.radiusMedium(context),
-                    ),
+                    borderRadius: BorderRadius.circular(appDimensions.radiusM),
                   ),
                   child: FractionallySizedBox(
                     widthFactor: widthFactor * 0.01,
@@ -90,7 +84,7 @@ class InvestNowScreen extends ConsumerWidget {
                       decoration: BoxDecoration(
                         color: Theme.of(context).colorScheme.primary,
                         borderRadius: BorderRadius.circular(
-                          appDimensions.radiusMedium(context),
+                          appDimensions.radiusM,
                         ),
                       ),
                     ),
@@ -117,7 +111,7 @@ class InvestNowScreen extends ConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // PROPERTY IMAGE
+              // MARK: PROPERTY IMAGE
               Stack(
                 children: [
                   Image.asset(AppAssets.investNowProperty),
@@ -134,16 +128,14 @@ class InvestNowScreen extends ConsumerWidget {
                 ],
               ),
 
-              // CARDS
+              // MARK: CARDS
               Container(
                 padding: EdgeInsets.symmetric(
                   horizontal: width * 0.05,
                   vertical: height * 0.05,
                 ),
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(
-                    appDimensions.radiusLarge(context),
-                  ),
+                  borderRadius: BorderRadius.circular(appDimensions.radiusM),
                   border: Border(
                     bottom: BorderSide(
                       color: Theme.of(context).colorScheme.secondary,
@@ -174,7 +166,7 @@ class InvestNowScreen extends ConsumerWidget {
                 ),
               ),
 
-              // INVESTMENT ARENA
+              // MARK: INVESTMENT ARENA
               buildHeader("Investment Arena").withPadAll(width * 0.05),
               Row(
                 children: [
@@ -205,7 +197,7 @@ class InvestNowScreen extends ConsumerWidget {
               SizedBox(height: height * 0.05),
               Divider(thickness: 2, color: AppColors.dividerColor),
 
-              // GRAPH
+              // MARK: GRAPH
               buildHeader("Price per Share").withPadAll(width * 0.05),
               Image.asset(AppAssets.graph).withPadHorizontal(width * 0.05),
 
@@ -220,15 +212,18 @@ class InvestNowScreen extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   CustomTextButton(text: "Show More"),
-                  buildCard(
-                    "View Opportunity Document",
-                    AppColors.black,
-                    Theme.of(context).colorScheme.secondary,
+                  CustomElevatedButton(
+                    onPressed: () => context.push("/investNowDocument"),
+                    height: height * 0.08,
+                    width: width * 0.1,
+                    text: "View Opportunity Document",
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500,
                   ),
                 ],
               ).withPadSymmetric(height * 0.05, width * 0.05),
 
-              // ABOUT
+              // MARK: ABOUT
               buildHeader("Investment Benefits").withPadAll(width * 0.05),
               Inter(
                 text:
@@ -238,7 +233,7 @@ class InvestNowScreen extends ConsumerWidget {
                     "• A galley of type and scrambled it to make a type specimen book.",
               ).withPadHorizontal(width * 0.05),
 
-              // RETURN COMPARISON
+              // MARK: RETURN COMPARISON
               buildHeader("Returns Comparison").withPadAll(width * 0.05),
               buildList("Share Sampatti Private Oppurtunity", 88),
               buildList("AAA Bonds", 56),
@@ -247,40 +242,7 @@ class InvestNowScreen extends ConsumerWidget {
             ],
           ),
         ),
-        bottomNavigationBar: Container(
-          padding: EdgeInsets.all(width * 0.05),
-          decoration: BoxDecoration(color: AppColors.darkGrey),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Inter(
-                text: "Price per SQFT",
-                color: AppColors.lightGrey,
-                fontSize: 20,
-              ),
-              Inter(text: "₹ 2,300.3/-", fontSize: 24),
-              SizedBox(height: height * 0.03),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  CustomElevatedButton(
-                    onPressed: () {},
-                    backgroundColor: AppColors.grey,
-                    text: "Sell",
-                    textColor: AppColors.lightGrey,
-                    width: width * 0.43,
-                  ),
-                  CustomElevatedButton(
-                    onPressed: () {},
-                    text: "Buy",
-                    width: width * 0.43,
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
+        bottomNavigationBar: SellOrBuy(height: height, width: width),
       ),
     );
   }

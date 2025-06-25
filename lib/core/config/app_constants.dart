@@ -8,7 +8,6 @@ class AppConstants {
 
   //fonts
   static const String interFontFamily = "Inter";
-  static const String spaceGrotesk = "Space Grotesk";
 
   // Onboarding Text
   static const List<List<String>> title = [

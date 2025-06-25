@@ -6,7 +6,6 @@ import 'package:go_router/go_router.dart';
 import 'package:share_sampatti_mvp/app/app.dart';
 import 'package:share_sampatti_mvp/app/splash_screen/splash_controller.dart';
 
-
 class SplashScreen extends ConsumerStatefulWidget {
   const SplashScreen({super.key});
 
@@ -18,7 +17,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    Future.microtask(() async{
+    Future.microtask(() async {
       await Future.delayed(const Duration(seconds: 2));
       ref.read(authProvider.notifier).checkAuthStatus();
       ref.read(splashControllerProvider.notifier).startSplash();
@@ -68,7 +67,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
             RichText(
               text: TextSpan(
                 style: TextStyle(
-                  fontSize: appDimens.fontLarge(context),
+                  fontSize: appDimens.fontM,
                   fontWeight: FontWeight.w600,
                   fontFamily: AppConstants.interFontFamily,
                 ),

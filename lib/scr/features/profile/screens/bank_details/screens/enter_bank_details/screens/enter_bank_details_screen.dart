@@ -32,9 +32,7 @@ class _EnterBankDetailsScreenState
     OutlineInputBorder border(Color color) {
       return OutlineInputBorder(
         borderSide: BorderSide(color: color, width: 2),
-        borderRadius: BorderRadius.circular(
-          appDimensions.radiusMedium(context),
-        ),
+        borderRadius: BorderRadius.circular(appDimensions.radiusM),
       );
     }
 
