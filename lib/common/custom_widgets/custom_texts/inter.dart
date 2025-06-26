@@ -4,6 +4,7 @@ class Inter extends ConsumerWidget {
   const Inter({
     super.key,
     required this.text,
+    this.maxLines,
     this.height,
     this.letterSpacing,
     this.color,
@@ -14,6 +15,7 @@ class Inter extends ConsumerWidget {
   });
 
   final String text;
+  final int? maxLines;
   final TextAlign? textAlign;
   final double? height;
   final double? letterSpacing;
@@ -28,6 +30,8 @@ class Inter extends ConsumerWidget {
 
     return Text(
       text,
+      maxLines: maxLines ?? 1000,
+      overflow: TextOverflow.ellipsis,
       textAlign: textAlign ?? TextAlign.start,
       style: TextStyle(
         fontFamily: 'Inter',

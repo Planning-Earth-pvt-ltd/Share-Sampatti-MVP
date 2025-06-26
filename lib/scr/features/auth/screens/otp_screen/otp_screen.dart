@@ -101,7 +101,7 @@ class _OtpVerificationScreenState extends ConsumerState<OtpVerificationScreen> {
                   ),
                 ],
               ),
-              SizedBox(height: appDimensions.verticalSpaceL),
+              SizedBox(height: appDimensions.verticalSpaceXL),
 
               Pinput(
                 length: _length,

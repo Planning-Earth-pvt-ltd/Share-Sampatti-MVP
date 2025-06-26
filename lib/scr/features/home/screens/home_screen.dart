@@ -30,7 +30,7 @@ class HomeScreen extends ConsumerWidget {
             ),
           ),
         ],
-      ).withPadAll(appDimensions.horizontalPaddingS);
+      ).withPadAll(appDimensions.horizontalPaddingM);
     }
 
     return SingleChildScrollView(
@@ -48,13 +48,13 @@ class HomeScreen extends ConsumerWidget {
             text: "Start Investing Now",
             fontSize: appDimensions.fontL,
             fontWeight: FontWeight.w600,
-          ).withPadAllCustom(0, 0, appDimensions.horizontalPaddingS, 0),
+          ).withPadAllCustom(0, 0, appDimensions.horizontalPaddingM, 0),
           Inter(
             text: "Start Investing Now",
             color: AppColors.lightGrey,
             fontSize: appDimensions.fontS,
             fontWeight: FontWeight.w500,
-          ).withPadAllCustom(0, 0, appDimensions.horizontalPaddingS, 0),
+          ).withPadAllCustom(0, 0, appDimensions.horizontalPaddingM, 0),
           Invest(),
 
           // ADVERTISMENT
@@ -66,7 +66,7 @@ class HomeScreen extends ConsumerWidget {
             children: [
               Inter(
                 text: "Explore By Regions",
-                fontSize: 20.58,
+                fontSize: appDimensions.fontL,
                 fontWeight: FontWeight.w500,
               ),
               CustomElevatedButton(
@@ -78,21 +78,23 @@ class HomeScreen extends ConsumerWidget {
                 fontSize: 12,
               ),
             ],
-          ).withPadAll(20),
+          ).withPadAll(appDimensions.horizontalPaddingM),
           Explore(
             explore: AppConstants.regions,
             images: AppAssets.regionsImages,
           ),
-          SizedBox(height: 20),
+          SizedBox(height: appDimensions.verticalSpaceM),
 
           // TRACK NOW
           Stack(
             alignment: Alignment.bottomLeft,
             children: [
               ClipRRect(
-                borderRadius: BorderRadiusGeometry.circular(15),
+                borderRadius: BorderRadiusGeometry.circular(
+                  appDimensions.radiusM,
+                ),
                 child: Image.asset(AppAssets.trackNow),
-              ).withPadSymmetric(0, 20),
+              ).withPadHorizontal(appDimensions.horizontalPaddingM),
               CustomElevatedButton(
                 onPressed: () {},
                 text: "Track Now",
@@ -101,7 +103,12 @@ class HomeScreen extends ConsumerWidget {
                 radius: 6,
                 fontSize: 14,
                 fontWeight: FontWeight.w500,
-              ).withPadAllCustom(0, 40, 40, 0),
+              ).withPadAllCustom(
+                0,
+                appDimensions.verticalSpaceL,
+                appDimensions.horizontalSpaceM,
+                0,
+              ),
             ],
           ),
 
@@ -111,7 +118,7 @@ class HomeScreen extends ConsumerWidget {
             children: [
               Inter(
                 text: "Explore By Theme",
-                fontSize: 20.58,
+                fontSize: appDimensions.fontL,
                 fontWeight: FontWeight.w500,
               ),
               CustomElevatedButton(
@@ -121,21 +128,22 @@ class HomeScreen extends ConsumerWidget {
                 height: 25,
                 radius: 6,
                 fontSize: 12,
-                fontWeight: FontWeight.w500,
               ),
             ],
-          ).withPadAll(20),
+          ).withPadAll(appDimensions.horizontalPaddingM),
           Explore(explore: AppConstants.themes, images: AppAssets.themesImages),
-          SizedBox(height: 20),
+          SizedBox(height: appDimensions.verticalSpaceM),
 
           // CALL NOW
           Stack(
             alignment: Alignment.bottomRight,
             children: [
               ClipRRect(
-                borderRadius: BorderRadiusGeometry.circular(15),
+                borderRadius: BorderRadiusGeometry.circular(
+                  appDimensions.radiusM,
+                ),
                 child: Image.asset(AppAssets.callNow),
-              ).withPadSymmetric(0, 20),
+              ).withPadHorizontal(appDimensions.horizontalPaddingM),
               CustomElevatedButton(
                 onPressed: () => CustomUrlLauncher.telephone(),
                 text: "Call Now",
@@ -144,18 +152,23 @@ class HomeScreen extends ConsumerWidget {
                 radius: 6,
                 fontSize: 14,
                 fontWeight: FontWeight.w500,
-              ).withPadAllCustom(0, 20, 0, 40),
+              ).withPadAllCustom(
+                0,
+                appDimensions.verticalPaddingS,
+                0,
+                appDimensions.horizontalPaddingL,
+              ),
             ],
           ),
 
           //PROPERTY
           Container(
-            height: appDimensions.width * 0.55,
-            margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+            height: appDimensions.height * 0.3,
+            margin: EdgeInsets.all(appDimensions.horizontalPaddingM),
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
               color: AppColors.darkGrey,
-              borderRadius: BorderRadius.circular(11),
+              borderRadius: BorderRadius.circular(appDimensions.radiusM),
               boxShadow: [
                 BoxShadow(
                   offset: Offset(0, 0),
@@ -176,23 +189,26 @@ class HomeScreen extends ConsumerWidget {
                         children: [
                           Inter(
                             text: "Property Title",
-                            fontSize: 18,
+                            fontSize: appDimensions.fontM,
                             fontWeight: FontWeight.w500,
                           ),
-                          SizedBox(height: 20),
+                          SizedBox(height: appDimensions.verticalSpaceS),
                           Inter(
                             text:
                                 "Lorem Ipsum is simply dummy text of the printing and typesetting industry. ",
-                            fontSize: 12,
+                            maxLines: 4,
+                            fontSize: appDimensions.fontXS,
                             fontWeight: FontWeight.w400,
                           ),
                         ],
                       ),
                     ),
-                    SizedBox(width: 20),
 
+                    SizedBox(width: appDimensions.horizontalSpaceS),
                     ClipRRect(
-                      borderRadius: BorderRadiusGeometry.circular(11),
+                      borderRadius: BorderRadiusGeometry.circular(
+                        appDimensions.radiusM,
+                      ),
                       child: Image.asset(
                         AppAssets.advertismentImages[0],
                         height: 115,
@@ -206,8 +222,6 @@ class HomeScreen extends ConsumerWidget {
                 CustomElevatedButton(
                   onPressed: () => context.push("/investNow"),
                   text: "Invest Now",
-                  fontSize: 15,
-                  fontWeight: FontWeight.w600,
                 ),
               ],
             ),

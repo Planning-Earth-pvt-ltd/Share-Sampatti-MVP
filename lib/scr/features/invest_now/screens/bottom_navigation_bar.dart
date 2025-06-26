@@ -1,15 +1,14 @@
 import 'package:share_sampatti_mvp/app/app.dart';
 
-class SellOrBuy extends StatelessWidget {
-  const SellOrBuy({super.key, required this.height, required this.width});
-
-  final double height;
-  final double width;
+class SellOrBuy extends ConsumerWidget {
+  const SellOrBuy({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final appDimensions = ref.watch(appDimensionsProvider);
+
     return Container(
-      padding: EdgeInsets.all(width * 0.05),
+      padding: EdgeInsets.all(appDimensions.horizontalPaddingM),
       decoration: BoxDecoration(color: AppColors.darkGrey),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -21,7 +20,7 @@ class SellOrBuy extends StatelessWidget {
             fontSize: 20,
           ),
           Inter(text: "₹ 2,300.3/-", fontSize: 24),
-          SizedBox(height: height * 0.03),
+          SizedBox(height: appDimensions.verticalSpaceM),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -30,12 +29,12 @@ class SellOrBuy extends StatelessWidget {
                 backgroundColor: AppColors.grey,
                 text: "Sell",
                 textColor: AppColors.lightGrey,
-                width: width * 0.43,
+                width: appDimensions.width * 0.43,
               ),
               CustomElevatedButton(
                 onPressed: () {},
                 text: "Buy",
-                width: width * 0.43,
+                width: appDimensions.width * 0.43,
               ),
             ],
           ),

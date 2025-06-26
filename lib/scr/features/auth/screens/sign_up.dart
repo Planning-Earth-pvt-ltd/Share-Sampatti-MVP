@@ -43,7 +43,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                         onTap: () => context.go("/navigation"),
                       ),
                     ),
-                    SizedBox(height: appDimensions.verticalSpaceS),
+                    SizedBox(height: appDimensions.verticalSpaceM),
 
                     // WELCOME
                     Inter(
@@ -52,7 +52,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                       fontSize: appDimensions.fontXXL,
                       fontWeight: FontWeight.w600,
                     ),
-                    SizedBox(height: appDimensions.verticalSpaceM),
+                    SizedBox(height: appDimensions.verticalSpaceXL),
 
                     // HEADER
                     Center(
@@ -73,7 +73,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                         fontSize: appDimensions.fontXS,
                       ),
                     ),
-                    SizedBox(height: appDimensions.verticalSpaceM),
+                    SizedBox(height: appDimensions.verticalSpaceL),
 
                     // NAME TEXT FIELD
                     CustomTextField(
@@ -82,7 +82,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                       hintText: 'Enter your full name',
                       validator: nameValidator,
                     ),
-                    SizedBox(height: appDimensions.verticalSpaceS),
+                    SizedBox(height: appDimensions.verticalSpaceM),
 
                     // MOBILE TEXT FIELD
                     CustomTextField(

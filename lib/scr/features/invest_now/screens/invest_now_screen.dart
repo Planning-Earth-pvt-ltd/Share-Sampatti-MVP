@@ -5,12 +5,17 @@ class InvestNowScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final showMore = ref.watch(showMoreProvider);
     final appDimensions = ref.watch(appDimensionsProvider);
     final width = appDimensions.width;
     final height = appDimensions.height;
 
     buildHeader(String text) {
-      return Inter(text: text, fontSize: 24, fontWeight: FontWeight.w500);
+      return Inter(
+        text: text,
+        fontSize: appDimensions.fontL,
+        fontWeight: FontWeight.w600,
+      );
     }
 
     buildCard(String text, Color backgroundColor, Color textColor) {
@@ -19,7 +24,7 @@ class InvestNowScreen extends ConsumerWidget {
         decoration: BoxDecoration(
           color: backgroundColor,
           border: Border.all(color: Theme.of(context).colorScheme.primary),
-          borderRadius: BorderRadius.circular(appDimensions.radiusM),
+          borderRadius: BorderRadius.circular(appDimensions.radiusS),
         ),
         child: Inter(text: text, color: textColor, fontWeight: FontWeight.w500),
       );
@@ -38,7 +43,7 @@ class InvestNowScreen extends ConsumerWidget {
                 color: child != null
                     ? Theme.of(context).colorScheme.primary
                     : AppColors.darkGrey,
-                borderRadius: BorderRadius.circular(appDimensions.radiusM),
+                borderRadius: BorderRadius.circular(appDimensions.radiusS),
                 boxShadow: [
                   BoxShadow(
                     offset: Offset(0, 0),
@@ -52,15 +57,16 @@ class InvestNowScreen extends ConsumerWidget {
               ),
               child: child ?? Inter(text: containerText!),
             ),
-            SizedBox(height: height * 0.02),
+            SizedBox(height: appDimensions.verticalSpaceS),
+
             Inter(
               text: bottomText,
               color: AppColors.lightGrey,
               textAlign: TextAlign.center,
-              fontSize: 12,
+              fontSize: appDimensions.fontXXS,
             ),
           ],
-        ).withPadHorizontal(width * 0.03),
+        ).withPadHorizontal(appDimensions.horizontalSpaceS),
       );
     }
 
@@ -124,15 +130,15 @@ class InvestNowScreen extends ConsumerWidget {
                       Icons.arrow_back_sharp,
                       color: AppColors.lightGrey,
                     ),
-                  ).withPadAll(width * 0.02),
+                  ).withPadAll(appDimensions.horizontalPaddingS),
                 ],
               ),
 
               // MARK: CARDS
               Container(
                 padding: EdgeInsets.symmetric(
-                  horizontal: width * 0.05,
-                  vertical: height * 0.05,
+                  horizontal: appDimensions.horizontalPaddingM,
+                  vertical: appDimensions.verticalPaddingS,
                 ),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(appDimensions.radiusM),
@@ -146,7 +152,7 @@ class InvestNowScreen extends ConsumerWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     buildHeader("Mohali Prime Land Investment Opportunity"),
-                    SizedBox(height: height * 0.03),
+                    SizedBox(height: appDimensions.verticalSpaceM),
                     Wrap(
                       children: [
                         buildCard(
@@ -154,7 +160,7 @@ class InvestNowScreen extends ConsumerWidget {
                           Theme.of(context).colorScheme.primary,
                           AppColors.darkGrey,
                         ),
-                        SizedBox(width: width * 0.03),
+                        SizedBox(width: appDimensions.horizontalSpaceS),
                         buildCard(
                           "Private Opportunity",
                           AppColors.black,
@@ -167,8 +173,11 @@ class InvestNowScreen extends ConsumerWidget {
               ),
 
               // MARK: INVESTMENT ARENA
-              buildHeader("Investment Arena").withPadAll(width * 0.05),
+              buildHeader(
+                "Investment Arena",
+              ).withPadAll(appDimensions.horizontalPaddingM),
               Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   buildArena(
                     Wrap(
@@ -194,47 +203,66 @@ class InvestNowScreen extends ConsumerWidget {
                   buildArena(null, "2.57x", "Potential Long capital Grains"),
                 ],
               ),
-              SizedBox(height: height * 0.05),
+              SizedBox(height: appDimensions.verticalSpaceM),
               Divider(thickness: 2, color: AppColors.dividerColor),
 
               // MARK: GRAPH
-              buildHeader("Price per Share").withPadAll(width * 0.05),
-              Image.asset(AppAssets.graph).withPadHorizontal(width * 0.05),
+              buildHeader(
+                "Price per Share",
+              ).withPadAll(appDimensions.horizontalPaddingM),
+              Image.asset(
+                AppAssets.graph,
+              ).withPadHorizontal(appDimensions.horizontalPaddingM),
 
               // ABOUT
-              buildHeader("About the Opportunity").withPadAll(width * 0.05),
+              buildHeader(
+                "About the Opportunity",
+              ).withPadAll(appDimensions.horizontalPaddingM),
               Inter(
                 text:
                     "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
-              ).withPadHorizontal(width * 0.05),
+                maxLines: showMore ? 2 : null,
+              ).withPadHorizontal(appDimensions.horizontalPaddingM),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  CustomTextButton(text: "Show More"),
+                  CustomTextButton(
+                    text: showMore ? "Show More" : "Show Less",
+                    onTap: () =>
+                        ref.read(showMoreProvider.notifier).state = !showMore,
+                  ),
                   CustomElevatedButton(
                     onPressed: () => context.push("/investNowDocument"),
-                    height: height * 0.08,
+                    height: height * 0.05,
                     width: width * 0.1,
+                    radius: appDimensions.radiusS,
                     text: "View Opportunity Document",
-                    fontSize: 12,
+                    fontSize: appDimensions.fontXS,
                     fontWeight: FontWeight.w500,
                   ),
                 ],
-              ).withPadSymmetric(height * 0.05, width * 0.05),
+              ).withPadSymmetric(
+                appDimensions.verticalPaddingS,
+                appDimensions.horizontalPaddingM,
+              ),
 
               // MARK: ABOUT
-              buildHeader("Investment Benefits").withPadAll(width * 0.05),
+              buildHeader(
+                "Investment Benefits",
+              ).withPadAll(appDimensions.horizontalPaddingM),
               Inter(
                 text:
                     "• Lorem Ipsum is simply dummy text of the printing and typesetting industry. \n"
                     "• Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took.\n"
                     "• A galley of type and scrambled it to make a type specimen book.\n"
                     "• A galley of type and scrambled it to make a type specimen book.",
-              ).withPadHorizontal(width * 0.05),
+              ).withPadHorizontal(appDimensions.horizontalPaddingM),
 
               // MARK: RETURN COMPARISON
-              buildHeader("Returns Comparison").withPadAll(width * 0.05),
+              buildHeader(
+                "Returns Comparison",
+              ).withPadAll(appDimensions.horizontalPaddingM),
               buildList("Share Sampatti Private Oppurtunity", 88),
               buildList("AAA Bonds", 56),
               buildList("Fixed Deposits", 34),
@@ -242,7 +270,7 @@ class InvestNowScreen extends ConsumerWidget {
             ],
           ),
         ),
-        bottomNavigationBar: SellOrBuy(height: height, width: width),
+        bottomNavigationBar: SellOrBuy(),
       ),
     );
   }

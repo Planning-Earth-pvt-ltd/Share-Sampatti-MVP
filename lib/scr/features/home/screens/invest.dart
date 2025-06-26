@@ -12,11 +12,11 @@ class Invest extends ConsumerWidget {
       child: ListView.builder(
         itemCount: 10,
         scrollDirection: Axis.horizontal,
-        padding: EdgeInsets.only(right: appDimensions.horizontalPaddingS),
+        padding: EdgeInsets.only(right: appDimensions.horizontalPaddingM),
         itemBuilder: (context, index) => Container(
           height: appDimensions.width * 0.6,
           width: appDimensions.width * 0.65,
-          margin: EdgeInsets.only(left: appDimensions.horizontalPaddingS),
+          margin: EdgeInsets.only(left: appDimensions.horizontalPaddingM),
           decoration: BoxDecoration(
             color: AppColors.darkGrey,
             borderRadius: BorderRadius.circular(appDimensions.radiusM),
@@ -53,7 +53,7 @@ class Invest extends ConsumerWidget {
                           Inter(
                             text: "per\nSQFT",
                             color: AppColors.lightGrey,
-                            fontSize: appDimensions.fontXXS,
+                            fontSize: appDimensions.fontXXXS,
                             fontWeight: FontWeight.w400,
                           ),
                         ],
@@ -70,11 +70,11 @@ class Invest extends ConsumerWidget {
                     ],
                   ),
                 ],
-              ).withPadAll(appDimensions.horizontalPaddingXS),
+              ).withPadAll(appDimensions.horizontalPaddingS),
             ],
           ),
         ),
       ),
-    ).withPadSymmetric(appDimensions.horizontalPaddingS, 0);
+    ).withPadSymmetric(appDimensions.horizontalPaddingM, 0);
   }
 }

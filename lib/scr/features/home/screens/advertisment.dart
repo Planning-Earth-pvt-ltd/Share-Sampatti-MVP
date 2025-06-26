@@ -42,13 +42,14 @@ class _AdvertismentState extends State<Advertisment> {
     final Size size = MediaQuery.of(context).size;
 
     return SizedBox(
-      height: size.height * 0.3,
+      height: size.height * 0.25,
+      width: size.width,
       child: PageView.builder(
-        // itemCount: AppAssets.advertismentImages.length,
         controller: _pageController,
         itemBuilder: (context, index) => Image.asset(
           AppAssets.advertismentImages[index %
               AppAssets.advertismentImages.length],
+          fit: BoxFit.cover,
         ),
       ),
     );

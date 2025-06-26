@@ -10,7 +10,7 @@ class NetWorth extends ConsumerWidget {
     return Container(
       margin: EdgeInsets.only(bottom: appDimensions.verticalPaddingS),
       padding: EdgeInsets.symmetric(
-        horizontal: appDimensions.horizontalPaddingS,
+        horizontal: appDimensions.horizontalPaddingM,
         vertical: appDimensions.verticalPaddingXS,
       ),
       decoration: BoxDecoration(

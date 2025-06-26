@@ -26,7 +26,7 @@ class _LogInScreenState extends ConsumerState<LogInScreen> {
             return SingleChildScrollView(
               padding: EdgeInsets.symmetric(
                 vertical: appDimensions.verticalPaddingM,
-                horizontal: appDimensions.horizontalPaddingS,
+                horizontal: appDimensions.horizontalPaddingM,
               ),
               child: Form(
                 key: _formKey,
@@ -42,7 +42,7 @@ class _LogInScreenState extends ConsumerState<LogInScreen> {
                         onTap: () => context.go("/navigation"),
                       ),
                     ),
-                    SizedBox(height: appDimensions.verticalSpaceS),
+                    SizedBox(height: appDimensions.verticalSpaceM),
 
                     // WELCOME
                     Inter(
@@ -51,7 +51,7 @@ class _LogInScreenState extends ConsumerState<LogInScreen> {
                       fontSize: appDimensions.fontXXL,
                       fontWeight: FontWeight.w600,
                     ),
-                    SizedBox(height: appDimensions.verticalSpaceM),
+                    SizedBox(height: appDimensions.verticalSpaceXL),
 
                     // HEADER
                     Center(
@@ -73,7 +73,7 @@ class _LogInScreenState extends ConsumerState<LogInScreen> {
                         fontSize: appDimensions.fontXS,
                       ),
                     ),
-                    SizedBox(height: appDimensions.verticalSpaceM),
+                    SizedBox(height: appDimensions.verticalSpaceL),
 
                     // MOBILE TEXT FIELD
                     CustomTextField(

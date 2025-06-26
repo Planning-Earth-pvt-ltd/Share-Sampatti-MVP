@@ -10,7 +10,11 @@ class InvestNowDocument extends ConsumerWidget {
     final height = appDimensions.height;
 
     buildHeader(String text) {
-      return Inter(text: text, fontSize: 24, fontWeight: FontWeight.w500);
+      return Inter(
+        text: text,
+        fontSize: appDimensions.fontL,
+        fontWeight: FontWeight.w500,
+      );
     }
 
     buildDocument(Map<String, String> docs) {
@@ -24,25 +28,25 @@ class InvestNowDocument extends ConsumerWidget {
                 children: [
                   SvgPicture.asset(
                     AppAssets.file,
-                    height: height * 0.09,
+                    height: height * 0.05,
                     colorFilter: ColorFilter.mode(
                       Theme.of(context).colorScheme.primary,
                       BlendMode.srcIn,
                     ),
                   ),
-                  SizedBox(width: width * 0.03),
+                  SizedBox(width: appDimensions.horizontalSpaceXS),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Inter(
                         text: docs["title"]!,
-                        fontSize: 20,
+                        fontSize: appDimensions.fontM,
                         fontWeight: FontWeight.w600,
                       ),
                       Inter(
                         text: "Updated on ${docs["date"]!}",
                         color: AppColors.lightGrey,
-                        fontSize: 16,
+                        fontSize: appDimensions.fontS,
                       ),
                     ],
                   ),
@@ -59,7 +63,7 @@ class InvestNowDocument extends ConsumerWidget {
                 ),
               ),
             ],
-          ).withPadHorizontal(width * 0.05),
+          ).withPadHorizontal(appDimensions.horizontalPaddingM),
           Divider(thickness: 2, color: AppColors.dividerColor),
         ],
       );
@@ -83,15 +87,15 @@ class InvestNowDocument extends ConsumerWidget {
                       Icons.arrow_back_sharp,
                       color: AppColors.lightGrey,
                     ),
-                  ).withPadAll(width * 0.02),
+                  ).withPadAll(appDimensions.horizontalPaddingS),
                 ],
               ),
 
               // MARK: CARDS
               Container(
                 padding: EdgeInsets.symmetric(
-                  horizontal: width * 0.05,
-                  vertical: height * 0.05,
+                  horizontal: appDimensions.horizontalPaddingM,
+                  vertical: appDimensions.verticalPaddingS,
                 ),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(appDimensions.radiusM),
@@ -103,7 +107,7 @@ class InvestNowDocument extends ConsumerWidget {
                 ),
                 child: buildHeader("Mohali Prime Land Investment Opportunity"),
               ),
-              SizedBox(height: height * 0.1),
+              SizedBox(height: appDimensions.verticalPaddingM),
 
               ...List.generate(
                 InvestNow.documents.length,
@@ -112,7 +116,7 @@ class InvestNowDocument extends ConsumerWidget {
             ],
           ),
         ),
-        bottomNavigationBar: SellOrBuy(height: height, width: width),
+        bottomNavigationBar: SellOrBuy(),
       ),
     );
   }

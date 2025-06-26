@@ -29,7 +29,8 @@ class AppDimensions {
   double get iconsM => 20;
 
   // FONTS
-  double get fontXXS => aspectRatio * 17;
+  double get fontXXXS => aspectRatio * 17;
+  double get fontXXS => aspectRatio * 23;
   double get fontXS => aspectRatio * 30;
   double get fontS => aspectRatio * 35;
   double get fontM => aspectRatio * 40;
