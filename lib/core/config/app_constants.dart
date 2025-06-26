@@ -1,15 +1,20 @@
 class AppConstants {
-  //about app
+  // ABOUT APPS
   static const String appName = "Share Sampatti";
   static const double appVersion = 1.0;
   static const String aboutApp = "Share your Sampatti";
   static const String supportEmail = "";
   static const String supportPhone = "";
 
-  //fonts
+  //FONTS
   static const String interFontFamily = "Inter";
 
-  // Onboarding Text
+  // REGEX
+  static RegExp nameRegex = RegExp(r'^[A-Za-z]{2,}(?:\s+[A-Za-z]+){0,2}$');
+  static RegExp mobileNumberRegex = RegExp(r'^[6-9]\d{9}$');
+  static RegExp emailRegex = RegExp(r'^[\w-\.]+@gmail\.com$');
+
+  // ONBOARDING TEXT
   static const List<List<String>> title = [
     ["Your Gateway to \n Smart ", "Real Estate Investment"],
     ["Own Property Starting \n At Just \n", "₹2000"],

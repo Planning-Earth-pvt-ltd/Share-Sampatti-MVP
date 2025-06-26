@@ -9,20 +9,25 @@ class LogInScreen extends ConsumerStatefulWidget {
 
 class _LogInScreenState extends ConsumerState<LogInScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
-    final Map<String, TextEditingController> controller = ref.watch(
+    final appDimensions = ref.watch(appDimensionsProvider);
+    final Map<String, TextEditingController> profileController = ref.watch(
       profileProvider,
     );
     final mobileValidator = ref.watch(mobileValidatorProvider);
-    final size = MediaQuery.of(context).size;
+
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
         body: LayoutBuilder(
           builder: (context, constraints) {
             return SingleChildScrollView(
-              padding: EdgeInsets.symmetric(horizontal: size.width * 0.02),
+              padding: EdgeInsets.symmetric(
+                vertical: appDimensions.verticalSpaceM,
+                horizontal: appDimensions.horizontalSpaceM,
+              ),
               child: Form(
                 key: _formKey,
                 child: Column(
@@ -33,54 +38,54 @@ class _LogInScreenState extends ConsumerState<LogInScreen> {
                       alignment: Alignment.centerRight,
                       child: CustomTextButton(
                         text: "Skip",
-                        fontSize: 18,
+                        fontSize: appDimensions.fontS,
                         onTap: () => context.go("/navigation"),
                       ),
                     ),
-                    SizedBox(height: 20),
+                    SizedBox(height: appDimensions.verticalSpaceS),
 
                     // WELCOME
                     Inter(
                       text: "LogIn",
                       color: Theme.of(context).colorScheme.primary,
-                      fontSize: 40,
+                      fontSize: appDimensions.fontXL,
                       fontWeight: FontWeight.w600,
                     ),
-                    SizedBox(height: size.height * 0.01),
-                    // SIGN UP
-                    // Inter(text: "to SignIn !", fontSize: 32.44
-                    SizedBox(height: 60),
+                    SizedBox(height: appDimensions.verticalSpaceM),
 
-                    // Sub-header
+                    // HEADER
                     Center(
                       child: Inter(
                         text: "Enter Your Mobile Number",
-                        fontSize: 28,
+                        textAlign: TextAlign.center,
+                        fontSize: appDimensions.fontL,
                         color: Theme.of(context).colorScheme.primary,
                       ),
                     ),
-                    SizedBox(height: 10),
+                    SizedBox(height: appDimensions.verticalSpaceXS),
+
+                    // SUB-HEADER
                     Center(
                       child: Inter(
                         textAlign: TextAlign.center,
                         text:
-                            "Enter your phone number to receive a one-time\npassword (OTP) for secure access to your account.",
-                        fontSize: 15,
+                            "Enter your phone number to receive a one-time password (OTP) for secure access to your account.",
+                        fontSize: appDimensions.fontXS,
                       ),
                     ),
-                    SizedBox(height: 52),
+                    SizedBox(height: appDimensions.verticalSpaceM),
+
                     // MOBILE TEXT FIELD
                     CustomTextField(
-                      controller: controller["mobileNumber"]!,
+                      controller: profileController["mobileNumber"]!,
                       labelText: "Phone Number",
-                      hintText: "Enter Phone Number",
+                      hintText: "Enter your phone number",
                       keyboardType: TextInputType.number,
                       validator: mobileValidator,
                     ),
+                    SizedBox(height: appDimensions.verticalSpaceM),
 
-                    SizedBox(height: 40),
                     CustomElevatedButton(
-                      height: 56,
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
                           final authController = ref.read(
@@ -93,6 +98,7 @@ class _LogInScreenState extends ConsumerState<LogInScreen> {
                           final success = await authController.sendOtp(
                             phone: phone,
                           );
+
                           if (success) {
                             context.go("/otpScreen");
                           } else {
@@ -111,36 +117,30 @@ class _LogInScreenState extends ConsumerState<LogInScreen> {
                         }
                       },
                       text: "Send OTP",
-                      fontSize: 16,
-                      textColor: Theme.of(context).colorScheme.tertiary,
-                      fontWeight: FontWeight.w700,
-                    ).withPadHorizontal(3),
-                    SizedBox(height: 50),
+                    ),
+                    SizedBox(height: appDimensions.verticalSpaceM),
 
                     Center(
                       child: Wrap(
                         children: [
-                          Inter(text: "Don’t have an account? ", fontSize: 16),
+                          Inter(
+                            text: "Don’t have an account? ",
+                            fontSize: appDimensions.fontXS,
+                          ),
                           CustomTextButton(
                             text: "Sign Up",
-                            fontSize: 16,
+                            fontSize: appDimensions.fontXS,
                             onTap: () => context.pushReplacement("/signUp"),
                           ),
                         ],
                       ),
                     ),
                   ],
-                ).withPadAllCustom(50, 0, 20, 20),
+                ),
               ),
             );
           },
         ),
-        bottomNavigationBar: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            // GET STARTED BUTTON
-          ],
-        ).withPadCustom(const EdgeInsets.all(20)),
       ),
     );
   }

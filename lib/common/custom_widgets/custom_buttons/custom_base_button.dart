@@ -5,6 +5,7 @@ class CustomElevatedButton extends ConsumerWidget {
     super.key,
     required this.onPressed,
     this.backgroundColor,
+    this.forgroundColor,
     this.width,
     this.height,
     this.radius,
@@ -16,6 +17,7 @@ class CustomElevatedButton extends ConsumerWidget {
 
   final void Function() onPressed;
   final Color? backgroundColor;
+  final Color? forgroundColor;
   final double? width;
   final double? height;
   final double? radius;
@@ -33,8 +35,11 @@ class CustomElevatedButton extends ConsumerWidget {
       style: ElevatedButton.styleFrom(
         backgroundColor:
             backgroundColor ?? Theme.of(context).colorScheme.primary,
-        foregroundColor: AppColors.darkGrey,
-        minimumSize: Size(width ?? double.infinity, height ?? 56),
+        foregroundColor: forgroundColor ?? AppColors.darkGrey,
+        minimumSize: Size(
+          width ?? appDimensions.width,
+          height ?? appDimensions.defaultButtonHeight,
+        ),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(radius ?? appDimensions.radiusM),
         ),
@@ -42,7 +47,7 @@ class CustomElevatedButton extends ConsumerWidget {
       child: Inter(
         text: text,
         color: textColor ?? AppColors.darkGrey,
-        fontSize: fontSize ?? 16,
+        fontSize: fontSize ?? appDimensions.fontS,
         fontWeight: fontWeight ?? FontWeight.w700,
       ),
     );

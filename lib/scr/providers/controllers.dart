@@ -1,46 +1,31 @@
 import 'package:share_sampatti_mvp/app/app.dart';
 
-final profileProvider =
-    Provider.autoDispose<Map<String, TextEditingController>>((ref) {
-      final controller = {
-        "name": TextEditingController(text: "Shubham Patel"),
-        "mobileNumber": TextEditingController(text: "7764074475"),
-        "emailAddress": TextEditingController(),
-      };
-      ref.onDispose(() {
-        for (final c in controller.values) {
-          c.dispose();
-        }
-      });
-      return controller;
-    });
+// Now, create your providers like this:
+final profileProvider = disposableControllerProvider([
+  "name",
+  "mobileNumber",
+  "emailAddress",
+]);
 
-final documentProvider =
-    Provider.autoDispose<Map<String, TextEditingController>>((ref) {
-      final controller = {
-        "pan": TextEditingController(),
-        "addhar": TextEditingController(),
-      };
-      ref.onDispose(() {
-        for (final c in controller.values) {
-          c.dispose();
-        }
-      });
-      return controller;
-    });
+final documentProvider = disposableControllerProvider(["pan", "addhar"]);
 
-final bankProvider = Provider.autoDispose<Map<String, TextEditingController>>((
-  ref,
-) {
-  final controller = {
-    "accountNumber": TextEditingController(),
-    "confirmAccountNumber": TextEditingController(),
-    "ifscCode": TextEditingController(),
-  };
-  ref.onDispose(() {
-    for (final c in controller.values) {
-      c.dispose();
-    }
+final bankProvider = disposableControllerProvider([
+  "accountNumber",
+  "confirmAccountNumber",
+  "ifscCode",
+]);
+
+AutoDisposeProvider<Map<String, TextEditingController>>
+disposableControllerProvider(List<String> fields) {
+  return Provider.autoDispose<Map<String, TextEditingController>>((ref) {
+    final controller = {
+      for (final field in fields) field: TextEditingController(),
+    };
+    ref.onDispose(() {
+      for (final control in controller.values) {
+        control.dispose();
+      }
+    });
+    return controller;
   });
-  return controller;
-});
+}

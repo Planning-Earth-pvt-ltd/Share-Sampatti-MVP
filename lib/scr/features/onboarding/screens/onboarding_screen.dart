@@ -55,36 +55,42 @@ class _OnboardingState extends ConsumerState<OnboardingScreen> {
         itemCount: AppConstants.title.length,
         onPageChanged: (index) =>
             ref.read(currentPageProvider.notifier).state = index,
-        itemBuilder: (context, index) => Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            // TITLE
-            RichText(
-              textAlign: TextAlign.center,
-              text: TextSpan(
-                style: TextStyle(
-                  fontFamily: 'Inter',
-                  color: Theme.of(context).colorScheme.primary,
-                  fontSize: 36,
-                  fontWeight: FontWeight.w500,
-                ),
-                children: [
-                  TextSpan(text: AppConstants.title[index][0]),
-                  TextSpan(
-                    text: AppConstants.title[index][1],
+        itemBuilder: (context, index) =>
+            Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                // TITLE
+                RichText(
+                  textAlign: TextAlign.center,
+                  text: TextSpan(
                     style: TextStyle(
-                      color: Theme.of(context).colorScheme.secondary,
+                      fontFamily: AppConstants.interFontFamily,
+                      color: Theme.of(context).colorScheme.primary,
+                      fontSize: appDimensions.fontXL,
+                      fontWeight: FontWeight.w500,
                     ),
+                    children: [
+                      TextSpan(text: AppConstants.title[index][0]),
+                      TextSpan(
+                        text: AppConstants.title[index][1],
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.secondary,
+                        ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-            ),
+                ),
 
-            // IMAGE
-            Expanded(child: Image.asset(AppAssets.onboardingImages[index])),
-            SizedBox(height: 10),
-          ],
-        ).withPadAllCustom(70, 0, 20, 20),
+                // IMAGE
+                Expanded(child: Image.asset(AppAssets.onboardingImages[index])),
+                SizedBox(height: appDimensions.verticalSpaceXS),
+              ],
+            ).withPadAllCustom(
+              appDimensions.verticalSpaceL,
+              0,
+              appDimensions.horizontalSpaceM,
+              appDimensions.horizontalSpaceM,
+            ),
       ),
 
       bottomNavigationBar: Column(
@@ -93,7 +99,7 @@ class _OnboardingState extends ConsumerState<OnboardingScreen> {
           // INDICATOR
           SmoothPageIndicator(
             controller: pageController,
-            count: 3,
+            count: AppConstants.title.length,
             effect: SlideEffect(
               activeDotColor: Theme.of(context).colorScheme.primary,
               dotColor: Theme.of(context).colorScheme.primary.withAlpha(100),
@@ -101,7 +107,7 @@ class _OnboardingState extends ConsumerState<OnboardingScreen> {
               dotWidth: 10,
             ),
           ),
-          SizedBox(height: 20),
+          SizedBox(height: appDimensions.verticalSpaceS),
 
           // GET STARTED BUTTON
           CustomElevatedButton(
@@ -117,11 +123,9 @@ class _OnboardingState extends ConsumerState<OnboardingScreen> {
               }
             },
             text: currentPage ? "Next" : "Get Started",
-            textColor: AppColors.darkGrey,
-            fontWeight: FontWeight.w600,
-          ).withPadHorizontal(20),
+          ).withPadHorizontal(appDimensions.horizontalSpaceM),
         ],
-      ).withPadCustom(const EdgeInsets.only(bottom: 50)),
+      ).withPadCustom(EdgeInsets.only(bottom: appDimensions.verticalSpaceM)),
     );
   }
 }

@@ -1,6 +1,6 @@
 import 'package:share_sampatti_mvp/app/app.dart';
 
-class Inter extends StatelessWidget {
+class Inter extends ConsumerWidget {
   const Inter({
     super.key,
     required this.text,
@@ -23,7 +23,9 @@ class Inter extends StatelessWidget {
   final TextDecoration? decoration;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final appDimensions = ref.watch(appDimensionsProvider);
+
     return Text(
       text,
       textAlign: textAlign ?? TextAlign.start,
@@ -32,7 +34,7 @@ class Inter extends StatelessWidget {
         height: height ?? 1.5,
         letterSpacing: letterSpacing ?? 0.5,
         color: color ?? Theme.of(context).colorScheme.secondary,
-        fontSize: fontSize ?? 14,
+        fontSize: fontSize ?? appDimensions.fontXS,
         fontWeight: fontWeight ?? FontWeight.w400,
         decoration: decoration ?? TextDecoration.none,
         decorationColor: color ?? Theme.of(context).colorScheme.secondary,
