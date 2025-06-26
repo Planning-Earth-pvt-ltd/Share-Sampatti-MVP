@@ -66,7 +66,7 @@ class _OnboardingState extends ConsumerState<OnboardingScreen> {
                     style: TextStyle(
                       fontFamily: AppConstants.interFontFamily,
                       color: Theme.of(context).colorScheme.primary,
-                      fontSize: appDimensions.fontXL,
+                      fontSize: appDimensions.fontXXL,
                       fontWeight: FontWeight.w500,
                     ),
                     children: [
@@ -86,46 +86,51 @@ class _OnboardingState extends ConsumerState<OnboardingScreen> {
                 SizedBox(height: appDimensions.verticalSpaceXS),
               ],
             ).withPadAllCustom(
-              appDimensions.verticalSpaceL,
+              appDimensions.verticalPaddingL,
               0,
-              appDimensions.horizontalSpaceM,
-              appDimensions.horizontalSpaceM,
+              appDimensions.horizontalPaddingM,
+              appDimensions.horizontalPaddingM,
             ),
       ),
 
-      bottomNavigationBar: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          // INDICATOR
-          SmoothPageIndicator(
-            controller: pageController,
-            count: AppConstants.title.length,
-            effect: SlideEffect(
-              activeDotColor: Theme.of(context).colorScheme.primary,
-              dotColor: Theme.of(context).colorScheme.primary.withAlpha(100),
-              dotHeight: 10,
-              dotWidth: 10,
-            ),
-          ),
-          SizedBox(height: appDimensions.verticalSpaceS),
+      bottomNavigationBar:
+          Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // INDICATOR
+              SmoothPageIndicator(
+                controller: pageController,
+                count: AppConstants.title.length,
+                effect: SlideEffect(
+                  activeDotColor: Theme.of(context).colorScheme.primary,
+                  dotColor: Theme.of(
+                    context,
+                  ).colorScheme.primary.withAlpha(100),
+                  dotHeight: 10,
+                  dotWidth: 10,
+                ),
+              ),
+              SizedBox(height: appDimensions.verticalSpaceS),
 
-          // GET STARTED BUTTON
-          CustomElevatedButton(
-            onPressed: () {
-              if (currentPage) {
-                pageController.nextPage(
-                  duration: Duration(milliseconds: 500),
-                  curve: Curves.easeInOut,
-                );
-                ref.read(currentPageProvider.notifier).state++;
-              } else {
-                context.push("/login");
-              }
-            },
-            text: currentPage ? "Next" : "Get Started",
-          ).withPadHorizontal(appDimensions.horizontalSpaceM),
-        ],
-      ).withPadCustom(EdgeInsets.only(bottom: appDimensions.verticalSpaceM)),
+              // GET STARTED BUTTON
+              CustomElevatedButton(
+                onPressed: () {
+                  if (currentPage) {
+                    pageController.nextPage(
+                      duration: Duration(milliseconds: 500),
+                      curve: Curves.easeInOut,
+                    );
+                    ref.read(currentPageProvider.notifier).state++;
+                  } else {
+                    context.push("/login");
+                  }
+                },
+                text: currentPage ? "Next" : "Get Started",
+              ).withPadHorizontal(appDimensions.horizontalPaddingM),
+            ],
+          ).withPadCustom(
+            EdgeInsets.only(bottom: appDimensions.horizontalPaddingM),
+          ),
     );
   }
 }

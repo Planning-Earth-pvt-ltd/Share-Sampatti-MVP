@@ -1,7 +1,5 @@
 import 'dart:async';
-
-import 'package:flutter/material.dart';
-import 'package:share_sampatti_mvp/core/config/config.dart';
+import 'package:share_sampatti_mvp/app/app.dart';
 
 class Advertisment extends StatefulWidget {
   const Advertisment({super.key});
@@ -23,7 +21,7 @@ class _AdvertismentState extends State<Advertisment> {
 
   _autoScroll() {
     _timer = Timer.periodic(Duration(seconds: 5), (_) {
-      _currentAdv = (_currentAdv + 1) % AppAssets.advertismentImages.length;
+      _currentAdv = _currentAdv + 1;
       _pageController.animateToPage(
         _currentAdv,
         duration: Duration(seconds: 1),
@@ -46,10 +44,12 @@ class _AdvertismentState extends State<Advertisment> {
     return SizedBox(
       height: size.height * 0.3,
       child: PageView.builder(
-        itemCount: AppAssets.advertismentImages.length,
+        // itemCount: AppAssets.advertismentImages.length,
         controller: _pageController,
-        itemBuilder: (context, index) =>
-            Image.asset(AppAssets.advertismentImages[index]),
+        itemBuilder: (context, index) => Image.asset(
+          AppAssets.advertismentImages[index %
+              AppAssets.advertismentImages.length],
+        ),
       ),
     );
   }

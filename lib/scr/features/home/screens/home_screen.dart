@@ -5,7 +5,6 @@ class HomeScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final Size size = MediaQuery.of(context).size;
     final appDimensions = ref.watch(appDimensionsProvider);
 
     // MARK: Name
@@ -15,7 +14,7 @@ class HomeScreen extends ConsumerWidget {
         children: [
           Inter(
             text: "Namaste, Shubham",
-            fontSize: 22.78,
+            fontSize: appDimensions.fontL,
             fontWeight: FontWeight.w600,
           ),
           GestureDetector(
@@ -25,13 +24,13 @@ class HomeScreen extends ConsumerWidget {
               backgroundColor: AppColors.profileBackground,
               child: Inter(
                 text: "S",
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
+                fontSize: appDimensions.fontM,
+                fontWeight: FontWeight.w600,
               ),
             ),
           ),
         ],
-      ).withPadAll(20);
+      ).withPadAll(appDimensions.horizontalPaddingS);
     }
 
     return SingleChildScrollView(
@@ -47,15 +46,15 @@ class HomeScreen extends ConsumerWidget {
           // START INVESTMENT NOW
           Inter(
             text: "Start Investing Now",
-            fontSize: 22.78,
+            fontSize: appDimensions.fontL,
             fontWeight: FontWeight.w600,
-          ).withPadAllCustom(0, 0, 20, 0),
+          ).withPadAllCustom(0, 0, appDimensions.horizontalPaddingS, 0),
           Inter(
             text: "Start Investing Now",
             color: AppColors.lightGrey,
-            fontSize: 18,
+            fontSize: appDimensions.fontS,
             fontWeight: FontWeight.w500,
-          ).withPadAllCustom(0, 0, 20, 0),
+          ).withPadAllCustom(0, 0, appDimensions.horizontalPaddingS, 0),
           Invest(),
 
           // ADVERTISMENT
@@ -151,7 +150,7 @@ class HomeScreen extends ConsumerWidget {
 
           //PROPERTY
           Container(
-            height: size.width * 0.55,
+            height: appDimensions.width * 0.55,
             margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(

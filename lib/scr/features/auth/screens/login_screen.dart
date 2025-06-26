@@ -25,8 +25,8 @@ class _LogInScreenState extends ConsumerState<LogInScreen> {
           builder: (context, constraints) {
             return SingleChildScrollView(
               padding: EdgeInsets.symmetric(
-                vertical: appDimensions.verticalSpaceM,
-                horizontal: appDimensions.horizontalSpaceM,
+                vertical: appDimensions.verticalPaddingM,
+                horizontal: appDimensions.horizontalPaddingS,
               ),
               child: Form(
                 key: _formKey,
@@ -48,7 +48,7 @@ class _LogInScreenState extends ConsumerState<LogInScreen> {
                     Inter(
                       text: "LogIn",
                       color: Theme.of(context).colorScheme.primary,
-                      fontSize: appDimensions.fontXL,
+                      fontSize: appDimensions.fontXXL,
                       fontWeight: FontWeight.w600,
                     ),
                     SizedBox(height: appDimensions.verticalSpaceM),
@@ -58,7 +58,7 @@ class _LogInScreenState extends ConsumerState<LogInScreen> {
                       child: Inter(
                         text: "Enter Your Mobile Number",
                         textAlign: TextAlign.center,
-                        fontSize: appDimensions.fontL,
+                        fontSize: appDimensions.fontXL,
                         color: Theme.of(context).colorScheme.primary,
                       ),
                     ),

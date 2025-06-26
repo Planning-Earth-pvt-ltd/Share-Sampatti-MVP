@@ -19,7 +19,7 @@ class NavigationScreen extends ConsumerWidget {
 
     return SafeArea(
       child: Scaffold(
-        body: NavigationScreens.screen[currentIndex],
+        body: Navigation.screen[currentIndex],
         bottomNavigationBar: BottomNavigationBar(
           onTap: (index) => ref.read(navigationProvider.notifier).state = index,
           currentIndex: currentIndex,

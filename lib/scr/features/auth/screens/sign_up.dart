@@ -26,8 +26,8 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
           builder: (context, constraints) {
             return SingleChildScrollView(
               padding: EdgeInsets.symmetric(
-                vertical: appDimensions.verticalSpaceM,
-                horizontal: appDimensions.horizontalSpaceM,
+                vertical: appDimensions.verticalPaddingM,
+                horizontal: appDimensions.horizontalPaddingM,
               ),
               child: Form(
                 key: _formKey,
@@ -49,7 +49,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                     Inter(
                       text: "Create Account",
                       color: Theme.of(context).colorScheme.primary,
-                      fontSize: appDimensions.fontXL,
+                      fontSize: appDimensions.fontXXL,
                       fontWeight: FontWeight.w600,
                     ),
                     SizedBox(height: appDimensions.verticalSpaceM),
@@ -59,7 +59,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                       child: Inter(
                         text: "Join the Digital Community",
                         textAlign: TextAlign.center,
-                        fontSize: appDimensions.fontL,
+                        fontSize: appDimensions.fontXL,
                         color: Theme.of(context).colorScheme.primary,
                       ),
                     ),

@@ -64,7 +64,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
             RichText(
               text: TextSpan(
                 style: TextStyle(
-                  fontSize: appDimensions.fontXL,
+                  fontSize: appDimensions.fontXXL,
                   fontWeight: FontWeight.w600,
                   fontFamily: AppConstants.interFontFamily,
                 ),

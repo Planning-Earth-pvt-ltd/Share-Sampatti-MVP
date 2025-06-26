@@ -8,8 +8,11 @@ class NetWorth extends ConsumerWidget {
     final appDimensions = ref.watch(appDimensionsProvider);
 
     return Container(
-      margin: const EdgeInsets.only(bottom: 30),
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      margin: EdgeInsets.only(bottom: appDimensions.verticalPaddingS),
+      padding: EdgeInsets.symmetric(
+        horizontal: appDimensions.horizontalPaddingS,
+        vertical: appDimensions.verticalPaddingXS,
+      ),
       decoration: BoxDecoration(
         border: Border(
           bottom: BorderSide(color: Theme.of(context).colorScheme.secondary),
@@ -21,7 +24,7 @@ class NetWorth extends ConsumerWidget {
         children: [
           Inter(
             text: "Net Worth",
-            fontSize: 18,
+            fontSize: appDimensions.fontM,
             fontWeight: FontWeight.w500,
             color: AppColors.lightGrey,
           ),
@@ -31,14 +34,14 @@ class NetWorth extends ConsumerWidget {
             children: [
               Inter(
                 text: "₹ 2,34,560",
-                fontSize: 22.78,
+                fontSize: appDimensions.fontL,
                 fontWeight: FontWeight.w500,
               ),
               IconButton(
                 onPressed: () {},
                 icon: Icon(
                   Icons.arrow_forward_ios,
-                  size: 20,
+                  size: appDimensions.iconsM,
                   color: AppColors.lightGrey,
                 ),
               ),

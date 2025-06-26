@@ -71,8 +71,8 @@ class _OtpVerificationScreenState extends ConsumerState<OtpVerificationScreen> {
         child: Container(
           width: double.infinity,
           padding: EdgeInsets.symmetric(
-            horizontal: appDimensions.horizontalSpaceM,
-            vertical: appDimensions.verticalSpaceL,
+            horizontal: appDimensions.horizontalPaddingM,
+            vertical: appDimensions.verticalPaddingL,
           ),
           decoration: BoxDecoration(
             image: DecorationImage(
@@ -87,7 +87,7 @@ class _OtpVerificationScreenState extends ConsumerState<OtpVerificationScreen> {
                 text: "Let's Secure \n Your Account",
                 textAlign: TextAlign.center,
                 color: Theme.of(context).colorScheme.primary,
-                fontSize: appDimensions.fontXL,
+                fontSize: appDimensions.fontXXL,
                 fontWeight: FontWeight.w600,
               ),
               Wrap(
