@@ -6,7 +6,6 @@ class InvestNowDocument extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final appDimensions = ref.watch(appDimensionsProvider);
-    final width = appDimensions.width;
     final height = appDimensions.height;
 
     buildHeader(String text) {

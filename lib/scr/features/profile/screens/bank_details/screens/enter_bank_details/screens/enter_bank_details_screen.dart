@@ -15,7 +15,6 @@ class _EnterBankDetailsScreenState
 
   @override
   Widget build(BuildContext context) {
-    final Size size = MediaQuery.of(context).size;
     final appDimensions = ref.watch(appDimensionsProvider);
 
     // CONTROLLERS
@@ -29,6 +28,15 @@ class _EnterBankDetailsScreenState
     // VALIDATORS
     final nameValidator = ref.watch(nameValidatorProvider);
 
+    buildHeadingText(String text) {
+      return Inter(
+        text: text,
+        color: AppColors.lightGrey,
+        fontSize: appDimensions.fontS,
+        fontWeight: FontWeight.w600,
+      );
+    }
+
     OutlineInputBorder border(Color color) {
       return OutlineInputBorder(
         borderSide: BorderSide(color: color, width: 2),
@@ -41,65 +49,68 @@ class _EnterBankDetailsScreenState
       child: Scaffold(
         appBar: CustomAppBar.appbar(context, "Enter Your Bank Details"),
         body: SingleChildScrollView(
-          padding: EdgeInsets.all(size.width * 0.05),
+          padding: EdgeInsets.all(appDimensions.horizontalPaddingM),
           child: Form(
             key: _formKey,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // ACCOUNT HOLDER NAME
-                CustomText.buildHeadingText("Account Holder Name"),
-                SizedBox(height: size.height * 0.01),
+                buildHeadingText("Account Holder Name"),
+                SizedBox(height: appDimensions.verticalSpaceS),
                 CustomTextField(
                   controller: profileController["name"]!,
                   hintText: 'Ravi Gupta',
                   validator: nameValidator,
                 ),
-                SizedBox(height: size.height * 0.03),
+                SizedBox(height: appDimensions.verticalSpaceM),
 
                 // ACCOUNT NUMBER
-                CustomText.buildHeadingText("Account Number"),
-                SizedBox(height: size.height * 0.01),
+                buildHeadingText("Account Number"),
+                SizedBox(height: appDimensions.verticalSpaceS),
                 CustomTextField(
                   controller: bankController["accountNumber"]!,
                   hintText: 'XXXX XXXX XXXX 5748',
                   // validator: accountNumberValidator,
                   keyboardType: TextInputType.phone,
                 ),
-                SizedBox(height: size.height * 0.03),
+                SizedBox(height: appDimensions.verticalSpaceM),
 
                 // CONFIRM ACCOUNT NUMBER
-                CustomText.buildHeadingText("Confirm Account Number"),
-                SizedBox(height: size.height * 0.01),
+                buildHeadingText("Confirm Account Number"),
+                SizedBox(height: appDimensions.verticalSpaceS),
                 CustomTextField(
                   controller: bankController["confirmAccountNumber"]!,
                   hintText: 'XXXX XXXX XXXX 5748',
                   // validator: confirmAccountNumberValidator,
                   keyboardType: TextInputType.phone,
                 ),
-                SizedBox(height: size.height * 0.03),
+                SizedBox(height: appDimensions.verticalSpaceM),
 
                 // IFSC CODE
-                CustomText.buildHeadingText("IFSC Code"),
-                SizedBox(height: size.height * 0.01),
+                buildHeadingText("IFSC Code"),
+                SizedBox(height: appDimensions.verticalSpaceS),
                 CustomTextField(
                   controller: bankController["ifscCode"]!,
                   hintText: 'HDFC000001234',
                   // validator: ifscValidator,
                 ),
-                SizedBox(height: size.height * 0.03),
+                SizedBox(height: appDimensions.verticalSpaceM),
 
                 // ACCOUNT TYPE
-                CustomText.buildHeadingText("Account Type"),
-                SizedBox(height: size.width * 0.02),
+                buildHeadingText("Account Type"),
+                SizedBox(height: appDimensions.verticalSpaceS),
                 DropdownButtonFormField<String>(
                   value: _currentValue,
                   hint: Inter(
                     text: "Select Account Type",
                     color: AppColors.grey,
-                    fontSize: 16,
+                    fontSize: appDimensions.fontS,
                   ),
-                  style: TextStyle(fontFamily: "Inter", fontSize: 16),
+                  style: TextStyle(
+                    fontFamily: "Inter",
+                    fontSize: appDimensions.fontS,
+                  ),
                   onChanged: (newValue) {
                     _currentValue = newValue!;
                   },
@@ -124,7 +135,7 @@ class _EnterBankDetailsScreenState
                     disabledBorder: border(AppColors.black),
                   ),
                 ),
-                SizedBox(height: size.width * 0.2),
+                SizedBox(height: appDimensions.verticalSpaceXL),
 
                 // SAVE BUTTON
                 CustomElevatedButton(onPressed: () {}, text: "Save"),

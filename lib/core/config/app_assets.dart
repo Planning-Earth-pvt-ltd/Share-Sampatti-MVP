@@ -37,6 +37,7 @@ class AppAssets {
     "assets/images/advertisment2.jpg",
     "assets/images/advertisment3.jpg",
     "assets/images/advertisment4.jpg",
+    "assets/images/advertisment5.png",
   ];
 
   // HOME REGIONS

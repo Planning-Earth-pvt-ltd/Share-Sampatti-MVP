@@ -52,7 +52,7 @@ class CustomText {
     return Inter(
       text: text,
       color: AppColors.lightGrey,
-      fontSize: 18,
+      fontSize: 16,
       fontWeight: FontWeight.w600,
     );
   }
