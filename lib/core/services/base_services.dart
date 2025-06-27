@@ -16,12 +16,9 @@ class BaseService {
       final response = await _dio.post(url, data: body);
       print("API Response: ${response.statusCode} => ${response.data}");
       return response;
-    } on DioException catch (e,stack) {
-      print("❌ DioException: ${e.message}");
-      print("❌ Full Stack Trace:\n$stack");
+    } on DioException catch (e) {
       dynamic errorData = e.response?.data;
       String message;
-
       if (errorData is Map<String, dynamic> && errorData['message'] != null) {
         message = errorData['message'].toString();
       } else if (errorData is String) {
@@ -29,10 +26,6 @@ class BaseService {
       } else {
         message = 'Something went wrong';
       }
-      print("❌ DioException: ${e.message}");
-      print("❌ DioError Type: ${e.type}");
-      print("❌ DioError Response: ${e.response}");
-
       throw Exception(message);
     }
   }

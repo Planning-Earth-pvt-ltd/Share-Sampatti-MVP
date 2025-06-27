@@ -210,7 +210,7 @@ class HomeScreen extends ConsumerWidget {
                         appDimensions.radiusM,
                       ),
                       child: Image.asset(
-                        AppAssets.advertismentImages[0],
+                        AppAssets.advertisementImages[0],
                         height: 115,
                         width: 158,
                         fit: BoxFit.cover,

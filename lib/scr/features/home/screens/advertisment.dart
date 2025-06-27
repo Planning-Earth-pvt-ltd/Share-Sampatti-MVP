@@ -45,10 +45,11 @@ class _AdvertismentState extends State<Advertisment> {
       height: size.height * 0.25,
       width: size.width,
       child: PageView.builder(
+        itemCount: AppAssets.advertisementImages.length,
         controller: _pageController,
         itemBuilder: (context, index) => Image.asset(
-          AppAssets.advertismentImages[index %
-              AppAssets.advertismentImages.length],
+          AppAssets.advertisementImages[index %
+              AppAssets.advertisementImages.length],
           fit: BoxFit.cover,
         ),
       ),

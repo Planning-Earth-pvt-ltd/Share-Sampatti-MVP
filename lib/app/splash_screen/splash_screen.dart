@@ -17,15 +17,13 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
   _checkSplash() {
     Future.microtask(() async {
       await Future.delayed(const Duration(seconds: 2));
-      ref.read(authProvider.notifier).checkAuthStatus();
+      await ref.read(authProvider.notifier).checkAuthStatus();
       ref.read(splashControllerProvider.notifier).startSplash();
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    final auth = ref.watch(authProvider);
-    final splash = ref.watch(splashControllerProvider);
     final appDimensions = ref.watch(appDimensionsProvider);
     // ref.listen(splashControllerProvider, (_, state) {
     //   if (state is SplashCompleted) {
@@ -45,11 +43,13 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
     // });
 
     ref.listen(splashControllerProvider, (_, state) {
+      final auth = ref.watch(authProvider);
+      print("Auth isLogIn:- ${auth.isLoading}");
       if (state is SplashCompleted) {
         if (auth.isFirstInstall) {
           context.go('/onboarding');
         } else if (auth.isLoggedIn) {
-          context.go('/home');
+          context.go('/navigation');
         } else {
           context.go('/login');
         }
@@ -60,7 +60,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset(AppAssets.appLogo, width: 400, height: 400),
+            Image.asset(AppAssets.splashLogo, width: 400, height: 400),
             RichText(
               text: TextSpan(
                 style: TextStyle(

@@ -41,20 +41,17 @@ enum AuthMode { login, signup }
 class AuthController extends StateNotifier<AuthState> {
   final AuthService _authService;
   AuthMode _mode = AuthMode.signup;
-  AuthController(this._authService)
-    : super(
-        AuthState(
-          isFirstInstall: AuthPreference.isFirstInstall(),
-          isLoggedIn: AuthPreference.isUserLoggedIn(),
-        ),
-      );
+  AuthController(this._authService) : super(AuthState.initial());
 
   void setAuthMode(AuthMode mode) {
     _mode = mode;
   }
 
   //CheckAuth Status
-  void checkAuthStatus() async {
+  Future<void> checkAuthStatus() async {
+    if (!Hive.isBoxOpen('authBox')) {
+      await Hive.openBox('authBox');
+    }
     final isFirstInstall = AuthPreference.isFirstInstall();
     final isLoggedIn = AuthPreference.isUserLoggedIn();
 
@@ -65,17 +62,25 @@ class AuthController extends StateNotifier<AuthState> {
       isFirstInstall: isFirstInstall,
       isLoggedIn: isLoggedIn,
     );
+    print(
+      "Hive status — isLoggedIn:([${Hive.isBoxOpen('isLoggedIn')}])  ${Hive.box('authBox').isOpen} $isLoggedIn, isFirstInstall: $isFirstInstall",
+    );
+    var _box = Hive.box('authBox');
+    print("isLoggedIn: ${_box.get('isLoggedIn')}");
+    print('Login status: ${_box.get('isLoggedIn')}'); // must print true
   }
 
   //sendOtp
   Future<bool> sendOtp({required String phone, String? name}) async {
     try {
       state = state.copyWith(isLoading: true, error: null);
+      print("Before call sendOtp on AuthController");
       final message = await _authService.sendOtp(
         phone: phone,
         name: _mode == AuthMode.signup ? name : null,
       );
-      log("✅ Message received: $message (${message.runtimeType})");
+      print("After call sendOtp on AuthController");
+      print("Message received: $message (${message.runtimeType})");
       return true;
     } catch (error) {
       log('Send Otp error: $error');
@@ -99,7 +104,7 @@ class AuthController extends StateNotifier<AuthState> {
         otp: otp,
         name: _mode == AuthMode.signup ? name : null,
       );
-      state = state.copyWith(isLoggedIn: true);
+      await checkAuthStatus();
     } catch (error) {
       state = state.copyWith(error: error.toString());
     } finally {
