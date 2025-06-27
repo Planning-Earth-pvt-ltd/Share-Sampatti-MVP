@@ -10,7 +10,12 @@ class AppAssets {
   static const String callNow = "assets/images/call_now.png";
   static const String kyc = "assets/images/kyc.png";
   static const String pan = "assets/images/pan.png";
+
   static const String aadhaar = "assets/images/aadhaar.png";
+  static const String investNowProperty =
+      "assets/images/invest_now_property.png";
+  static const String graph = "assets/images/graph.png";
+
 
   // ONBOARDING
   static const List<String> onboardingImages = [
@@ -43,8 +48,13 @@ class AppAssets {
   ];
 
   // MARK: Icons
-  static const String home = "assets/icons/home.svg";
-  static const String invest = "assets/icons/invest.svg";
-  static const String save = "assets/icons/save.svg";
-  static const String portfolio = "assets/icons/portfolio.svg";
+  static const String arrowUp = "assets/icons/arrow_up.svg";
+  static const String arrowDown = "assets/icons/arrow_down.svg";
+
+  static const List<String> navigationIcons = [
+    "assets/icons/home.svg",
+    "assets/icons/invest.svg",
+    "assets/icons/save.svg",
+    "assets/icons/portfolio.svg",
+  ];
 }
