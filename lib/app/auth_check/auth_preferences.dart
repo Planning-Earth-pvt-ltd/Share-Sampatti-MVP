@@ -29,11 +29,18 @@ class AuthPreference {
     required String refreshToken,
     required Map<String, dynamic> user,
   }) async {
+    print('Save User Data');
     var box = Hive.box('authBox');
     await box.put('accessToken', accessToken);
     await box.put('refreshToken', refreshToken);
     await box.put('user', jsonEncode(user));
+    print("[SAVE] Writing isLoggedIn:true");
     await box.put('isLoggedIn', true);
+    await box.flush();
+    print("[SAVE] Post flush isLoggedIn: ${box.get('isLoggedIn')}");
+    print("[SAVE] Post flush accessToken: ${box.get('accessToken')}");
+    print("[SAVE] Post flush refreshToken: ${box.get('refreshToken')}");
+    print("[SAVE] Post flush user: ${box.get('user')}");
   }
 
   static String? getAccessToken() => _box.get('accessToken');

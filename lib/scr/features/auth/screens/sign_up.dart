@@ -58,7 +58,6 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                         fontSize: 18,
                       ),
                       SizedBox(height: size.height * 0.09),
-
                       Center(
                         child: Inter(text: 'Enter your Details', fontSize: 28),
                       ),

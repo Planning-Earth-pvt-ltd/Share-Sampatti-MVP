@@ -125,7 +125,7 @@ class _OtpVerificationScreenState extends ConsumerState<OtpVerificationScreen> {
                     otp: otp,
                   );
                   if (ref.read(authProvider).error == null) {
-                    context.go("/home");
+                    context.go('/navigation');
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(content: Text(ref.read(authProvider).error!)),
