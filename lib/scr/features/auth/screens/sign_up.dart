@@ -26,7 +26,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
           builder: (context, constraints) {
             return SingleChildScrollView(
               padding: EdgeInsets.symmetric(
-                vertical: appDimensions.verticalPaddingM,
+                vertical: appDimensions.verticalPaddingL,
                 horizontal: appDimensions.horizontalPaddingM,
               ),
               child: Form(

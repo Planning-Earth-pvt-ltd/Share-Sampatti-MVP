@@ -93,7 +93,7 @@ class _OtpVerificationScreenState extends ConsumerState<OtpVerificationScreen> {
               Wrap(
                 children: [
                   Inter(
-                    text: "OTP sent to +91 XXXXXX${phone.substring(6, 10)} ",
+                    text: "OTP sent to +91 XXXXXX${phone.substring(9, 13)} ",
                   ),
                   CustomTextButton(
                     text: "Edit",
