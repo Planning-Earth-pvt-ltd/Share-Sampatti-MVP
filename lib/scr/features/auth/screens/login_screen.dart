@@ -90,9 +90,11 @@ class _LogInScreenState extends ConsumerState<LogInScreen> {
                           final phone =
                               "+91${controllers['mobileNumber']!.text.trim()}";
                           authController.setAuthMode(AuthMode.login);
+                          print("Before sendOtp call on LogInScreen");
                           final success = await authController.sendOtp(
                             phone: phone,
                           );
+                          print("After sendOtp call on LogInScreen");
                           if (success) {
                             context.go("/otpScreen");
                           } else {

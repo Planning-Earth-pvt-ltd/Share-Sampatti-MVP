@@ -195,7 +195,7 @@ class HomeScreen extends ConsumerWidget {
                     ClipRRect(
                       borderRadius: BorderRadiusGeometry.circular(11),
                       child: Image.asset(
-                        AppAssets.advertismentImages[0],
+                        AppAssets.advertisementImages[0],
                         height: 115,
                         width: 158,
                         fit: BoxFit.cover,

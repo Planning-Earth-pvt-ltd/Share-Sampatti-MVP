@@ -13,15 +13,16 @@ class AuthService {
 
   //Send Otp(SignUp and LogIn)
   Future<String> sendOtp({String? name, required String phone}) async {
-    print('SendOtp');
+    print('sendOtp function call on Auth Service');
     final body = {'phoneNumber': phone, if (name != null) 'name': name};
-    print("Phone:- $phone");
     print(ApiRoutes.sendOtp);
     final response = await _baseService.post(ApiRoutes.sendOtp, body);
-    dynamic rawData = response.data;
-    print("Raw Response Data: $rawData (${rawData.runtimeType})");
-    // ✅ Step 1: Ensure JSON decoded
-    late final Map<String, dynamic> data;
+    final rawData = response.data;
+    Map<String, dynamic> data = rawData is String
+        ? jsonDecode(rawData)
+        : Map<String, dynamic>.from(rawData);
+    print("RESPONSE:- $response");
+    print("Raw Response Data:- $rawData (${rawData.runtimeType})");
     if (rawData is String) {
       try {
         data = jsonDecode(rawData);
@@ -33,8 +34,6 @@ class AuthService {
     } else {
       throw Exception("Unexpected response type: ${rawData.runtimeType}");
     }
-
-    // ✅ Step 2: Safely access message
     final message = data['message'];
     if (message is String) {
       print("OTP Message: $message");
@@ -56,12 +55,30 @@ class AuthService {
       if (name != null) 'name': name,
     };
     final response = await _baseService.post(ApiRoutes.verifyOtp, body);
-    final data = response.data;
+    final rawData = response.data;
+    final Map<String, dynamic> data = rawData is String
+        ? jsonDecode(rawData)
+        : Map<String, dynamic>.from(rawData);
+    print("Response Data: $data");
+    try{
+      final accessToken = data['accessToken'];
+      final refreshToken = data['refreshToken'];
+      final user = Map<String, dynamic>.from(data['user']);
+      print("[VERIFY] Parsed values:");
+      print("AccessToken: $accessToken");
+      print("RefreshToken: $refreshToken");
+      print("User: $user");
+      print("Before AuthPref SaverUserData");
     await AuthPreference.saveUserData(
       accessToken: data['accessToken'],
       refreshToken: data['refreshToken'],
       user: Map<String, dynamic>.from(data['user']),
     );
+    print("After AuthPref SaverUserData");
+    } catch (e,st) {
+      print("[VERIFY] Exception saving user data: $e");
+      print(st);
+    }
     return UserModel.fromJson(response.data['user']);
   }
 }

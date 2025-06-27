@@ -23,7 +23,7 @@ class _AdvertismentState extends State<Advertisment> {
 
   _autoScroll() {
     _timer = Timer.periodic(Duration(seconds: 5), (_) {
-      _currentAdv = (_currentAdv + 1) % AppAssets.advertismentImages.length;
+      _currentAdv = (_currentAdv + 1) % AppAssets.advertisementImages.length;
       _pageController.animateToPage(
         _currentAdv,
         duration: Duration(seconds: 1),
@@ -46,10 +46,10 @@ class _AdvertismentState extends State<Advertisment> {
     return SizedBox(
       height: size.height * 0.3,
       child: PageView.builder(
-        itemCount: AppAssets.advertismentImages.length,
+        itemCount: AppAssets.advertisementImages.length,
         controller: _pageController,
         itemBuilder: (context, index) =>
-            Image.asset(AppAssets.advertismentImages[index]),
+            Image.asset(AppAssets.advertisementImages[index]),
       ),
     );
   }
