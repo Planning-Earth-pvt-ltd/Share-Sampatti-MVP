@@ -3,7 +3,10 @@ import 'package:share_sampatti_mvp/app/app.dart';
 final route = GoRouter(
   routes: [
     GoRoute(path: '/', builder: (context, state) => SplashScreen()),
-    GoRoute(path: '/onboarding', builder: (context, state) => Onboarding()),
+    GoRoute(
+      path: '/onboarding',
+      builder: (context, state) => OnboardingScreen(),
+    ),
     GoRoute(path: '/login', builder: (context, state) => LogInScreen()),
     GoRoute(path: '/signUp', builder: (context, state) => SignUpScreen()),
     GoRoute(
@@ -11,7 +14,7 @@ final route = GoRouter(
       builder: (context, state) => OtpVerificationScreen(),
     ),
 
-    // NAVIGATION
+    // MARK: NAVIGATION
     GoRoute(
       path: '/navigation',
       builder: (context, state) => NavigationScreen(),
@@ -19,7 +22,7 @@ final route = GoRouter(
     GoRoute(path: '/profile', builder: (context, state) => ProfileScreen()),
     GoRoute(path: '/investNow', builder: (context, state) => InvestNowScreen()),
 
-    // USER PROFILE
+    // MARK: USER PROFILE
     GoRoute(
       path: '/personalDetails',
       builder: (context, state) => CompleteYourProfileScreen(),
@@ -50,5 +53,11 @@ final route = GoRouter(
       builder: (context, state) => PrivacyPolicyScreen(),
     ),
     GoRoute(path: '/faq', builder: (context, state) => FAQScreen()),
+
+    // MARK: INVEST NOW
+    GoRoute(
+      path: '/investNowDocument',
+      builder: (context, state) => InvestNowDocument(),
+    ),
   ],
 );

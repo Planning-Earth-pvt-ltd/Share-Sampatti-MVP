@@ -1,11 +1,6 @@
 import 'dart:async';
-
-import 'package:flutter/widgets.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:share_sampatti_mvp/core/services/auth_service.dart';
-
-import '../../../../app/app.dart';
-import '../../../../app/auth_check/auth_preferences.dart';
+import 'dart:developer';
+import 'package:share_sampatti_mvp/app/app.dart';
 
 final authProvider = StateNotifierProvider<AuthController, AuthState>(
   (ref) => AuthController(ref.read(authServiceProvider)),
@@ -88,7 +83,7 @@ class AuthController extends StateNotifier<AuthState> {
       print("Message received: $message (${message.runtimeType})");
       return true;
     } catch (error) {
-      print('Send Otp error: $error');
+      log('Send Otp error: $error');
       state = state.copyWith(error: error.toString());
       return false;
     } finally {
@@ -97,7 +92,6 @@ class AuthController extends StateNotifier<AuthState> {
   }
 
   //verifyOtp
-
   Future<void> verifyOtp({
     required String phone,
     required String otp,

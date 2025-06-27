@@ -34,22 +34,35 @@ dependencies:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.8
-  smooth_page_indicator: ^1.2.1
-  pinput: ^5.0.1
-  expansion_tile_card: ^3.0.0
-  dio: ^5.8.0+1
-  url_launcher: ^6.3.1
+  # UI Widgets
+  cupertino_icons: ^1.0.8 # iOS-style icons
+  smooth_page_indicator: ^1.2.1 # dots for page transitions
+  expansion_tile_card: ^3.0.0 # collapsible tile with card UI
   flutter_svg: ^2.2.0
 
+  # Forms & Input
+  pinput: ^5.0.1 # beautiful PIN input field
+
+  # HTTP & APIs
+  dio: ^5.8.0+1 # powerful network client
+  url_launcher: ^6.3.1 # launch URLs or apps
+
+  # State Management
+  flutter_riverpod: ^2.6.1 # efficient state management
+
+  # Local Storage
+  hive_flutter: ^1.1.0 # lightweight local DB with Flutter adapter
+
+  # Routing
+  go_router: ^15.1.3 # declarative routing
+  flutter_dotenv: ^5.2.1 # load .env files for API keys etc.
+
 dev_dependencies:
+  # Splash Screen Generator
   flutter_native_splash: ^2.4.6
-  # STATEMANAGEMENT
-  flutter_riverpod: ^2.6.1
-  hive_flutter: ^1.1.0
-  # ROUTE
-  go_router: ^15.1.3
-  flutter_dotenv: ^5.2.1
+
+  # Code Style & Linting
+  flutter_lints: ^5.0.0
   flutter_test:
     sdk: flutter
 
@@ -58,7 +71,6 @@ dev_dependencies:
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
-  flutter_lints: ^5.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -113,15 +125,6 @@ flutter:
           weight: 600
         - asset: assets/fonts/Inter_24pt-Bold.ttf
           weight: 700
-
-    - family: SpaceGrotesk
-      fonts:
-        - asset: assets/fonts/SpaceGrotesk-Regular.ttf 
-          weight: 200
-        - asset: assets/fonts/SpaceGrotesk-Medium.ttf
-          weight: 400
-        - asset: assets/fonts/SpaceGrotesk-Bold.ttf
-          weight: 600
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package

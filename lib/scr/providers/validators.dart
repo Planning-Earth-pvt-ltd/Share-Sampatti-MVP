@@ -1,14 +1,16 @@
 import 'package:share_sampatti_mvp/app/app.dart';
 
+String? _trimmedValue(String? value) =>
+    value?.trim().isEmpty ?? true ? null : value!.trim();
+
 final nameValidatorProvider = Provider<String? Function(String?)?>((ref) {
-  final RegExp nameRegex = RegExp(r'^[A-Za-z]{2,}(?:\s+[A-Za-z]+){0,2}$');
   return (String? name) {
-    final trimmedName = name?.trim();
-    if (trimmedName == null || trimmedName.isEmpty) {
+    final trimmedName = _trimmedValue(name);
+    if (trimmedName == null) {
       return "Please enter your name";
     } else if (trimmedName.length < 2) {
       return "Name must be at least 2 characters";
-    } else if (!nameRegex.hasMatch(trimmedName)) {
+    } else if (!AppConstants.nameRegex.hasMatch(trimmedName)) {
       return "Include only alphabets and spaces";
     }
     return null;
@@ -16,12 +18,11 @@ final nameValidatorProvider = Provider<String? Function(String?)?>((ref) {
 });
 
 final mobileValidatorProvider = Provider<String? Function(String?)?>((ref) {
-  final RegExp mobileNumberRegex = RegExp(r'^[6-9]\d{9}$');
   return (String? mobileNumber) {
     if (mobileNumber == null || mobileNumber.isEmpty) {
       return "Please enter a mobile number";
     }
-    if (!mobileNumberRegex.hasMatch(mobileNumber)) {
+    if (!AppConstants.mobileNumberRegex.hasMatch(mobileNumber)) {
       return "Enter a valid 10-digit mobile number";
     }
     return null;
@@ -29,12 +30,11 @@ final mobileValidatorProvider = Provider<String? Function(String?)?>((ref) {
 });
 
 final emailValidatorProvider = Provider<String? Function(String?)?>((ref) {
-  final RegExp emailRegex = RegExp(r'^[\w-\.]+@gmail\.com$');
   return (String? email) {
-    final trimmedEmail = email?.trim();
-    if (trimmedEmail == null || trimmedEmail.isEmpty) {
+    final trimmedEmail = _trimmedValue(email);
+    if (trimmedEmail == null) {
       return "Please enter your email address";
-    } else if (!emailRegex.hasMatch(trimmedEmail)) {
+    } else if (!AppConstants.emailRegex.hasMatch(trimmedEmail)) {
       return "Enter a valid email address (must end with @gmail.com)";
     }
     return null;
