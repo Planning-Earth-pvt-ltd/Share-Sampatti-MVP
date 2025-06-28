@@ -10,11 +10,12 @@ class AppAssets {
   static const String callNow = "assets/images/call_now.png";
   static const String kyc = "assets/images/kyc.png";
   static const String pan = "assets/images/pan.png";
-
   static const String aadhaar = "assets/images/aadhaar.png";
   static const String investNowProperty =
       "assets/images/invest_now_property.png";
   static const String graph = "assets/images/graph.png";
+  static const String investmentAdvertisement =
+      "assets/images/investment_advertisement.png";
 
   // ONBOARDING
   static const List<String> onboardingImages = [

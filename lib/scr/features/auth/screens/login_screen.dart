@@ -69,7 +69,7 @@ class _LogInScreenState extends ConsumerState<LogInScreen> {
                       child: Inter(
                         textAlign: TextAlign.center,
                         text:
-                            "Enter your phone number to receive a one-time password (OTP) for secure access to your account.",
+                            "Enter your phone number to receive a one-time\npassword (OTP) for secure access to your account.",
                         fontSize: appDimensions.fontXS,
                       ),
                     ),

@@ -61,6 +61,30 @@ class AppConstants {
     "/faq",
   ];
 
+  // Investment Property
+  static const List<String> investmentProperty = [
+    "Mohali Prime Land Investment Opportunity (Prime Land)",
+    "Delhi Prime Land Investment Opportunity (Prime Land)",
+    "Himachal Holiday Home Investment Opportunity (Holiday Homes)",
+    "Mumbai Suburban Housing Investment Opportunity (Holiday Homes)",
+  ];
+
+  // Investment price
+  static const List<String> investmentPrice = [
+    "19,500",
+    "25,600",
+    "16,000",
+    "54,000",
+  ];
+
+  // Investment return
+  static const List<String> investmentReturn = [
+    "24.41",
+    "30.51",
+    "20.51",
+    "15.78",
+  ];
+
   // About us T&C
   static const List<String> aboutUsItem = [
     "Read Usage Terms & Conditions",
