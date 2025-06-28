@@ -15,6 +15,8 @@ final bankProvider = disposableControllerProvider([
   "ifscCode",
 ]);
 
+final searchProvider = disposableControllerProvider(["search"]);
+
 AutoDisposeProvider<Map<String, TextEditingController>>
 disposableControllerProvider(List<String> fields) {
   return Provider.autoDispose<Map<String, TextEditingController>>((ref) {

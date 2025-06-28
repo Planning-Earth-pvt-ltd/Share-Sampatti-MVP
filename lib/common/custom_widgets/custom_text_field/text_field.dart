@@ -10,6 +10,7 @@ class CustomTextField extends ConsumerWidget {
     this.keyboardType,
     this.validator,
     this.radius,
+    this.prefixIcon,
   });
 
   final TextEditingController controller;
@@ -17,6 +18,7 @@ class CustomTextField extends ConsumerWidget {
   final TextInputType? keyboardType;
   final String? Function(String?)? validator;
   final String? labelText;
+  final Widget? prefixIcon;
   final double? radius;
   final String? hintText;
 
@@ -53,6 +55,7 @@ class CustomTextField extends ConsumerWidget {
           appDimensions.fontS,
           FontWeight.w600,
         ),
+        prefixIcon: prefixIcon,
         enabledBorder: border(AppColors.darkGrey),
         focusedBorder: border(Theme.of(context).colorScheme.primary),
         errorBorder: border(AppColors.red),
