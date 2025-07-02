@@ -142,11 +142,11 @@ class HomeScreen extends ConsumerWidget {
                 borderRadius: BorderRadiusGeometry.circular(
                   appDimensions.radiusM,
                 ),
-                child: Image.asset(AppAssets.callNow),
+                child: Image.asset(AppAssets.chatNow),
               ).withPadHorizontal(appDimensions.horizontalPaddingM),
               CustomElevatedButton(
-                onPressed: () => CustomUrlLauncher.telephone(),
-                text: "Call Now",
+                onPressed: () => context.push("/chatBot"),
+                text: "Chat Now",
                 width: 91,
                 height: 27,
                 radius: 6,

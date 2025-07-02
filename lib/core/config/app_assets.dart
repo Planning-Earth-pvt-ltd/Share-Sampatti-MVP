@@ -7,7 +7,7 @@ class AppAssets {
   static const String startInvestingNow =
       "assets/images/start_investing_now.png";
   static const String trackNow = "assets/images/track_now.png";
-  static const String callNow = "assets/images/call_now.png";
+  static const String chatNow = "assets/images/call_now.png";
   static const String kyc = "assets/images/kyc.png";
   static const String pan = "assets/images/pan.png";
   static const String aadhaar = "assets/images/aadhaar.png";
@@ -16,6 +16,8 @@ class AppAssets {
   static const String graph = "assets/images/graph.png";
   static const String investmentAdvertisement =
       "assets/images/investment_advertisement.png";
+  static const String chatNowAssistant = "assets/images/chat_now_assistant.png";
+  static const String chatNowUser = "assets/images/chat_now_user.png";
 
   // ONBOARDING
   static const List<String> onboardingImages = [

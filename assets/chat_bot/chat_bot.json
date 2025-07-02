@@ -1,0 +1,99 @@
+{
+  "start": {
+    "message": "Welcome! What would you like to know about today?",
+    "options": [
+      { "label": "View Virtual Property Index", "next": "virtual_index" },
+      { "label": "Explore Property Details", "next": "property_details" }
+    ]
+  },
+  "virtual_index": {
+    "message": "We track virtual property shares similar to stock indices. Choose an index to view trends.",
+    "options": [
+      { "label": "Nifty 50 Property Index", "next": "nifty_index" },
+      { "label": "Sensex Real Estate", "next": "sensex_index" },
+      { "label": "Back to Main Menu", "next": "start" }
+    ]
+  },
+  "nifty_index": {
+    "message": "The Nifty 50 Property Index tracks top 50 properties by market value across India.\n➜ Avg Yield: 7.5% | Top Region: Mumbai | Last Month: +3%",
+    "options": [
+      { "label": "See by Region", "next": "nifty_by_region" },
+      { "label": "Back to Indices", "next": "virtual_index" },
+      { "label": "Back to Main Menu", "next": "start" }
+    ]
+  },
+  "sensex_index": {
+    "message": "The Sensex Real Estate covers 30 premium properties in metro cities.\n➜ Avg Yield: 6.8% | Top Region: Delhi NCR | Last Month: +2.5%",
+    "options": [
+      { "label": "See by Region", "next": "sensex_by_region" },
+      { "label": "Back to Indices", "next": "virtual_index" },
+      { "label": "Back to Main Menu", "next": "start" }
+    ]
+  },
+  "nifty_by_region": {
+    "message": "Which region do you want insights for?",
+    "options": [
+      { "label": "North India", "next": "nifty_north" },
+      { "label": "South India", "next": "nifty_north" },
+      { "label": "West India", "next": "nifty_north" },
+      { "label": "Back to Nifty Index", "next": "nifty_index" },
+      { "label": "Back to Main Menu", "next": "start" }
+    ]
+  },
+  "nifty_north": {
+    "message": "North India: Avg Yield 7.8%, top city: Delhi, popular: DLF Cyber City.",
+    "options": [
+      { "label": "Back to Nifty by Region", "next": "nifty_by_region" },
+      { "label": "Back to Main Menu", "next": "start" }
+    ]
+  },
+  "sensex_by_region": {
+    "message": "Which region do you want insights for?",
+    "options": [
+      { "label": "North India", "next": "sensex_north" },
+      { "label": "South India", "next": "sensex_north" },
+      { "label": "West India", "next": "sensex_north" },
+      { "label": "Back to Sensex Index", "next": "sensex_index" },
+      { "label": "Back to Main Menu", "next": "start" }
+    ]
+  },
+  "sensex_north": {
+    "message": "North India: Avg Yield 2.8%, top city: New Delhi, popular: DLF Cyber City.",
+    "options": [
+      { "label": "Back to Sensex by Region", "next": "sensex_by_region" },
+      { "label": "Back to Main Menu", "next": "start" }
+    ]
+  },
+  "property_details": {
+    "message": "Which state or region do you want to explore?",
+    "options": [
+      { "label": "Maharashtra", "next": "maharashtra" },
+      { "label": "Karnataka", "next": "maharashtra" },
+      { "label": "Delhi NCR", "next": "maharashtra" },
+      { "label": "Back to Main Menu", "next": "start" }
+    ]
+  },
+  "maharashtra": {
+    "message": "Maharashtra: Mumbai & Pune dominate.\n➜ Mumbai: Avg Price/sqft ₹25,000.\n➜ Pune: Avg Price/sqft ₹7,000.",
+    "options": [
+      { "label": "See Mumbai", "next": "mumbai" },
+      { "label": "See Pune", "next": "pune" },
+      { "label": "Back to States", "next": "property_details" },
+      { "label": "Back to Main Menu", "next": "start" }
+    ]
+  },
+  "mumbai": {
+    "message": "Mumbai: High-rise apartments trending in Bandra & Andheri.\n➜ Virtual Share: ₹10,000/unit | Last Month: +2%",
+    "options": [
+      { "label": "Back to Maharashtra", "next": "maharashtra" },
+      { "label": "Back to Main Menu", "next": "start" }
+    ]
+  },
+  "pune": {
+    "message": "Pune: IT hub growth in Hinjewadi & Kharadi.\n➜ Virtual Share: ₹5,000/unit | Last Month: +1.8%",
+    "options": [
+      { "label": "Back to Maharashtra", "next": "maharashtra" },
+      { "label": "Back to Main Menu", "next": "start" }
+    ]
+  }
+}

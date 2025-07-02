@@ -6,3 +6,4 @@ export 'package:go_router/go_router.dart';
 export 'package:pinput/pinput.dart';
 export 'package:smooth_page_indicator/smooth_page_indicator.dart';
 export 'package:flutter_svg/flutter_svg.dart';
+export 'package:flutter/services.dart' show rootBundle;
