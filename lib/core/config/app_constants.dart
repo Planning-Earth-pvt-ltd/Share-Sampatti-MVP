@@ -14,6 +14,9 @@ class AppConstants {
   static RegExp mobileNumberRegex = RegExp(r'^[6-9]\d{9}$');
   static RegExp emailRegex = RegExp(r'^[\w-\.]+@gmail\.com$');
 
+  // CHAT BOT
+  static String jsonChatBot = "assets/chat_bot/chat_bot.json";
+
   // ONBOARDING TEXT
   static const List<List<String>> title = [
     ["Your Gateway to \n Smart ", "Real Estate Investment"],

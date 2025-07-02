@@ -7,6 +7,7 @@ export 'features/navigation/navigation.dart';
 export 'features/profile/profile.dart';
 export 'features/save/save.dart';
 export 'features/portfolio/portfolio.dart';
+export 'features/chat_bot/chat_bot.dart';
 
 export 'providers/controllers.dart';
 export 'providers/validators.dart';

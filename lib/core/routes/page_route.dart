@@ -1,4 +1,5 @@
 import 'package:share_sampatti_mvp/app/app.dart';
+import 'package:share_sampatti_mvp/scr/features/chat_bot/screens/chat_bot_screen.dart';
 
 final route = GoRouter(
   routes: [
@@ -21,6 +22,7 @@ final route = GoRouter(
     ),
     GoRoute(path: '/profile', builder: (context, state) => ProfileScreen()),
     GoRoute(path: '/investNow', builder: (context, state) => InvestNowScreen()),
+    GoRoute(path: '/chatBot', builder: (context, state) => ChatBotScreen()),
 
     // MARK: USER PROFILE
     GoRoute(
