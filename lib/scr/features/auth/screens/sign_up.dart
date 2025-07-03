@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:share_sampatti_mvp/app/app.dart';
 
 class SignUpScreen extends ConsumerStatefulWidget {
@@ -103,21 +105,31 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                           );
                           final controllers = ref.read(profileProvider);
                           final name = controllers['name']!.text.trim();
-                          final phone =
-                              "+91${controllers['mobileNumber']!.text.trim()}";
+                          final phone = controllers['mobileNumber']!.text
+                              .trim();
+                          log(phone);
                           authController.setAuthMode(AuthMode.signup);
-                          await authController.sendOtp(
+                          final success = await authController.sendOtp(
                             phone: phone,
                             name: name,
                           );
-                          if (ref.read(authProvider).error == null) {
+                          log(
+                            'Read Otp error: ${ref.read(authProvider).error}',
+                          );
+                          if (success) {
                             context.go("/otpScreen");
                           } else {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(ref.read(authProvider).error!),
-                              ),
-                            );
+                            final errorMsg =
+                                ref.read(authProvider).error ??
+                                "Something went wrong";
+                            ScaffoldMessenger.of(
+                              context,
+                            ).showSnackBar(SnackBar(content: Text(errorMsg)));
+
+                            //Reset Error After Showing
+                            ref.read(authProvider.notifier).state = ref
+                                .read(authProvider)
+                                .copyWith(error: null);
                           }
                         }
                       },

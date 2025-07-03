@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Share Sampatti',
         theme: dark,
-        routerConfig: route,
+        routerConfig: Navigate.route,
       ),
     );
   }

@@ -22,7 +22,7 @@ class _OtpVerificationScreenState extends ConsumerState<OtpVerificationScreen> {
     super.initState();
     final controller = ref.read(profileProvider);
     name = controller["name"]?.text.trim() ?? "";
-    phone = "+91${controller["mobileNumber"]!.text.trim()}";
+    phone = controller["mobileNumber"]!.text.trim();
 
     _startTimer();
   }
@@ -93,7 +93,7 @@ class _OtpVerificationScreenState extends ConsumerState<OtpVerificationScreen> {
               Wrap(
                 children: [
                   Inter(
-                    text: "OTP sent to +91 XXXXXX${phone.substring(9, 13)} ",
+                    text: "OTP sent to +91 XXXXXX${phone.substring(6, 10)} ",
                   ),
                   CustomTextButton(
                     text: "Edit",
@@ -107,17 +107,24 @@ class _OtpVerificationScreenState extends ConsumerState<OtpVerificationScreen> {
                 length: _length,
                 pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
                 onCompleted: (otp) async {
-                  await authNotifier.verifyOtp(
+                  final success = await authNotifier.verifyOtp(
                     name: name.isNotEmpty ? name : null,
                     phone: phone,
                     otp: otp,
                   );
-                  if (ref.read(authProvider).error == null) {
+                  if (success) {
                     context.go('/navigation');
                   } else {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text(ref.read(authProvider).error!)),
-                    );
+                    final errorMsg =
+                        ref.read(authProvider).error ?? "Something went wrong";
+                    ScaffoldMessenger.of(
+                      context,
+                    ).showSnackBar(SnackBar(content: Text(errorMsg)));
+
+                    //Reset Error After Showing
+                    ref.read(authProvider.notifier).state = ref
+                        .read(authProvider)
+                        .copyWith(error: null);
                   }
                 },
                 defaultPinTheme: pinTheme(
