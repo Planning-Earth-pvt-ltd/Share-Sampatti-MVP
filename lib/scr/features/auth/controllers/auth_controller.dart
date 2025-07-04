@@ -62,12 +62,12 @@ class AuthController extends StateNotifier<AuthState> {
       isFirstInstall: isFirstInstall,
       isLoggedIn: isLoggedIn,
     );
-    print(
+    log(
       "Hive status — isLoggedIn:([${Hive.isBoxOpen('isLoggedIn')}])  ${Hive.box('authBox').isOpen} $isLoggedIn, isFirstInstall: $isFirstInstall",
     );
-    var _box = Hive.box('authBox');
-    print("isLoggedIn: ${_box.get('isLoggedIn')}");
-    print('Login status: ${_box.get('isLoggedIn')}'); // must print true
+    var box = Hive.box('authBox');
+    log("isLoggedIn: ${box.get('isLoggedIn')}");
+    log('Login status: ${box.get('isLoggedIn')}'); // must print true
   }
 
   //sendOtp
