@@ -78,6 +78,7 @@ class AuthController extends StateNotifier<AuthState> {
       final message = await _authService.sendOtp(
         phone: phone,
         name: _mode == AuthMode.signup ? name : null,
+        type: _mode == AuthMode.signup ? "signup" : "login",
       );
       log("After call sendOtp on AuthController");
       log("Message received: $message (${message.runtimeType})");
@@ -92,7 +93,7 @@ class AuthController extends StateNotifier<AuthState> {
   }
 
   //verifyOtp
-  Future<bool> verifyOtp({
+  Future<void> verifyOtp({
     required String phone,
     required String otp,
     String? name,
@@ -100,17 +101,17 @@ class AuthController extends StateNotifier<AuthState> {
     try {
       state = state.copyWith(isLoading: true, error: null);
       log("Before call sendOtp on AuthController - $phone $name $_mode");
-      await _authService.verifyOtp(
+      final message = await _authService.verifyOtp(
         phone: phone,
         otp: otp,
         name: _mode == AuthMode.signup ? name : null,
+        type: _mode == AuthMode.signup ? "signup" : "login",
       );
+      state = state.copyWith(error: message.toString());
       log("After call sendOtp on AuthController");
       await checkAuthStatus();
-      return true;
     } catch (error) {
       state = state.copyWith(error: error.toString());
-      return false;
     } finally {
       state = state.copyWith(isLoading: false);
     }
@@ -136,7 +137,7 @@ class OtpTimerController extends StateNotifier<int> {
 
   void start() {
     _timer?.cancel();
-    state = 30;
+    state = 59;
     _timer = Timer.periodic(Duration(seconds: 1), (timer) {
       if (state > 0) {
         state--;

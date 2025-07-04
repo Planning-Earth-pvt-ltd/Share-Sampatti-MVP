@@ -19,8 +19,6 @@ class BaseService {
       log("API Response: ${response.statusCode} => ${response.data}");
       return response;
     } on DioException catch (e) {
-      log("Error:-${e}");
-
       dynamic errorData = e.response?.data;
       String message;
       if (errorData is Map<String, dynamic> && errorData['message'] != null) {
@@ -32,7 +30,12 @@ class BaseService {
       } else {
         message = 'Something went wrong';
       }
-      throw Exception(message);
+
+      if (e.response == null) {
+        throw Exception(errorData);
+      } else {
+        return e.response!;
+      }
     }
   }
 

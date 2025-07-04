@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 import 'package:share_sampatti_mvp/app/app.dart';
 
 class OtpVerificationScreen extends ConsumerStatefulWidget {
@@ -24,26 +25,26 @@ class _OtpVerificationScreenState extends ConsumerState<OtpVerificationScreen> {
     name = controller["name"]?.text.trim() ?? "";
     phone = controller["mobileNumber"]!.text.trim();
 
-    _startTimer();
+    // _startTimer();
   }
 
-  void _startTimer() {
-    setState(() => _timeLeft = 30);
-    _timer?.cancel();
-    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
-      if (_timeLeft > 0) {
-        setState(() => _timeLeft--);
-      } else {
-        _timer?.cancel();
-      }
-    });
-  }
+  // void _startTimer() {
+  //   setState(() => _timeLeft = 30);
+  //   _timer?.cancel();
+  //   _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+  //     if (_timeLeft > 0) {
+  //       setState(() => _timeLeft--);
+  //     } else {
+  //       _timer?.cancel();
+  //     }
+  //   });
+  // }
 
-  @override
-  void dispose() {
-    _timer?.cancel();
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   _timer?.cancel();
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -64,6 +65,13 @@ class _OtpVerificationScreenState extends ConsumerState<OtpVerificationScreen> {
         fontSize: appDimensions.fontM,
       ),
     );
+
+    otpValidator() {
+      if (ref.watch(authProvider).error != null) {
+        return "Invalid OTP";
+      }
+      return null;
+    }
 
     return Scaffold(
       body: Form(
@@ -105,26 +113,17 @@ class _OtpVerificationScreenState extends ConsumerState<OtpVerificationScreen> {
 
               Pinput(
                 length: _length,
+                validator: (_) => otpValidator(),
                 pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
                 onCompleted: (otp) async {
-                  final success = await authNotifier.verifyOtp(
+                  await authNotifier.verifyOtp(
                     name: name.isNotEmpty ? name : null,
                     phone: phone,
                     otp: otp,
                   );
-                  if (success) {
-                    context.go('/navigation');
-                  } else {
-                    final errorMsg =
-                        ref.read(authProvider).error ?? "Something went wrong";
-                    ScaffoldMessenger.of(
-                      context,
-                    ).showSnackBar(SnackBar(content: Text(errorMsg)));
 
-                    //Reset Error After Showing
-                    ref.read(authProvider.notifier).state = ref
-                        .read(authProvider)
-                        .copyWith(error: null);
+                  if (_formKey.currentState!.validate()) {
+                    context.go('/navigation');
                   }
                 },
                 defaultPinTheme: pinTheme(
@@ -150,9 +149,16 @@ class _OtpVerificationScreenState extends ConsumerState<OtpVerificationScreen> {
                             Inter(text: "Didn't receive OTP? "),
                             CustomTextButton(
                               text: "Resend Now",
-                              onTap: () {
+                              onTap: () async {
                                 ref.read(otpTimerProvider.notifier).start();
                                 // Optionally re-trigger OTP here
+                                final authController = ref.read(
+                                  authProvider.notifier,
+                                );
+                                await authController.sendOtp(
+                                  phone: phone,
+                                  name: name,
+                                );
                               },
                             ),
                           ],
