@@ -19,7 +19,39 @@ class ProfileList extends ConsumerWidget {
         itemBuilder: (context, index) => Column(
           children: [
             InkWell(
-              onTap: onTap == null ? () {} : () => context.push(onTap![index]),
+              onTap: onTap == null
+                  ? () {
+                      showDialog(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                          title: Inter(
+                            text: "Logout",
+                            fontSize: appDimensions.fontM,
+                            fontWeight: FontWeight.w600,
+                          ),
+                          content: Inter(
+                            text: "Are you sure, do you want to logout?",
+                          ),
+                          buttonPadding: EdgeInsets.symmetric(
+                            horizontal: appDimensions.horizontalPaddingL,
+                          ),
+                          actions: [
+                            CustomTextButton(
+                              text: "No",
+                              onTap: () => context.pop(),
+                            ),
+                            CustomTextButton(
+                              text: "Yes",
+                              onTap: () async {
+                                await ref.read(authProvider.notifier).logout();
+                                context.go("/login");
+                              },
+                            ),
+                          ],
+                        ),
+                      );
+                    }
+                  : () => context.push(onTap![index]),
               child:
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
