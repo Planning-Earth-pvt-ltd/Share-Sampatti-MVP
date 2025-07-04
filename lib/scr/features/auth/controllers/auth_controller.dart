@@ -74,13 +74,13 @@ class AuthController extends StateNotifier<AuthState> {
   Future<bool> sendOtp({required String phone, String? name}) async {
     try {
       state = state.copyWith(isLoading: true, error: null);
-      print("Before call sendOtp on AuthController");
+      log("Before call sendOtp on AuthController - $phone $name $_mode");
       final message = await _authService.sendOtp(
         phone: phone,
         name: _mode == AuthMode.signup ? name : null,
       );
-      print("After call sendOtp on AuthController");
-      print("Message received: $message (${message.runtimeType})");
+      log("After call sendOtp on AuthController");
+      log("Message received: $message (${message.runtimeType})");
       return true;
     } catch (error) {
       log('Send Otp error: $error');
@@ -92,21 +92,25 @@ class AuthController extends StateNotifier<AuthState> {
   }
 
   //verifyOtp
-  Future<void> verifyOtp({
+  Future<bool> verifyOtp({
     required String phone,
     required String otp,
     String? name,
   }) async {
     try {
       state = state.copyWith(isLoading: true, error: null);
+      log("Before call sendOtp on AuthController - $phone $name $_mode");
       await _authService.verifyOtp(
         phone: phone,
         otp: otp,
         name: _mode == AuthMode.signup ? name : null,
       );
+      log("After call sendOtp on AuthController");
       await checkAuthStatus();
+      return true;
     } catch (error) {
       state = state.copyWith(error: error.toString());
+      return false;
     } finally {
       state = state.copyWith(isLoading: false);
     }

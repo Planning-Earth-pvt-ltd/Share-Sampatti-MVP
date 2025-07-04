@@ -94,8 +94,8 @@ class _LogInScreenState extends ConsumerState<LogInScreen> {
                             authProvider.notifier,
                           );
                           final controllers = ref.read(profileProvider);
-                          final phone =
-                              "+91${controllers['mobileNumber']!.text.trim()}";
+                          final phone = controllers['mobileNumber']!.text
+                              .trim();
                           authController.setAuthMode(AuthMode.login);
                           log("Before sendOtp call on LogInScreen");
                           final success = await authController.sendOtp(
@@ -106,11 +106,11 @@ class _LogInScreenState extends ConsumerState<LogInScreen> {
                             context.go("/otpScreen");
                           } else {
                             final errorMsg =
-                                ref.read(authProvider).error ??
+                                ref.watch(authProvider).error ??
                                 "Something went wrong";
-                            ScaffoldMessenger.of(
-                              context,
-                            ).showSnackBar(SnackBar(content: Text(errorMsg)));
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Inter(text: errorMsg)),
+                            );
 
                             //Reset Error After Showing
                             ref.read(authProvider.notifier).state = ref

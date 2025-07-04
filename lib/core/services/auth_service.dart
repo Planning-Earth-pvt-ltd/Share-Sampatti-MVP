@@ -12,9 +12,8 @@ class AuthService {
   //Send Otp(SignUp and LogIn)
   Future<String> sendOtp({String? name, required String phone}) async {
     log('sendOtp function call on Auth Service');
-    final body = {'phoneNumber': phone, if (name != null) 'name': name};
-    log(ApiRoutes.sendOtp);
-    final response = await _baseService.post(ApiRoutes.sendOtp, body);
+    final body = {'phoneNumber': phone, if (name != null) 'fullName': name};
+    final response = await _baseService.post(ApiRoutes.sendOTP, body);
     final rawData = response.data;
     Map<String, dynamic> data = rawData is String
         ? jsonDecode(rawData)
@@ -49,8 +48,8 @@ class AuthService {
   }) async {
     final body = {
       'phoneNumber': phone,
-      'otp': otp,
-      if (name != null) 'name': name,
+      'OTP': otp,
+      if (name != null) 'fullName': name,
     };
     final response = await _baseService.post(ApiRoutes.verifyOtp, body);
     final rawData = response.data;
