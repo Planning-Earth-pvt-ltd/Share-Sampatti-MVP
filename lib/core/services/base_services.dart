@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 
 class BaseService {
@@ -9,31 +11,31 @@ class BaseService {
     ),
   );
 
-
   //Post Call
   Future<Response> post(String url, Map<String, dynamic> body) async {
     try {
+      log("Url - $url, body - $body");
       final response = await _dio.post(url, data: body);
-      print("API Response: ${response.statusCode} => ${response.data}");
+      log("API Response: ${response.statusCode} => ${response.data}");
       return response;
-    } on DioException catch (e,stack) {
-      print("❌ DioException: ${e.message}");
-      print("❌ Full Stack Trace:\n$stack");
+    } on DioException catch (e) {
       dynamic errorData = e.response?.data;
       String message;
-
       if (errorData is Map<String, dynamic> && errorData['message'] != null) {
         message = errorData['message'].toString();
+        log("Error on Base server as map - $message");
       } else if (errorData is String) {
         message = errorData;
+        log("Error on Base server as String - $message");
       } else {
         message = 'Something went wrong';
       }
-      print("❌ DioException: ${e.message}");
-      print("❌ DioError Type: ${e.type}");
-      print("❌ DioError Response: ${e.response}");
 
-      throw Exception(message);
+      if (e.response == null) {
+        throw Exception(errorData);
+      } else {
+        return e.response!;
+      }
     }
   }
 

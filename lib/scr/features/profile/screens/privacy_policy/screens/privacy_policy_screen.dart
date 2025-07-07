@@ -1,21 +1,16 @@
 import 'package:share_sampatti_mvp/app/app.dart';
 
-class PrivacyPolicyScreen extends StatelessWidget {
+class PrivacyPolicyScreen extends ConsumerWidget {
   const PrivacyPolicyScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final appDimensions = ref.watch(appDimensionsProvider);
+
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          onPressed: () => context.pop(),
-          icon: Icon(Icons.arrow_back_sharp),
-          color: AppColors.lightGrey,
-        ),
-        title: Text("Privacy Policy"),
-      ),
+      appBar: CustomAppBar.appbar(context, "Privacy Policy"),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(20),
+        padding: EdgeInsets.all(appDimensions.horizontalPaddingM),
         child: Column(
           children: [
             Inter(
@@ -24,7 +19,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
               letterSpacing: 1,
               fontWeight: FontWeight.w500,
             ),
-            SizedBox(height: 40),
+            SizedBox(height: appDimensions.verticalSpaceL),
             Inter(
               text:
                   "This privacy policy (“Privacy Policy”) specifies the manner in which Your personal data and other information is collected, received, stored, processed, disclosed, transferred, dealt with or otherwise handled by the Company in accordance with applicable laws.",

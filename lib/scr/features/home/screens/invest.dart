@@ -1,78 +1,98 @@
+import 'package:intl/intl.dart';
 import 'package:share_sampatti_mvp/app/app.dart';
+import 'package:share_sampatti_mvp/scr/features/home/controllers/home_controllers.dart';
 
-class Invest extends StatelessWidget {
+class Invest extends ConsumerWidget {
   const Invest({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final Size size = MediaQuery.of(context).size;
+  Widget build(BuildContext context, WidgetRef ref) {
+    final appDimensions = ref.watch(appDimensionsProvider);
+    final propertyProv = ref.watch(homeProvider);
 
     return SizedBox(
-      height: size.width * 0.6,
-      child: ListView.builder(
-        itemCount: 10,
-        scrollDirection: Axis.horizontal,
-        padding: const EdgeInsets.only(right: 20),
-        itemBuilder: (context, index) => Container(
-          height: size.width * 0.6,
-          width: size.width * 0.65,
-          margin: const EdgeInsets.only(left: 20),
-          decoration: BoxDecoration(
-            color: AppColors.darkGrey,
-            borderRadius: BorderRadius.circular(11),
-          ),
-          child: Column(
-            children: [
-              ClipRRect(
-                borderRadius: BorderRadiusGeometry.vertical(
-                  top: Radius.circular(11),
-                ),
-                child: Image.asset(AppAssets.startInvestingNow),
+      height: appDimensions.width * 0.6,
+      child: propertyProv.when(
+        data: (property) => ListView.builder(
+          itemCount: property.length,
+          scrollDirection: Axis.horizontal,
+          padding: EdgeInsets.only(right: appDimensions.horizontalPaddingM),
+          itemBuilder: (context, index) {
+            final price = NumberFormat.decimalPattern(
+              "en_IN",
+            ).format(property[index].currentValuation);
+
+            return Container(
+              height: appDimensions.width * 0.6,
+              width: appDimensions.width * 0.65,
+              margin: EdgeInsets.only(left: appDimensions.horizontalPaddingM),
+              decoration: BoxDecoration(
+                color: AppColors.darkGrey,
+                borderRadius: BorderRadius.circular(appDimensions.radiusM),
               ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              child: Column(
                 children: [
-                  Inter(
-                    text: "Property Title",
-                    fontSize: 18,
-                    fontWeight: FontWeight.w500,
+                  ClipRRect(
+                    borderRadius: BorderRadiusGeometry.vertical(
+                      top: Radius.circular(appDimensions.radiusM),
+                    ),
+                    child: Image.network(
+                      property[index].images[0],
+                      height: appDimensions.width * 0.38,
+                      width: appDimensions.width,
+                      fit: BoxFit.cover,
+                    ),
                   ),
-                  Divider(color: AppColors.lightGrey),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Wrap(
+                      Inter(
+                        text: property[index].title,
+                        fontSize: appDimensions.fontS,
+                        fontWeight: FontWeight.w500,
+                      ),
+                      Divider(thickness: 2, color: AppColors.dividerColor),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Inter(
-                            text: "₹ 2,34,560 /-",
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
+                          Wrap(
+                            crossAxisAlignment: WrapCrossAlignment.center,
+                            children: [
+                              Inter(
+                                text: "₹ $price /-",
+                                fontSize: appDimensions.fontS,
+                                fontWeight: FontWeight.w500,
+                              ),
+                              Inter(
+                                text: "per\nSQFT",
+                                color: AppColors.lightGrey,
+                                fontSize: appDimensions.fontXXXS,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ],
                           ),
-                          Inter(
-                            text: "per\nSQFT",
-                            color: AppColors.lightGrey,
-                            fontSize: 8,
-                            fontWeight: FontWeight.w400,
+                          GestureDetector(
+                            onTap: () => context.push("/investNow"),
+                            child: Inter(
+                              text: "Invest Now",
+                              color: Theme.of(context).colorScheme.primary,
+                              fontSize: appDimensions.fontS,
+                              fontWeight: FontWeight.w700,
+                            ),
                           ),
                         ],
                       ),
-                      GestureDetector(
-                        onTap: () => context.push("/investNow"),
-                        child: Inter(
-                          text: "Invest Now",
-                          color: Theme.of(context).colorScheme.primary,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
                     ],
-                  ),
+                  ).withPadAll(appDimensions.horizontalPaddingS),
                 ],
-              ).withPadAll(10),
-            ],
-          ),
+              ),
+            );
+          },
         ),
+        error: (e, _) => Center(child: Text('Error: $e')),
+        loading: () => const Center(child: CircularProgressIndicator()),
       ),
-    ).withPadSymmetric(30, 0);
+    ).withPadSymmetric(appDimensions.horizontalPaddingM, 0);
   }
 }

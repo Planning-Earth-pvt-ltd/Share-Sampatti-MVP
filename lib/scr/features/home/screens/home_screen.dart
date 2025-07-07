@@ -5,7 +5,6 @@ class HomeScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final Size size = MediaQuery.of(context).size;
     final appDimensions = ref.watch(appDimensionsProvider);
 
     // MARK: Name
@@ -15,7 +14,7 @@ class HomeScreen extends ConsumerWidget {
         children: [
           Inter(
             text: "Namaste, Shubham",
-            fontSize: 22.78,
+            fontSize: appDimensions.fontL,
             fontWeight: FontWeight.w600,
           ),
           GestureDetector(
@@ -25,13 +24,13 @@ class HomeScreen extends ConsumerWidget {
               backgroundColor: AppColors.profileBackground,
               child: Inter(
                 text: "S",
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
+                fontSize: appDimensions.fontM,
+                fontWeight: FontWeight.w600,
               ),
             ),
           ),
         ],
-      ).withPadAll(20);
+      ).withPadAll(appDimensions.horizontalPaddingM);
     }
 
     return SingleChildScrollView(
@@ -47,15 +46,15 @@ class HomeScreen extends ConsumerWidget {
           // START INVESTMENT NOW
           Inter(
             text: "Start Investing Now",
-            fontSize: 22.78,
+            fontSize: appDimensions.fontL,
             fontWeight: FontWeight.w600,
-          ).withPadAllCustom(0, 0, 20, 0),
+          ).withPadAllCustom(0, 0, appDimensions.horizontalPaddingM, 0),
           Inter(
             text: "Start Investing Now",
             color: AppColors.lightGrey,
-            fontSize: 18,
+            fontSize: appDimensions.fontS,
             fontWeight: FontWeight.w500,
-          ).withPadAllCustom(0, 0, 20, 0),
+          ).withPadAllCustom(0, 0, appDimensions.horizontalPaddingM, 0),
           Invest(),
 
           // ADVERTISMENT
@@ -67,7 +66,7 @@ class HomeScreen extends ConsumerWidget {
             children: [
               Inter(
                 text: "Explore By Regions",
-                fontSize: 20.58,
+                fontSize: appDimensions.fontL,
                 fontWeight: FontWeight.w500,
               ),
               CustomElevatedButton(
@@ -79,21 +78,23 @@ class HomeScreen extends ConsumerWidget {
                 fontSize: 12,
               ),
             ],
-          ).withPadAll(20),
+          ).withPadAll(appDimensions.horizontalPaddingM),
           Explore(
             explore: AppConstants.regions,
             images: AppAssets.regionsImages,
           ),
-          SizedBox(height: 20),
+          SizedBox(height: appDimensions.verticalSpaceM),
 
           // TRACK NOW
           Stack(
             alignment: Alignment.bottomLeft,
             children: [
               ClipRRect(
-                borderRadius: BorderRadiusGeometry.circular(15),
+                borderRadius: BorderRadiusGeometry.circular(
+                  appDimensions.radiusM,
+                ),
                 child: Image.asset(AppAssets.trackNow),
-              ).withPadSymmetric(0, 20),
+              ).withPadHorizontal(appDimensions.horizontalPaddingM),
               CustomElevatedButton(
                 onPressed: () {},
                 text: "Track Now",
@@ -102,7 +103,12 @@ class HomeScreen extends ConsumerWidget {
                 radius: 6,
                 fontSize: 14,
                 fontWeight: FontWeight.w500,
-              ).withPadAllCustom(0, 40, 40, 0),
+              ).withPadAllCustom(
+                0,
+                appDimensions.verticalSpaceL,
+                appDimensions.horizontalSpaceM,
+                0,
+              ),
             ],
           ),
 
@@ -112,7 +118,7 @@ class HomeScreen extends ConsumerWidget {
             children: [
               Inter(
                 text: "Explore By Theme",
-                fontSize: 20.58,
+                fontSize: appDimensions.fontL,
                 fontWeight: FontWeight.w500,
               ),
               CustomElevatedButton(
@@ -122,41 +128,47 @@ class HomeScreen extends ConsumerWidget {
                 height: 25,
                 radius: 6,
                 fontSize: 12,
-                fontWeight: FontWeight.w500,
               ),
             ],
-          ).withPadAll(20),
+          ).withPadAll(appDimensions.horizontalPaddingM),
           Explore(explore: AppConstants.themes, images: AppAssets.themesImages),
-          SizedBox(height: 20),
+          SizedBox(height: appDimensions.verticalSpaceM),
 
           // CALL NOW
           Stack(
             alignment: Alignment.bottomRight,
             children: [
               ClipRRect(
-                borderRadius: BorderRadiusGeometry.circular(15),
-                child: Image.asset(AppAssets.callNow),
-              ).withPadSymmetric(0, 20),
+                borderRadius: BorderRadiusGeometry.circular(
+                  appDimensions.radiusM,
+                ),
+                child: Image.asset(AppAssets.chatNow),
+              ).withPadHorizontal(appDimensions.horizontalPaddingM),
               CustomElevatedButton(
-                onPressed: () => CustomUrlLauncher.telephone(),
-                text: "Call Now",
+                onPressed: () => context.push("/chatBot"),
+                text: "Chat Now",
                 width: 91,
                 height: 27,
                 radius: 6,
                 fontSize: 14,
                 fontWeight: FontWeight.w500,
-              ).withPadAllCustom(0, 20, 0, 40),
+              ).withPadAllCustom(
+                0,
+                appDimensions.verticalPaddingS,
+                0,
+                appDimensions.horizontalPaddingL,
+              ),
             ],
           ),
 
           //PROPERTY
           Container(
-            height: size.width * 0.55,
-            margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+            height: appDimensions.height * 0.3,
+            margin: EdgeInsets.all(appDimensions.horizontalPaddingM),
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
               color: AppColors.darkGrey,
-              borderRadius: BorderRadius.circular(11),
+              borderRadius: BorderRadius.circular(appDimensions.radiusM),
               boxShadow: [
                 BoxShadow(
                   offset: Offset(0, 0),
@@ -177,25 +189,28 @@ class HomeScreen extends ConsumerWidget {
                         children: [
                           Inter(
                             text: "Property Title",
-                            fontSize: 18,
+                            fontSize: appDimensions.fontM,
                             fontWeight: FontWeight.w500,
                           ),
-                          SizedBox(height: 20),
+                          SizedBox(height: appDimensions.verticalSpaceS),
                           Inter(
                             text:
                                 "Lorem Ipsum is simply dummy text of the printing and typesetting industry. ",
-                            fontSize: 12,
+                            maxLines: 4,
+                            fontSize: appDimensions.fontXS,
                             fontWeight: FontWeight.w400,
                           ),
                         ],
                       ),
                     ),
-                    SizedBox(width: 20),
 
+                    SizedBox(width: appDimensions.horizontalSpaceS),
                     ClipRRect(
-                      borderRadius: BorderRadiusGeometry.circular(11),
+                      borderRadius: BorderRadiusGeometry.circular(
+                        appDimensions.radiusM,
+                      ),
                       child: Image.asset(
-                        AppAssets.advertismentImages[0],
+                        AppAssets.advertisementImages[0],
                         height: 115,
                         width: 158,
                         fit: BoxFit.cover,
@@ -207,8 +222,6 @@ class HomeScreen extends ConsumerWidget {
                 CustomElevatedButton(
                   onPressed: () => context.push("/investNow"),
                   text: "Invest Now",
-                  fontSize: 15,
-                  fontWeight: FontWeight.w600,
                 ),
               ],
             ),

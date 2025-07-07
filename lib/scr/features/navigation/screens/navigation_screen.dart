@@ -7,7 +7,7 @@ class NavigationScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final currentIndex = ref.watch(navigationProvider);
 
-    navIcons(int currentIndex, int index) {
+    bottomIcon(int currentIndex, int index) {
       return SvgPicture.asset(
         AppAssets.navigationIcons[index],
         colorFilter: ColorFilter.mode(
@@ -19,7 +19,7 @@ class NavigationScreen extends ConsumerWidget {
 
     return SafeArea(
       child: Scaffold(
-        body: NavigationScreens.screen[currentIndex],
+        body: Navigation.screen[currentIndex],
         bottomNavigationBar: BottomNavigationBar(
           onTap: (index) => ref.read(navigationProvider.notifier).state = index,
           currentIndex: currentIndex,
@@ -37,19 +37,19 @@ class NavigationScreen extends ConsumerWidget {
           ),
           items: [
             BottomNavigationBarItem(
-              icon: navIcons(currentIndex, 0),
+              icon: bottomIcon(currentIndex, 0),
               label: "Home",
             ),
             BottomNavigationBarItem(
-              icon: navIcons(currentIndex, 1),
+              icon: bottomIcon(currentIndex, 1),
               label: "Invest",
             ),
             BottomNavigationBarItem(
-              icon: navIcons(currentIndex, 2),
+              icon: bottomIcon(currentIndex, 2),
               label: "Save",
             ),
             BottomNavigationBarItem(
-              icon: navIcons(currentIndex, 3),
+              icon: bottomIcon(currentIndex, 3),
               label: "Portfolio",
             ),
           ],

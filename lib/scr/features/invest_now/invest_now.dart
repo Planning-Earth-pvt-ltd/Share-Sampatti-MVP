@@ -1,1 +1,4 @@
-export 'package:share_sampatti_mvp/scr/features/invest_now/screens/invest_now_screen.dart';
+export 'screens/invest_now_screen.dart';
+export 'screens/invest_now_document.dart';
+export 'screens/bottom_navigation_bar.dart';
+export 'controllers/invest_now_controller.dart';

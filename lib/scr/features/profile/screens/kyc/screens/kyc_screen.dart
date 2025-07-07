@@ -16,9 +16,7 @@ class KYCScreen extends ConsumerWidget {
           foregroundColor: Theme.of(context).colorScheme.secondary,
           minimumSize: Size.fromHeight(56),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(
-              appDimension.radiusMedium(context),
-            ),
+            borderRadius: BorderRadius.circular(appDimension.radiusM),
           ),
         ),
         child: Row(

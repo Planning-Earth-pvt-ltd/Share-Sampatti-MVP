@@ -1,17 +1,19 @@
 import 'package:share_sampatti_mvp/app/app.dart';
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends ConsumerWidget {
   const ProfileScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final appDimensions = ref.watch(appDimensionsProvider);
+
     buildHeadingText(String text) {
       return Inter(
         text: text,
         color: AppColors.lightGrey,
-        fontSize: 18,
+        fontSize: appDimensions.fontM,
         fontWeight: FontWeight.w600,
-      ).withPadAll(20);
+      ).withPadAll(appDimensions.horizontalPaddingM);
     }
 
     return Scaffold(
@@ -24,12 +26,12 @@ class ProfileScreen extends StatelessWidget {
             Container(
               color: AppColors.darkGrey,
               height: 90,
-              margin: const EdgeInsets.only(top: 30),
-              padding: const EdgeInsets.only(
-                top: 20,
-                bottom: 20,
-                left: 20,
-                right: 10,
+              margin: EdgeInsets.only(top: appDimensions.verticalSpaceM),
+              padding: EdgeInsets.only(
+                top: appDimensions.verticalPaddingS,
+                bottom: appDimensions.verticalPaddingS,
+                left: appDimensions.horizontalPaddingM,
+                right: appDimensions.horizontalPaddingS,
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -43,11 +45,11 @@ class ProfileScreen extends StatelessWidget {
                         backgroundColor: AppColors.profileBackground,
                         child: Inter(
                           text: "S",
-                          fontSize: 20,
+                          fontSize: appDimensions.fontL,
                           fontWeight: FontWeight.w600,
                         ),
                       ),
-                      SizedBox(width: 10),
+                      SizedBox(width: appDimensions.horizontalSpaceXS),
 
                       // USER DETAILS
                       Column(
@@ -57,7 +59,7 @@ class ProfileScreen extends StatelessWidget {
                           // NAME
                           Inter(
                             text: "Shubham Patel",
-                            fontSize: 18,
+                            fontSize: appDimensions.fontM,
                             fontWeight: FontWeight.w600,
                           ),
 
@@ -65,7 +67,7 @@ class ProfileScreen extends StatelessWidget {
                           Inter(
                             text: "+91 XXXXXX4475",
                             color: AppColors.lightGrey,
-                            fontSize: 10,
+                            fontSize: appDimensions.fontXXS,
                           ),
                         ],
                       ),
@@ -83,7 +85,7 @@ class ProfileScreen extends StatelessWidget {
                     icon: Icon(
                       Icons.edit,
                       color: Theme.of(context).colorScheme.primary,
-                      size: 20,
+                      size: appDimensions.iconsM,
                     ),
                   ),
                 ],
@@ -103,7 +105,7 @@ class ProfileScreen extends StatelessWidget {
               details: AppConstants.about,
               onTap: AppConstants.aboutRoutes,
             ),
-            SizedBox(height: 30),
+            SizedBox(height: appDimensions.verticalSpaceM),
 
             // LOGOUT
             ProfileList(details: ["Logout"], color: AppColors.red),
