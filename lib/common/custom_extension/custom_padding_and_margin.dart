@@ -17,7 +17,6 @@ extension PaddingExtensions on Widget {
     child: this,
   );
 
-  // REVIEW
   //Symmetric Padding
   Widget withPadSymmetric(double vert, double hor) => Padding(
     padding: EdgeInsetsGeometry.symmetric(vertical: vert, horizontal: hor),

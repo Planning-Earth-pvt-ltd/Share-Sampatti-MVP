@@ -1,3 +1,5 @@
+
+import 'dart:async';
 import 'package:share_sampatti_mvp/app/app.dart';
 
 class SplashScreen extends ConsumerStatefulWidget {
