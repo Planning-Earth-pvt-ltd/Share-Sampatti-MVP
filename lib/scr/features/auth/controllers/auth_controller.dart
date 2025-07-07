@@ -93,7 +93,7 @@ class AuthController extends StateNotifier<AuthState> {
   }
 
   //verifyOtp
-  Future<void> verifyOtp({
+  Future<bool> verifyOtp({
     required String phone,
     required String otp,
     String? name,
@@ -107,11 +107,16 @@ class AuthController extends StateNotifier<AuthState> {
         name: _mode == AuthMode.signup ? name : null,
         type: _mode == AuthMode.signup ? "signup" : "login",
       );
-      state = state.copyWith(error: message.toString());
       log("After call sendOtp on AuthController");
-      await checkAuthStatus();
+      if (message == "") {
+        await checkAuthStatus();
+        return true;
+      }
+      state = state.copyWith(error: message);
+      return false;
     } catch (error) {
       state = state.copyWith(error: error.toString());
+      return false;
     } finally {
       state = state.copyWith(isLoading: false);
     }

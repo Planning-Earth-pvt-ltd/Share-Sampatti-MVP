@@ -116,14 +116,25 @@ class _OtpVerificationScreenState extends ConsumerState<OtpVerificationScreen> {
                 validator: (_) => otpValidator(),
                 pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
                 onCompleted: (otp) async {
-                  await authNotifier.verifyOtp(
+                  final success = await authNotifier.verifyOtp(
                     name: name.isNotEmpty ? name : null,
                     phone: phone,
                     otp: otp,
                   );
-
-                  if (_formKey.currentState!.validate()) {
+                  if (success) {
                     context.go('/navigation');
+                  } else {
+                    final errorMsg =
+                        ref.read(authProvider).error ??
+                        "Invalid OTP, please try again";
+                    ScaffoldMessenger.of(
+                      context,
+                    ).showSnackBar(SnackBar(content: Text(errorMsg)));
+
+                    // Optionally reset the pinput or show error state
+                    ref.read(authProvider.notifier).state = ref
+                        .read(authProvider)
+                        .copyWith(error: null);
                   }
                 },
                 defaultPinTheme: pinTheme(

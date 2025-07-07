@@ -87,12 +87,12 @@ class AuthService {
           user: Map<String, dynamic>.from(data['user']),
         );
         log("After AuthPref SaverUserData");
+        UserModel.fromJson(response.data['user']);
+        return "";
       } catch (e, st) {
         log("[VERIFY] Exception saving user data: $e");
         print(st);
       }
-      UserModel.fromJson(response.data['user']);
-      return null;
     }
 
     return response.data["message"];
