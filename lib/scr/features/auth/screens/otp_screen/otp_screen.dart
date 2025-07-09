@@ -66,13 +66,6 @@ class _OtpVerificationScreenState extends ConsumerState<OtpVerificationScreen> {
       ),
     );
 
-    otpValidator() {
-      if (ref.watch(authProvider).error != null) {
-        return "Invalid OTP";
-      }
-      return null;
-    }
-
     return Scaffold(
       body: Form(
         key: _formKey,
@@ -113,7 +106,6 @@ class _OtpVerificationScreenState extends ConsumerState<OtpVerificationScreen> {
 
               Pinput(
                 length: _length,
-                validator: (_) => otpValidator(),
                 pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
                 onCompleted: (otp) async {
                   final success = await authNotifier.verifyOtp(

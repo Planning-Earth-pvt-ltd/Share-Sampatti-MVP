@@ -1,6 +1,5 @@
 import 'package:intl/intl.dart';
 import 'package:share_sampatti_mvp/app/app.dart';
-import 'package:share_sampatti_mvp/scr/features/home/controllers/home_controllers.dart';
 
 class Invest extends ConsumerWidget {
   const Invest({super.key});
@@ -8,23 +7,24 @@ class Invest extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final appDimensions = ref.watch(appDimensionsProvider);
-    final propertyProv = ref.watch(homeProvider);
+    final propertyProv = ref.watch(propertyProvider);
 
     return SizedBox(
       height: appDimensions.width * 0.6,
       child: propertyProv.when(
         data: (property) => ListView.builder(
-          itemCount: property.length,
+          itemCount: 10,
+          // itemCount: property.length,
           scrollDirection: Axis.horizontal,
           padding: EdgeInsets.only(right: appDimensions.horizontalPaddingM),
           itemBuilder: (context, index) {
             final price = NumberFormat.decimalPattern(
               "en_IN",
-            ).format(property[index].currentValuation);
+            ).format(property[index % property.length].pricePerSqFt);
 
             return Container(
               height: appDimensions.width * 0.6,
-              width: appDimensions.width * 0.65,
+              width: appDimensions.width * 0.7,
               margin: EdgeInsets.only(left: appDimensions.horizontalPaddingM),
               decoration: BoxDecoration(
                 color: AppColors.darkGrey,
@@ -32,23 +32,26 @@ class Invest extends ConsumerWidget {
               ),
               child: Column(
                 children: [
+                  // IMAGE
                   ClipRRect(
                     borderRadius: BorderRadiusGeometry.vertical(
                       top: Radius.circular(appDimensions.radiusM),
                     ),
                     child: Image.network(
-                      property[index].images[0],
+                      property[index % property.length].images[0],
                       height: appDimensions.width * 0.38,
                       width: appDimensions.width,
                       fit: BoxFit.cover,
                     ),
                   ),
+
                   Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      // TITLE
                       Inter(
-                        text: property[index].title,
+                        text: property[index % property.length].title,
                         fontSize: appDimensions.fontS,
                         fontWeight: FontWeight.w500,
                       ),
@@ -56,6 +59,7 @@ class Invest extends ConsumerWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
+                          // PRICE PER SQFT
                           Wrap(
                             crossAxisAlignment: WrapCrossAlignment.center,
                             children: [
@@ -72,8 +76,12 @@ class Invest extends ConsumerWidget {
                               ),
                             ],
                           ),
+
+                          // INVEST NOW BUTTON
                           GestureDetector(
-                            onTap: () => context.push("/investNow"),
+                            onTap: () => context.push(
+                              "/investNow/${property[index].id}",
+                            ),
                             child: Inter(
                               text: "Invest Now",
                               color: Theme.of(context).colorScheme.primary,

@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:dio/dio.dart';
 
 class BaseService {
@@ -31,11 +30,7 @@ class BaseService {
         message = 'Something went wrong';
       }
 
-      if (e.response == null) {
-        throw Exception(errorData);
-      } else {
-        return e.response!;
-      }
+      throw Exception(errorData);
     }
   }
 
