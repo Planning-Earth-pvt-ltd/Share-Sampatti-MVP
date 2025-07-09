@@ -21,4 +21,20 @@ class PropertyService {
       rethrow;
     }
   }
+
+  Future<PropertyModel> fetchCurrentProperty(String id) async {
+    final response = await _baseService.get("${ApiRoutes.currentProperty}/$id");
+
+    try {
+      log(response.data.toString());
+      if (response.statusCode == 200) {
+        Map<String, dynamic> data = response.data;
+        return PropertyModel.fromJson(data);
+      } else {
+        throw Exception("Failed to fetch property: ${response.statusCode}");
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

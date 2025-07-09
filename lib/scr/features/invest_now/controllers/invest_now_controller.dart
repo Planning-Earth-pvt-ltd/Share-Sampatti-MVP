@@ -9,3 +9,9 @@ class InvestNow {
     {"title": "CA Certificate", "date": "12-06-2025"},
   ];
 }
+
+final PropertyService _propertyService = PropertyService();
+
+final currentPropertyProvider = FutureProvider.family<PropertyModel, String>(
+  (ref, String id) => _propertyService.fetchCurrentProperty(id),
+);

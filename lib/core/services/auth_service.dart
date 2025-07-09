@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:share_sampatti_mvp/app/app.dart';
-import 'package:share_sampatti_mvp/scr/model/user_model.dart';
 
 final authServiceProvider = Provider<AuthService>((ref) => AuthService());
 
@@ -49,7 +48,7 @@ class AuthService {
       }
     }
 
-    return response.data["message"];
+    throw Exception("Missing or invalid 'message' in response");
   }
 
   //Verify OTP and Save Tokens

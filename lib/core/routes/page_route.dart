@@ -31,8 +31,24 @@ class Navigate {
         pageBuilder: (context, state) => slide(state, ProfileScreen()),
       ),
       GoRoute(
-        path: '/investNow',
-        pageBuilder: (context, state) => slide(state, InvestNowScreen()),
+        path: '/investNow/:id',
+        pageBuilder: (context, state) {
+          final id = state.pathParameters['id']!;
+
+          return CustomTransitionPage(
+            key: state.pageKey,
+            child: InvestNowScreen(id: id),
+            transitionsBuilder:
+                (context, animation, secondaryAnimation, child) =>
+                    SlideTransition(
+                      position: Tween<Offset>(
+                        begin: Offset(1, 0),
+                        end: Offset.zero,
+                      ).animate(animation),
+                      child: child,
+                    ),
+          );
+        },
       ),
       GoRoute(path: '/chatBot', builder: (context, state) => ChatBotScreen()),
 
@@ -70,8 +86,24 @@ class Navigate {
 
       // MARK: INVEST NOW
       GoRoute(
-        path: '/investNowDocument',
-        builder: (context, state) => InvestNowDocument(),
+        path: '/investNowDocument/:id',
+        pageBuilder: (context, state) {
+          final id = state.pathParameters['id']!;
+
+          return CustomTransitionPage(
+            key: state.pageKey,
+            child: InvestNowDocument(id: id),
+            transitionsBuilder:
+                (context, animation, secondaryAnimation, child) =>
+                    SlideTransition(
+                      position: Tween<Offset>(
+                        begin: Offset(1, 0),
+                        end: Offset.zero,
+                      ).animate(animation),
+                      child: child,
+                    ),
+          );
+        },
       ),
     ],
   );

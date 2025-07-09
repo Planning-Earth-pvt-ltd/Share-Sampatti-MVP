@@ -1,12 +1,17 @@
+import 'package:intl/intl.dart';
 import 'package:share_sampatti_mvp/app/app.dart';
 
 class InvestNowDocument extends ConsumerWidget {
-  const InvestNowDocument({super.key});
+  const InvestNowDocument({super.key, required this.id});
+
+  final String id;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final currentPropertyProv = ref.watch(currentPropertyProvider(id));
     final appDimensions = ref.watch(appDimensionsProvider);
     final height = appDimensions.height;
+    final width = appDimensions.width;
 
     buildHeader(String text) {
       return Inter(
@@ -69,53 +74,71 @@ class InvestNowDocument extends ConsumerWidget {
     }
 
     return SafeArea(
-      child: Scaffold(
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              // MARK: PROPERTY IMAGE
-              Stack(
+      child: currentPropertyProv.when(
+        data: (data) {
+          final price = NumberFormat.decimalPattern(
+            "en_IN",
+          ).format(data.pricePerSqFt);
+
+          return Scaffold(
+            body: SingleChildScrollView(
+              child: Column(
                 children: [
-                  Image.asset(AppAssets.investNowProperty),
-                  IconButton(
-                    onPressed: () => context.pop(),
-                    style: IconButton.styleFrom(
-                      backgroundColor: AppColors.darkGrey,
+                  // MARK: PROPERTY IMAGE
+                  Stack(
+                    children: [
+                      Image.network(
+                        data.images[0],
+                        height: height * 0.3,
+                        width: width,
+                        fit: BoxFit.cover,
+                      ),
+                      IconButton(
+                        onPressed: () => context.pop(),
+                        style: IconButton.styleFrom(
+                          backgroundColor: AppColors.darkGrey,
+                        ),
+                        icon: Icon(
+                          Icons.arrow_back_sharp,
+                          color: AppColors.lightGrey,
+                        ),
+                      ).withPadAll(appDimensions.horizontalPaddingS),
+                    ],
+                  ),
+
+                  // MARK: CARDS
+                  Container(
+                    width: width,
+                    padding: EdgeInsets.symmetric(
+                      horizontal: appDimensions.horizontalPaddingM,
+                      vertical: appDimensions.verticalPaddingS,
                     ),
-                    icon: Icon(
-                      Icons.arrow_back_sharp,
-                      color: AppColors.lightGrey,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(
+                        appDimensions.radiusM,
+                      ),
+                      border: Border(
+                        bottom: BorderSide(
+                          color: Theme.of(context).colorScheme.secondary,
+                        ),
+                      ),
                     ),
-                  ).withPadAll(appDimensions.horizontalPaddingS),
+                    child: buildHeader(data.title),
+                  ),
+                  SizedBox(height: appDimensions.verticalPaddingM),
+
+                  ...List.generate(
+                    InvestNow.documents.length,
+                    (index) => buildDocument(InvestNow.documents[index]),
+                  ),
                 ],
               ),
-
-              // MARK: CARDS
-              Container(
-                padding: EdgeInsets.symmetric(
-                  horizontal: appDimensions.horizontalPaddingM,
-                  vertical: appDimensions.verticalPaddingS,
-                ),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(appDimensions.radiusM),
-                  border: Border(
-                    bottom: BorderSide(
-                      color: Theme.of(context).colorScheme.secondary,
-                    ),
-                  ),
-                ),
-                child: buildHeader("Mohali Prime Land Investment Opportunity"),
-              ),
-              SizedBox(height: appDimensions.verticalPaddingM),
-
-              ...List.generate(
-                InvestNow.documents.length,
-                (index) => buildDocument(InvestNow.documents[index]),
-              ),
-            ],
-          ),
-        ),
-        bottomNavigationBar: SellOrBuy(),
+            ),
+            bottomNavigationBar: SellOrBuy(price: price),
+          );
+        },
+        error: (e, _) => Center(child: Text('Invest Now Error: $e')),
+        loading: () => const Center(child: CircularProgressIndicator()),
       ),
     );
   }

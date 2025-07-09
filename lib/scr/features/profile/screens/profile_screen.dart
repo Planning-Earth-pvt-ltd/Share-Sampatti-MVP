@@ -108,7 +108,8 @@ class ProfileScreen extends ConsumerWidget {
             SizedBox(height: appDimensions.verticalSpaceM),
 
             // LOGOUT
-            ProfileList(details: ["Logout"], color: AppColors.red),
+            if (AuthPreference.isUserLoggedIn())
+              ProfileList(details: ["Logout"], color: AppColors.red),
           ],
         ),
       ),

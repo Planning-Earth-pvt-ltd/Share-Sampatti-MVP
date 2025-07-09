@@ -1,7 +1,9 @@
 import 'package:share_sampatti_mvp/app/app.dart';
 
 class SellOrBuy extends ConsumerWidget {
-  const SellOrBuy({super.key});
+  const SellOrBuy({super.key, required this.price});
+
+  final String price;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -19,7 +21,7 @@ class SellOrBuy extends ConsumerWidget {
             color: AppColors.lightGrey,
             fontSize: 20,
           ),
-          Inter(text: "₹ 2,300.3/-", fontSize: 24),
+          Inter(text: "₹ $price/-", fontSize: 24),
           SizedBox(height: appDimensions.verticalSpaceM),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
