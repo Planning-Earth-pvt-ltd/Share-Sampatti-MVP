@@ -70,7 +70,7 @@ class HomeScreen extends ConsumerWidget {
                 fontWeight: FontWeight.w500,
               ),
               CustomElevatedButton(
-                onPressed: () {},
+                onPressed: () => context.push("/explore"),
                 text: "View All",
                 width: 72,
                 height: 25,
@@ -122,7 +122,7 @@ class HomeScreen extends ConsumerWidget {
                 fontWeight: FontWeight.w500,
               ),
               CustomElevatedButton(
-                onPressed: () {},
+                onPressed: () => context.push("/explore"),
                 text: "View All",
                 width: 72,
                 height: 25,

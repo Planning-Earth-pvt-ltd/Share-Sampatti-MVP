@@ -80,7 +80,7 @@ class Invest extends ConsumerWidget {
                           // INVEST NOW BUTTON
                           GestureDetector(
                             onTap: () => context.push(
-                              "/investNow/${property[index].id}",
+                              "/investNow/${property[index % property.length].id}",
                             ),
                             child: Inter(
                               text: "Invest Now",
