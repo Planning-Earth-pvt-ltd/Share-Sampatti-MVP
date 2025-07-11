@@ -1,7 +1,6 @@
 import 'dart:developer';
 
-import 'package:share_sampatti_mvp/core/core.dart';
-import 'package:share_sampatti_mvp/scr/model/property_model.dart';
+import 'package:share_sampatti_mvp/app/app.dart';
 
 class PropertyService {
   final BaseService _baseService = BaseService();
