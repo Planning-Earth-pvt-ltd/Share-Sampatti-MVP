@@ -6,8 +6,8 @@ class ApiRoutes {
   static const String currentProperty = '$baseUrl/property/GET_PROPERTY';
 
   // SCREEN ROUTE
-  static const String splashScreen = '/';
-  static const String onboardingScreen = '/onboarding';
-  static const String loginScreen = '/login';
-  static const String signupScreen = '/signUp';
+  // static const String splashScreen = '/';
+  // static const String onboardingScreen = '/onboarding';
+  // static const String loginScreen = '/login';
+  // static const String signupScreen = '/signUp';
 }

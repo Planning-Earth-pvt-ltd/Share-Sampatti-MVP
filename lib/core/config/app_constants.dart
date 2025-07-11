@@ -39,6 +39,14 @@ class AppConstants {
     "Holiday\nHomes",
   ];
 
+  // Home Themes
+  static const List<String> exploreTheme = [
+    "All",
+    "Residential",
+    "Commercial",
+    "Holiday Homes",
+  ];
+
   // Profile account details
   static const List<String> accountDetails = ["KYC's", "Bank Details"];
 

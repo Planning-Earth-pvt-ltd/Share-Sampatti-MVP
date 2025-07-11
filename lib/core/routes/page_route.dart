@@ -3,6 +3,7 @@ import 'package:share_sampatti_mvp/app/app.dart';
 class Navigate {
   static final route = GoRouter(
     routes: [
+      // MARK: STARTING
       GoRoute(path: '/', builder: (context, state) => SplashScreen()),
       GoRoute(
         path: '/onboarding',
@@ -50,6 +51,7 @@ class Navigate {
           );
         },
       ),
+      GoRoute(path: '/explore', builder: (context, state) => ExploreScreen()),
       GoRoute(path: '/chatBot', builder: (context, state) => ChatBotScreen()),
 
       // MARK: USER PROFILE
