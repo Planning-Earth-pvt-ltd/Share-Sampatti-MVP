@@ -7,6 +7,8 @@ class ExploreScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final appDimensions = ref.watch(appDimensionsProvider);
     final categoriesControllers = ref.watch(exploreCategoriesController);
+    final regionControllers = ref.watch(exploreRegionController);
+    final filterControllers = ref.watch(exploreFilterController);
     final propertyProv = ref.watch(propertyProvider);
 
     buildCategories() {
@@ -23,7 +25,7 @@ class ExploreScreen extends ConsumerWidget {
               margin: EdgeInsets.only(right: appDimensions.horizontalPaddingS),
               padding: (index == 0)
                   ? EdgeInsets.symmetric(horizontal: 20)
-                  : EdgeInsets.only(left: 1.5, right: 10),
+                  : EdgeInsets.only(left: 1, bottom: 1, top: 1, right: 10),
               decoration: BoxDecoration(
                 color: (categoriesControllers == index)
                     ? Theme.of(context).colorScheme.primary
@@ -57,6 +59,101 @@ class ExploreScreen extends ConsumerWidget {
           ),
         ),
       );
+    }
+
+    buildRegion() {
+      return filterControllers
+          ? SizedBox(
+              height: 40,
+              child: ListView.builder(
+                itemCount: AppConstants.regions.length + 1,
+                scrollDirection: Axis.horizontal,
+                padding: EdgeInsets.only(
+                  left: appDimensions.horizontalPaddingS,
+                ),
+                itemBuilder: (context, index) => GestureDetector(
+                  onTap: () {
+                    ref.read(exploreRegionController.notifier).state = index;
+                    if (index == 0) {
+                      ref.read(exploreFilterController.notifier).state =
+                          !filterControllers;
+                    }
+                  },
+                  child: Container(
+                    margin: EdgeInsets.only(
+                      right: appDimensions.horizontalPaddingS,
+                      top: appDimensions.horizontalPaddingS,
+                    ),
+                    padding: (index == 0)
+                        ? EdgeInsets.symmetric(horizontal: 20)
+                        : EdgeInsets.only(
+                            left: 1,
+                            bottom: 1,
+                            top: 1,
+                            right: 10,
+                          ),
+                    decoration: BoxDecoration(
+                      color: (regionControllers == index)
+                          ? Theme.of(context).colorScheme.primary
+                          : (index == 0)
+                          ? Colors.red.shade700
+                          : null,
+                      borderRadius: BorderRadius.circular(
+                        appDimensions.radiusL,
+                      ),
+                      border: Border.all(
+                        color: (index == 0)
+                            ? Colors.red.shade700
+                            : Theme.of(context).colorScheme.primary,
+                      ),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        if (index != 0) ...[
+                          CircleAvatar(
+                            radius: 15,
+                            backgroundImage: AssetImage(
+                              AppAssets.regionsImages[index - 1],
+                            ),
+                          ),
+                          SizedBox(width: appDimensions.horizontalSpaceXS),
+
+                          Inter(
+                            text: AppConstants.regions[index - 1],
+                            fontWeight: FontWeight.w600,
+                            color: (regionControllers == index)
+                                ? AppColors.darkGrey
+                                : null,
+                          ),
+                        ] else
+                          Inter(
+                            text: "X",
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.black,
+                          ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            )
+          : Align(
+              alignment: Alignment.centerRight,
+              child: CustomTextButton(
+                text: "filter",
+                onTap: () {
+                  ref.read(exploreFilterController.notifier).state =
+                      !filterControllers;
+                  ref.read(exploreRegionController.notifier).state = 1;
+                },
+              ),
+            ).withPadAllCustom(
+              appDimensions.verticalPaddingS,
+              0,
+              appDimensions.horizontalPaddingM,
+              appDimensions.horizontalPaddingM,
+            );
     }
 
     buildContainers() {
@@ -161,7 +258,9 @@ class ExploreScreen extends ConsumerWidget {
         appBar: CustomAppBar.appbar(context, "Explore"),
         body: SingleChildScrollView(
           padding: EdgeInsets.only(top: appDimensions.verticalPaddingXS),
-          child: Column(children: [buildCategories(), buildContainers()]),
+          child: Column(
+            children: [buildCategories(), buildRegion(), buildContainers()],
+          ),
         ),
       ),
     );

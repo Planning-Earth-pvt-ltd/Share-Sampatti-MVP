@@ -39,7 +39,7 @@ class AppConstants {
     "Holiday\nHomes",
   ];
 
-  // Home Themes
+  // Explore
   static const List<String> exploreTheme = [
     "All",
     "Residential",
