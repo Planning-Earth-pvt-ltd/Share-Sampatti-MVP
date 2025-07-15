@@ -51,6 +51,10 @@ class Navigate {
           );
         },
       ),
+      GoRoute(
+        path: '/paymentConfirmation',
+        builder: (context, state) => PaymentConfirmationScreen(),
+      ),
       GoRoute(path: '/explore', builder: (context, state) => ExploreScreen()),
       GoRoute(path: '/chatBot', builder: (context, state) => ChatBotScreen()),
 

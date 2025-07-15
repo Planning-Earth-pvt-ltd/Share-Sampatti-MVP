@@ -131,7 +131,9 @@ class InvestNowScreen extends ConsumerWidget {
                   Stack(
                     children: [
                       Image.network(
-                        data.images[0],
+                        data.images.isNotEmpty
+                            ? data.images[0]
+                            : "https://res.cloudinary.com/dowsrgchg/image/upload/v1752232642/properties/gxbw2tvj3qa2wtill46v.webp",
                         height: height * 0.3,
                         width: width,
                         fit: BoxFit.cover,

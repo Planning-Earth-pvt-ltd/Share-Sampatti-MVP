@@ -27,14 +27,14 @@ class SellOrBuy extends ConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               CustomElevatedButton(
-                onPressed: () {},
+                onPressed: () => context.push("/paymentConfirmation"),
                 backgroundColor: AppColors.grey,
                 text: "Sell",
                 textColor: AppColors.lightGrey,
                 width: appDimensions.width * 0.43,
               ),
               CustomElevatedButton(
-                onPressed: () {},
+                onPressed: () => context.push("/paymentConfirmation"),
                 text: "Buy",
                 width: appDimensions.width * 0.43,
               ),

@@ -38,7 +38,9 @@ class Invest extends ConsumerWidget {
                       top: Radius.circular(appDimensions.radiusM),
                     ),
                     child: Image.network(
-                      property[index % property.length].images[0],
+                      property[index % property.length].images.isNotEmpty
+                          ? property[index % property.length].images[0]
+                          : "https://res.cloudinary.com/dowsrgchg/image/upload/v1752232642/properties/gxbw2tvj3qa2wtill46v.webp",
                       height: appDimensions.width * 0.38,
                       width: appDimensions.width,
                       fit: BoxFit.cover,

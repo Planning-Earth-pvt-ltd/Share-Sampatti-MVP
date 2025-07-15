@@ -13,7 +13,7 @@ class AppDimensions {
   AppDimensions(this.aspectRatio, this.width, this.height);
 
   // BUTTON RADIUS
-  double get radiusXS => aspectRatio;
+  double get radiusXS => width * 0.01;
   double get radiusS => width * 0.02;
   double get radiusM => width * 0.03;
   double get radiusL => width * 0.04;
