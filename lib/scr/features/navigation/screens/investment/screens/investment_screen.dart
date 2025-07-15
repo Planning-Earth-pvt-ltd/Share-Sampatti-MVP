@@ -137,7 +137,9 @@ class _InvestmentScreenState extends ConsumerState<InvestmentScreen> {
                               ],
                             ),
                             GestureDetector(
-                              onTap: () => context.push("/investNow"),
+                              onTap: () => context.push(
+                                "/investNow/${property[index % property.length].id}",
+                              ),
                               child: Inter(
                                 text: "Invest Now",
                                 color: Theme.of(context).colorScheme.primary,
