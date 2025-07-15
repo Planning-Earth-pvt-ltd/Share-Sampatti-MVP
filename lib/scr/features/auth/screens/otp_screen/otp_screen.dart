@@ -1,15 +1,7 @@
 import 'dart:async';
+import 'dart:developer';
+import 'package:share_sampatti_mvp/app/app.dart';
 
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
-import 'package:pinput/pinput.dart';
-import 'package:share_sampatti_mvp/common/common.dart';
-import 'package:share_sampatti_mvp/core/core.dart';
-import 'package:share_sampatti_mvp/scr/features/auth/screens/otp_screen/resend_now.dart';
-import 'package:share_sampatti_mvp/scr/src.dart';
-
-//
 class OtpVerificationScreen extends ConsumerStatefulWidget {
   const OtpVerificationScreen({super.key});
   @override
@@ -18,8 +10,8 @@ class OtpVerificationScreen extends ConsumerStatefulWidget {
 }
 
 class _OtpVerificationScreenState extends ConsumerState<OtpVerificationScreen> {
-  final int length = 6;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final int _length = 6;
   Timer? _timer;
   int _timeLeft = 30;
 
@@ -31,56 +23,58 @@ class _OtpVerificationScreenState extends ConsumerState<OtpVerificationScreen> {
     super.initState();
     final controller = ref.read(profileProvider);
     name = controller["name"]?.text.trim() ?? "";
-    phone = "+91${controller["mobileNumber"]!.text.trim()}";
+    phone = controller["mobileNumber"]!.text.trim();
 
-    _startTimer();
+    // _startTimer();
   }
 
-  void _startTimer() {
-    setState(() => _timeLeft = 30);
-    _timer?.cancel();
-    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
-      if (_timeLeft > 0) {
-        setState(() => _timeLeft--);
-      } else {
-        _timer?.cancel();
-      }
-    });
-  }
+  // void _startTimer() {
+  //   setState(() => _timeLeft = 30);
+  //   _timer?.cancel();
+  //   _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+  //     if (_timeLeft > 0) {
+  //       setState(() => _timeLeft--);
+  //     } else {
+  //       _timer?.cancel();
+  //     }
+  //   });
+  // }
 
-  @override
-  void dispose() {
-    _timer?.cancel();
-    super.dispose();
-  }
-
-  pinTheme(Color color) => PinTheme(
-    height: 50,
-    width: 50,
-    decoration: BoxDecoration(
-      color: Colors.transparent,
-      border: Border.all(width: 2, color: color),
-      borderRadius: BorderRadius.circular(8),
-    ),
-    textStyle: TextStyle(
-      fontFamily: 'Inter',
-      color: Theme.of(context).colorScheme.secondary,
-      fontSize: 20,
-    ),
-  );
+  // @override
+  // void dispose() {
+  //   _timer?.cancel();
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
-    final auth = ref.watch(authProvider);
+    final appDimensions = ref.watch(appDimensionsProvider);
     final authNotifier = ref.read(authProvider.notifier);
 
+    pinTheme(Color color) => PinTheme(
+      height: appDimensions.defaultPinputRadius,
+      width: appDimensions.defaultPinputRadius,
+      decoration: BoxDecoration(
+        color: Colors.transparent,
+        border: Border.all(width: 2, color: color),
+        borderRadius: BorderRadius.circular(appDimensions.radiusS),
+      ),
+      textStyle: TextStyle(
+        fontFamily: AppConstants.interFontFamily,
+        color: Theme.of(context).colorScheme.secondary,
+        fontSize: appDimensions.fontM,
+      ),
+    );
+
     return Scaffold(
-      backgroundColor: Colors.white,
       body: Form(
         key: _formKey,
         child: Container(
           width: double.infinity,
-          padding: EdgeInsets.only(top: 70, left: 20, right: 20),
+          padding: EdgeInsets.symmetric(
+            horizontal: appDimensions.horizontalPaddingM,
+            vertical: appDimensions.verticalPaddingL,
+          ),
           decoration: BoxDecoration(
             image: DecorationImage(
               image: AssetImage(AppAssets.otpBackground),
@@ -92,44 +86,47 @@ class _OtpVerificationScreenState extends ConsumerState<OtpVerificationScreen> {
             children: [
               Inter(
                 text: "Let's Secure \n Your Account",
-                color: Theme.of(context).colorScheme.primary,
-                fontSize: 36,
-                fontWeight: FontWeight.w500,
                 textAlign: TextAlign.center,
+                color: Theme.of(context).colorScheme.primary,
+                fontSize: appDimensions.fontXXL,
+                fontWeight: FontWeight.w600,
               ),
               Wrap(
                 children: [
                   Inter(
-                    text:
-                        "OTP sent to ${phone.replaceRange(8, phone.length, '****')} ",
+                    text: "OTP sent to +91 XXXXXX${phone.substring(6, 10)} ",
                   ),
-                  GestureDetector(
+                  CustomTextButton(
+                    text: "Edit",
                     onTap: () => context.go("/login"),
-                    child: Inter(
-                      text: "Edit",
-                      color: Theme.of(context).colorScheme.primary,
-                      fontWeight: FontWeight.w500,
-                      decoration: TextDecoration.underline,
-                    ),
                   ),
                 ],
               ),
-              SizedBox(height: 100),
+              SizedBox(height: appDimensions.verticalSpaceXL),
+
               Pinput(
-                length: length,
+                length: _length,
                 pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
                 onCompleted: (otp) async {
-                  await authNotifier.verifyOtp(
+                  final success = await authNotifier.verifyOtp(
                     name: name.isNotEmpty ? name : null,
                     phone: phone,
                     otp: otp,
                   );
-                  if (ref.read(authProvider).error == null) {
-                    context.go("/home");
+                  if (success) {
+                    context.go('/navigation');
                   } else {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text(ref.read(authProvider).error!)),
-                    );
+                    final errorMsg =
+                        ref.read(authProvider).error ??
+                        "Invalid OTP, please try again";
+                    ScaffoldMessenger.of(
+                      context,
+                    ).showSnackBar(SnackBar(content: Text(errorMsg)));
+
+                    // Optionally reset the pinput or show error state
+                    ref.read(authProvider.notifier).state = ref
+                        .read(authProvider)
+                        .copyWith(error: null);
                   }
                 },
                 defaultPinTheme: pinTheme(
@@ -140,7 +137,8 @@ class _OtpVerificationScreenState extends ConsumerState<OtpVerificationScreen> {
                 ),
                 errorPinTheme: pinTheme(AppColors.red),
               ),
-              SizedBox(height: 20),
+              SizedBox(height: appDimensions.verticalSpaceM),
+
               Consumer(
                 builder: (context, ref, _) {
                   final timer = ref.watch(otpTimerProvider);
@@ -153,10 +151,17 @@ class _OtpVerificationScreenState extends ConsumerState<OtpVerificationScreen> {
                           children: [
                             Inter(text: "Didn't receive OTP? "),
                             CustomTextButton(
-                              text: "Resend Now!",
-                              onTap: () {
+                              text: "Resend Now",
+                              onTap: () async {
                                 ref.read(otpTimerProvider.notifier).start();
                                 // Optionally re-trigger OTP here
+                                final authController = ref.read(
+                                  authProvider.notifier,
+                                );
+                                await authController.sendOtp(
+                                  phone: phone,
+                                  name: name,
+                                );
                               },
                             ),
                           ],
@@ -164,7 +169,7 @@ class _OtpVerificationScreenState extends ConsumerState<OtpVerificationScreen> {
                 },
               ),
             ],
-          ).withPadCustom(const EdgeInsets.all(20)),
+          ),
         ),
       ),
     );

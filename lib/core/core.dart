@@ -1,2 +1,3 @@
-export 'package:share_sampatti_mvp/core/config/config.dart';
-export 'package:share_sampatti_mvp/core/routes/routes.dart';
+export 'config/config.dart';
+export 'routes/routes.dart';
+export 'services/services.dart';

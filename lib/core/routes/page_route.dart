@@ -1,54 +1,127 @@
 import 'package:share_sampatti_mvp/app/app.dart';
 
-final route = GoRouter(
-  routes: [
-    GoRoute(path: '/', builder: (context, state) => SplashScreen()),
-    GoRoute(path: '/onboarding', builder: (context, state) => Onboarding()),
-    GoRoute(path: '/login', builder: (context, state) => LogInScreen()),
-    GoRoute(path: '/signUp', builder: (context, state) => SignUpScreen()),
-    GoRoute(
-      path: '/otpScreen',
-      builder: (context, state) => OtpVerificationScreen(),
-    ),
+class Navigate {
+  static final route = GoRouter(
+    routes: [
+      // MARK: STARTING
+      GoRoute(path: '/', builder: (context, state) => SplashScreen()),
+      GoRoute(
+        path: '/onboarding',
+        builder: (context, state) => OnboardingScreen(),
+      ),
+      GoRoute(
+        path: '/login',
+        pageBuilder: (context, state) => slide(state, LogInScreen()),
+      ),
+      GoRoute(
+        path: '/signUp',
+        pageBuilder: (context, state) => slide(state, SignUpScreen()),
+      ),
+      GoRoute(
+        path: '/otpScreen',
+        pageBuilder: (context, state) => slide(state, OtpVerificationScreen()),
+      ),
 
-    // NAVIGATION
-    GoRoute(
-      path: '/navigation',
-      builder: (context, state) => NavigationScreen(),
-    ),
-    GoRoute(path: '/profile', builder: (context, state) => ProfileScreen()),
-    GoRoute(path: '/investNow', builder: (context, state) => InvestNowScreen()),
+      // MARK: NAVIGATION
+      GoRoute(
+        path: '/navigation',
+        pageBuilder: (context, state) => slide(state, NavigationScreen()),
+      ),
+      GoRoute(
+        path: '/profile',
+        pageBuilder: (context, state) => slide(state, ProfileScreen()),
+      ),
+      GoRoute(
+        path: '/investNow/:id',
+        pageBuilder: (context, state) {
+          final id = state.pathParameters['id']!;
 
-    // USER PROFILE
-    GoRoute(
-      path: '/personalDetails',
-      builder: (context, state) => CompleteYourProfileScreen(),
-    ),
-    GoRoute(path: '/kyc', builder: (context, state) => KYCScreen()),
+          return CustomTransitionPage(
+            key: state.pageKey,
+            child: InvestNowScreen(id: id),
+            transitionsBuilder:
+                (context, animation, secondaryAnimation, child) =>
+                    SlideTransition(
+                      position: Tween<Offset>(
+                        begin: Offset(1, 0),
+                        end: Offset.zero,
+                      ).animate(animation),
+                      child: child,
+                    ),
+          );
+        },
+      ),
+      GoRoute(path: '/explore', builder: (context, state) => ExploreScreen()),
+      GoRoute(path: '/chatBot', builder: (context, state) => ChatBotScreen()),
 
-    // KYC
-    GoRoute(path: '/pan', builder: (context, state) => PanScreen()),
-    GoRoute(path: '/addhar', builder: (context, state) => AddharScreen()),
+      // MARK: USER PROFILE
+      GoRoute(
+        path: '/personalDetails',
+        builder: (context, state) => CompleteYourProfileScreen(),
+      ),
+      GoRoute(path: '/kyc', builder: (context, state) => KYCScreen()),
 
-    // BANK DETAILS
-    GoRoute(
-      path: '/bankDetails',
-      builder: (context, state) => BankDetailsScreen(),
-    ),
-    GoRoute(
-      path: '/enterBankDetails',
-      builder: (context, state) => EnterBankDetailsScreen(),
-    ),
+      // KYC
+      GoRoute(path: '/pan', builder: (context, state) => PanScreen()),
+      GoRoute(path: '/addhar', builder: (context, state) => AddharScreen()),
 
-    GoRoute(path: '/aboutUs', builder: (context, state) => AboutUsScreen()),
-    GoRoute(
-      path: '/termsAndConditions',
-      builder: (context, state) => TermsAndConditionsScreen(),
-    ),
-    GoRoute(
-      path: '/privacyPolicy',
-      builder: (context, state) => PrivacyPolicyScreen(),
-    ),
-    GoRoute(path: '/faq', builder: (context, state) => FAQScreen()),
-  ],
-);
+      // BANK DETAILS
+      GoRoute(
+        path: '/bankDetails',
+        builder: (context, state) => BankDetailsScreen(),
+      ),
+      GoRoute(
+        path: '/enterBankDetails',
+        builder: (context, state) => EnterBankDetailsScreen(),
+      ),
+
+      GoRoute(path: '/aboutUs', builder: (context, state) => AboutUsScreen()),
+      GoRoute(
+        path: '/termsAndConditions',
+        builder: (context, state) => TermsAndConditionsScreen(),
+      ),
+      GoRoute(
+        path: '/privacyPolicy',
+        builder: (context, state) => PrivacyPolicyScreen(),
+      ),
+      GoRoute(path: '/faq', builder: (context, state) => FAQScreen()),
+
+      // MARK: INVEST NOW
+      GoRoute(
+        path: '/investNowDocument/:id',
+        pageBuilder: (context, state) {
+          final id = state.pathParameters['id']!;
+
+          return CustomTransitionPage(
+            key: state.pageKey,
+            child: InvestNowDocument(id: id),
+            transitionsBuilder:
+                (context, animation, secondaryAnimation, child) =>
+                    SlideTransition(
+                      position: Tween<Offset>(
+                        begin: Offset(1, 0),
+                        end: Offset.zero,
+                      ).animate(animation),
+                      child: child,
+                    ),
+          );
+        },
+      ),
+    ],
+  );
+
+  static Page<dynamic> slide(GoRouterState state, Widget widget) {
+    return CustomTransitionPage(
+      key: state.pageKey,
+      child: widget,
+      transitionsBuilder: (context, animation, secondaryAnimation, child) =>
+          SlideTransition(
+            position: Tween<Offset>(
+              begin: Offset(1, 0),
+              end: Offset.zero,
+            ).animate(animation),
+            child: child,
+          ),
+    );
+  }
+}

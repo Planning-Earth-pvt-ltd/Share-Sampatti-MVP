@@ -1,26 +1,18 @@
-// PACKAGE
 import 'dart:async';
 import 'dart:developer';
-
-import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-
-// COMPONENTS
 import 'package:share_sampatti_mvp/app/app.dart';
 
-class Onboarding extends ConsumerStatefulWidget {
-  const Onboarding({super.key});
+class OnboardingScreen extends ConsumerStatefulWidget {
+  const OnboardingScreen({super.key});
 
   @override
-  ConsumerState<Onboarding> createState() => _OnboardingState();
+  ConsumerState<OnboardingScreen> createState() => _OnboardingState();
 }
 
-class _OnboardingState extends ConsumerState<Onboarding> {
+class _OnboardingState extends ConsumerState<OnboardingScreen> {
   Timer? _timer;
-  final int totalPages = 3;
   bool hasPrecache = true;
+
   @override
   void initState() {
     super.initState();
@@ -33,7 +25,7 @@ class _OnboardingState extends ConsumerState<Onboarding> {
       final currentPage = ref.read(currentPageProvider);
 
       log(currentPage.toString());
-      if (currentPage < totalPages - 1) {
+      if (currentPage < AppConstants.title.length - 1) {
         pageController.animateToPage(
           currentPage + 1,
           duration: Duration(seconds: 1),
@@ -52,8 +44,10 @@ class _OnboardingState extends ConsumerState<Onboarding> {
 
   @override
   Widget build(BuildContext context) {
+    final appDimensions = ref.watch(appDimensionsProvider);
     final pageController = ref.watch(pageProvider);
-    final currentPage = ref.watch(currentPageProvider) < totalPages - 1;
+    final currentPage =
+        ref.watch(currentPageProvider) < AppConstants.title.length - 1;
 
     return Scaffold(
       body: PageView.builder(
@@ -61,73 +55,82 @@ class _OnboardingState extends ConsumerState<Onboarding> {
         itemCount: AppConstants.title.length,
         onPageChanged: (index) =>
             ref.read(currentPageProvider.notifier).state = index,
-        itemBuilder: (context, index) => Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            // TITLE
-            RichText(
-              textAlign: TextAlign.center,
-              text: TextSpan(
-                style: TextStyle(
-                  fontFamily: 'Inter',
-                  color: Theme.of(context).colorScheme.primary,
-                  fontSize: 36,
-                  fontWeight: FontWeight.w500,
-                ),
-                children: [
-                  TextSpan(text: AppConstants.title[index][0]),
-                  TextSpan(
-                    text: AppConstants.title[index][1],
+        itemBuilder: (context, index) =>
+            Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                // TITLE
+                RichText(
+                  textAlign: TextAlign.center,
+                  text: TextSpan(
                     style: TextStyle(
-                      color: Theme.of(context).colorScheme.secondary,
+                      fontFamily: AppConstants.interFontFamily,
+                      color: Theme.of(context).colorScheme.primary,
+                      fontSize: appDimensions.fontXXL,
+                      fontWeight: FontWeight.w500,
                     ),
+                    children: [
+                      TextSpan(text: AppConstants.title[index][0]),
+                      TextSpan(
+                        text: AppConstants.title[index][1],
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.secondary,
+                        ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-            ),
+                ),
 
-            // IMAGE
-            Expanded(child: Image.asset(AppAssets.onboardingImages[index])),
-            SizedBox(height: 10),
-          ],
-        ).withPadAllCustom(70, 0, 20, 20),
+                // IMAGE
+                Expanded(child: Image.asset(AppAssets.onboardingImages[index])),
+                SizedBox(height: appDimensions.verticalSpaceXS),
+              ],
+            ).withPadAllCustom(
+              appDimensions.verticalPaddingL,
+              0,
+              appDimensions.horizontalPaddingM,
+              appDimensions.horizontalPaddingM,
+            ),
       ),
 
-      bottomNavigationBar: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          // INDICATOR
-          SmoothPageIndicator(
-            controller: pageController,
-            count: 3,
-            effect: SlideEffect(
-              activeDotColor: Theme.of(context).colorScheme.primary,
-              dotColor: Theme.of(context).colorScheme.primary.withAlpha(100),
-              dotHeight: 10,
-              dotWidth: 10,
-            ),
-          ),
-          SizedBox(height: 20),
+      bottomNavigationBar:
+          Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // INDICATOR
+              SmoothPageIndicator(
+                controller: pageController,
+                count: AppConstants.title.length,
+                effect: SlideEffect(
+                  activeDotColor: Theme.of(context).colorScheme.primary,
+                  dotColor: Theme.of(
+                    context,
+                  ).colorScheme.primary.withAlpha(100),
+                  dotHeight: 10,
+                  dotWidth: 10,
+                ),
+              ),
+              SizedBox(height: appDimensions.verticalSpaceS),
 
-          // GET STARTED BUTTON
-          CustomElevatedButton(
-            onPressed: () {
-              if (currentPage) {
-                pageController.nextPage(
-                  duration: Duration(milliseconds: 500),
-                  curve: Curves.easeInOut,
-                );
-                ref.read(currentPageProvider.notifier).state++;
-              } else {
-                context.push("/login");
-              }
-            },
-            text: currentPage ? "Next" : "Get Started",
-            textColor: AppColors.darkGrey,
-            fontWeight: FontWeight.w600,
-          ).withPadHorizontal(20),
-        ],
-      ).withPadCustom(const EdgeInsets.only(bottom: 50)),
+              // GET STARTED BUTTON
+              CustomElevatedButton(
+                onPressed: () {
+                  if (currentPage) {
+                    pageController.nextPage(
+                      duration: Duration(milliseconds: 500),
+                      curve: Curves.easeInOut,
+                    );
+                    ref.read(currentPageProvider.notifier).state++;
+                  } else {
+                    context.push("/login");
+                  }
+                },
+                text: currentPage ? "Next" : "Get Started",
+              ).withPadHorizontal(appDimensions.horizontalPaddingM),
+            ],
+          ).withPadCustom(
+            EdgeInsets.only(bottom: appDimensions.horizontalPaddingM),
+          ),
     );
   }
 }

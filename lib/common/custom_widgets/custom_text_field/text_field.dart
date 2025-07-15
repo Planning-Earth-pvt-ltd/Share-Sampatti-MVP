@@ -1,6 +1,6 @@
 import 'package:share_sampatti_mvp/app/app.dart';
 
-class CustomTextField extends StatelessWidget {
+class CustomTextField extends ConsumerWidget {
   const CustomTextField({
     super.key,
     required this.controller,
@@ -10,6 +10,7 @@ class CustomTextField extends StatelessWidget {
     this.keyboardType,
     this.validator,
     this.radius,
+    this.prefixIcon,
   });
 
   final TextEditingController controller;
@@ -17,11 +18,21 @@ class CustomTextField extends StatelessWidget {
   final TextInputType? keyboardType;
   final String? Function(String?)? validator;
   final String? labelText;
+  final Widget? prefixIcon;
   final double? radius;
   final String? hintText;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final appDimensions = ref.watch(appDimensionsProvider);
+
+    OutlineInputBorder border(Color color) {
+      return OutlineInputBorder(
+        borderSide: BorderSide(color: color, width: 2),
+        borderRadius: BorderRadius.circular(radius ?? appDimensions.radiusM),
+      );
+    }
+
     return TextFormField(
       controller: controller,
       validator: validator,
@@ -29,7 +40,7 @@ class CustomTextField extends StatelessWidget {
       keyboardType: keyboardType ?? TextInputType.text,
       style: style(
         Theme.of(context).colorScheme.secondary,
-        16,
+        appDimensions.fontS,
         FontWeight.w400,
       ),
       decoration: InputDecoration(
@@ -37,13 +48,14 @@ class CustomTextField extends StatelessWidget {
         fillColor: AppColors.darkGrey,
         labelText: labelText,
         hintText: hintText,
-        hintStyle: style(AppColors.grey, 16, FontWeight.w400),
-        labelStyle: style(AppColors.grey, 16, FontWeight.w400),
+        hintStyle: style(AppColors.grey, appDimensions.fontS, FontWeight.w400),
+        labelStyle: style(AppColors.grey, appDimensions.fontS, FontWeight.w400),
         floatingLabelStyle: style(
           Theme.of(context).colorScheme.primary,
-          16,
+          appDimensions.fontS,
           FontWeight.w600,
         ),
+        prefixIcon: prefixIcon,
         enabledBorder: border(AppColors.darkGrey),
         focusedBorder: border(Theme.of(context).colorScheme.primary),
         errorBorder: border(AppColors.red),
@@ -53,16 +65,9 @@ class CustomTextField extends StatelessWidget {
     );
   }
 
-  OutlineInputBorder border(Color color) {
-    return OutlineInputBorder(
-      borderSide: BorderSide(color: color, width: 2),
-      borderRadius: BorderRadius.circular(radius ?? 10),
-    );
-  }
-
   TextStyle style(Color color, double fontSize, FontWeight fontWeight) {
     return TextStyle(
-      fontFamily: "Inter",
+      fontFamily: AppConstants.interFontFamily,
       color: color,
       fontSize: fontSize,
       fontWeight: fontWeight,

@@ -1,6 +1,6 @@
 import 'package:share_sampatti_mvp/app/app.dart';
 
-class ProfileList extends StatelessWidget {
+class ProfileList extends ConsumerWidget {
   const ProfileList({super.key, required this.details, this.onTap, this.color});
 
   final List<String> details;
@@ -8,7 +8,9 @@ class ProfileList extends StatelessWidget {
   final Color? color;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final appDimensions = ref.watch(appDimensionsProvider);
+
     return SizedBox(
       height: details.length * 55,
       child: ListView.builder(
@@ -17,34 +19,70 @@ class ProfileList extends StatelessWidget {
         itemBuilder: (context, index) => Column(
           children: [
             InkWell(
-              onTap: onTap == null ? () {} : () => context.push(onTap![index]),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+              onTap: onTap == null
+                  ? () {
+                      showDialog(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                          title: Inter(
+                            text: "Logout",
+                            fontSize: appDimensions.fontM,
+                            fontWeight: FontWeight.w600,
+                          ),
+                          content: Inter(
+                            text: "Are you sure, do you want to logout?",
+                          ),
+                          buttonPadding: EdgeInsets.symmetric(
+                            horizontal: appDimensions.horizontalPaddingL,
+                          ),
+                          actions: [
+                            CustomTextButton(
+                              text: "No",
+                              onTap: () => context.pop(),
+                            ),
+                            CustomTextButton(
+                              text: "Yes",
+                              onTap: () async {
+                                await ref.read(authProvider.notifier).logout();
+                                context.go("/login");
+                              },
+                            ),
+                          ],
+                        ),
+                      );
+                    }
+                  : () => context.push(onTap![index]),
+              child:
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Inter(
-                        text: details[index],
-                        color: color,
-                        fontSize: 15,
-                        fontWeight: FontWeight.w500,
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Inter(
+                            text: details[index],
+                            color: color,
+                            fontSize: appDimensions.fontXS,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ],
+                      ),
+                      Icon(
+                        Icons.arrow_forward_ios,
+                        color: AppColors.lightGrey,
+                        size: 13,
                       ),
                     ],
+                  ).withPadSymmetric(
+                    appDimensions.verticalPaddingXS,
+                    appDimensions.horizontalPaddingM,
                   ),
-                  Icon(
-                    Icons.arrow_forward_ios,
-                    color: AppColors.lightGrey,
-                    size: 13,
-                  ),
-                ],
-              ).withPadSymmetric(10, 20),
             ),
             if (index != details.length - 1)
               Divider(
                 thickness: 2,
                 color: AppColors.dividerColor,
-              ).withPadSymmetric(0, 20),
+              ).withPadHorizontal(appDimensions.horizontalPaddingM),
           ],
         ),
       ),

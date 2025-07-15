@@ -37,7 +37,7 @@ class _AddharScreenState extends ConsumerState<AddharScreen> {
             child: Column(
               children: [
                 SizedBox(height: size.height * 0.03),
-                Image.asset(AppAssets.addhar, height: size.height * 0.3),
+                Image.asset(AppAssets.aadhaar, height: size.height * 0.3),
                 SizedBox(height: size.height * 0.1),
 
                 buildHeading("Enter Addhar Number"),

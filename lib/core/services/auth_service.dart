@@ -1,67 +1,96 @@
 import 'dart:convert';
+import 'dart:developer';
 
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:share_sampatti_mvp/app/app.dart';
-import 'package:share_sampatti_mvp/scr/model/user_model.dart';
-
-import 'base_services.dart';
 
 final authServiceProvider = Provider<AuthService>((ref) => AuthService());
 
 class AuthService {
   final BaseService _baseService = BaseService();
 
-  //Send Otp(SignUp and LogIn)
-  Future<String> sendOtp({String? name, required String phone}) async {
-    print('SendOtp');
-    final body = {'phoneNumber': phone, if (name != null) 'name': name};
-    print("Phone:- $phone");
-    print(ApiRoutes.sendOtp);
-    final response = await _baseService.post(ApiRoutes.sendOtp, body);
-    dynamic rawData = response.data;
-    print("Raw Response Data: $rawData (${rawData.runtimeType})");
-    // ✅ Step 1: Ensure JSON decoded
-    late final Map<String, dynamic> data;
-    if (rawData is String) {
-      try {
-        data = jsonDecode(rawData);
-      } catch (e) {
-        throw Exception("JSON Decode Failed: $e");
-      }
-    } else if (rawData is Map<String, dynamic>) {
-      data = rawData;
-    } else {
-      throw Exception("Unexpected response type: ${rawData.runtimeType}");
-    }
+  // MARK: SEND OTP
+  // (SIGN UP AND LOG IN)
+  Future<String?> sendOtp({
+    required String phone,
+    required String type,
+    String? name,
+  }) async {
+    log('[AuthService] sendOtp called');
+    final data = {
+      'phoneNumber': phone,
+      if (name != null) 'fullName': name,
+      'type': type,
+    };
 
-    // ✅ Step 2: Safely access message
-    final message = data['message'];
+    // RESPONSE
+    final response = await _baseService.post(
+      url: ApiRoutes.sendOTP,
+      data: data,
+    );
+
+    final rawData = _handleResponseData(response.data);
+    log("[Send OTP] Response Data: $rawData");
+
+    final message = rawData['message'];
     if (message is String) {
-      print("OTP Message: $message");
       return message;
     } else {
       throw Exception("Missing or invalid 'message' in response");
     }
   }
 
-  //Verify OTP and Save Tokens
-  Future<UserModel> verifyOtp({
-    String? name,
+  // MARK: VERIFY OTP
+  // (OTP SCREEN AND SAVE TOKEN)
+  Future<String?> verifyOtp({
     required String phone,
+    required String type,
     required String otp,
+    String? name,
   }) async {
-    final body = {
+    log('[AuthService] verifyOtp called');
+    final data = {
       'phoneNumber': phone,
-      'otp': otp,
-      if (name != null) 'name': name,
+      'OTP': otp,
+      if (name != null) 'fullName': name,
+      'type': type,
     };
-    final response = await _baseService.post(ApiRoutes.verifyOtp, body);
-    final data = response.data;
-    await AuthPreference.saveUserData(
-      accessToken: data['accessToken'],
-      refreshToken: data['refreshToken'],
-      user: Map<String, dynamic>.from(data['user']),
+
+    // RESPONSE
+    final response = await _baseService.post(
+      url: ApiRoutes.verifyOtp,
+      data: data,
     );
-    return UserModel.fromJson(response.data['user']);
+
+    final rawData = _handleResponseData(response.data);
+    log("[Verify OTP] Response Data: $rawData");
+
+    try {
+      await AuthPreference.saveUserData(
+        accessToken: rawData['accessToken'],
+        refreshToken: rawData['refreshToken'],
+        user: Map<String, dynamic>.from(rawData['user']),
+      );
+      log("[AuthService] User data saved");
+      return null;
+    } catch (e) {
+      log("[AuthService] Exception saving user data: $e");
+      throw Exception("Failed to save user data");
+    }
+  }
+
+  Map<String, dynamic> _handleResponseData(dynamic rawData) {
+    if (rawData is Map<String, dynamic>) {
+      return rawData;
+    } else if (rawData is String) {
+      try {
+        return jsonDecode(rawData) as Map<String, dynamic>;
+      } catch (e) {
+        log("[AuthService] JSON Decode Failed: $e");
+        throw Exception("JSON Decode Failed: $e");
+      }
+    } else {
+      log("[AuthService] Unexpected response type: ${rawData.runtimeType}");
+      throw Exception("Unexpected response type: ${rawData.runtimeType}");
+    }
   }
 }

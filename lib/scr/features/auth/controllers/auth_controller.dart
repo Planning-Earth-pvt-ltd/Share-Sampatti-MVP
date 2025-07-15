@@ -1,10 +1,6 @@
 import 'dart:async';
-
-import 'package:flutter/widgets.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:share_sampatti_mvp/core/services/auth_service.dart';
-
-import '../../../../app/auth_check/auth_preferences.dart';
+import 'dart:developer';
+import 'package:share_sampatti_mvp/app/app.dart';
 
 final authProvider = StateNotifierProvider<AuthController, AuthState>(
   (ref) => AuthController(ref.read(authServiceProvider)),
@@ -45,20 +41,17 @@ enum AuthMode { login, signup }
 class AuthController extends StateNotifier<AuthState> {
   final AuthService _authService;
   AuthMode _mode = AuthMode.signup;
-  AuthController(this._authService)
-    : super(
-        AuthState(
-          isFirstInstall: AuthPreference.isFirstInstall(),
-          isLoggedIn: AuthPreference.isUserLoggedIn(),
-        ),
-      );
+  AuthController(this._authService) : super(AuthState.initial());
 
   void setAuthMode(AuthMode mode) {
     _mode = mode;
   }
 
   //CheckAuth Status
-  void checkAuthStatus() async {
+  Future<void> checkAuthStatus() async {
+    if (!Hive.isBoxOpen('authBox')) {
+      await Hive.openBox('authBox');
+    }
     final isFirstInstall = AuthPreference.isFirstInstall();
     final isLoggedIn = AuthPreference.isUserLoggedIn();
 
@@ -69,20 +62,29 @@ class AuthController extends StateNotifier<AuthState> {
       isFirstInstall: isFirstInstall,
       isLoggedIn: isLoggedIn,
     );
+    log(
+      "Hive status — isLoggedIn:([${Hive.isBoxOpen('isLoggedIn')}])  ${Hive.box('authBox').isOpen} $isLoggedIn, isFirstInstall: $isFirstInstall",
+    );
+    var box = Hive.box('authBox');
+    log("isLoggedIn: ${box.get('isLoggedIn')}");
+    log('Login status: ${box.get('isLoggedIn')}'); // must print true
   }
 
   //sendOtp
   Future<bool> sendOtp({required String phone, String? name}) async {
     try {
       state = state.copyWith(isLoading: true, error: null);
+      log("Before call sendOtp on AuthController - $phone $name $_mode");
       final message = await _authService.sendOtp(
         phone: phone,
         name: _mode == AuthMode.signup ? name : null,
+        type: _mode == AuthMode.signup ? "signup" : "login",
       );
-      print("✅ Message received: $message (${message.runtimeType})");
+      log("After call sendOtp on AuthController");
+      log("Message received: $message (${message.runtimeType})");
       return true;
     } catch (error) {
-      print('Send Otp error: $error');
+      log('Send Otp error: $error');
       state = state.copyWith(error: error.toString());
       return false;
     } finally {
@@ -91,22 +93,30 @@ class AuthController extends StateNotifier<AuthState> {
   }
 
   //verifyOtp
-
-  Future<void> verifyOtp({
+  Future<bool> verifyOtp({
     required String phone,
     required String otp,
     String? name,
   }) async {
     try {
       state = state.copyWith(isLoading: true, error: null);
-      await _authService.verifyOtp(
+      log("Before call sendOtp on AuthController - $phone $name $_mode");
+      final message = await _authService.verifyOtp(
         phone: phone,
         otp: otp,
         name: _mode == AuthMode.signup ? name : null,
+        type: _mode == AuthMode.signup ? "signup" : "login",
       );
-      state = state.copyWith(isLoggedIn: true);
+      log("After call sendOtp on AuthController");
+      if (message == "") {
+        await checkAuthStatus();
+        return true;
+      }
+      state = state.copyWith(error: message);
+      return false;
     } catch (error) {
       state = state.copyWith(error: error.toString());
+      return false;
     } finally {
       state = state.copyWith(isLoading: false);
     }
@@ -132,7 +142,7 @@ class OtpTimerController extends StateNotifier<int> {
 
   void start() {
     _timer?.cancel();
-    state = 30;
+    state = 59;
     _timer = Timer.periodic(Duration(seconds: 1), (timer) {
       if (state > 0) {
         state--;
