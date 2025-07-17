@@ -9,7 +9,6 @@ export 'features/navigation/screens/save/save.dart';
 export 'features/navigation/screens/portfolio/portfolio.dart';
 export 'features/chat_bot/chat_bot.dart';
 export 'features/explore/explore.dart';
-export 'features/payment_confirmation/payment_confirmation.dart';
 
 export 'providers/controllers.dart';
 export 'providers/validators.dart';

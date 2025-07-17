@@ -52,8 +52,24 @@ class Navigate {
         },
       ),
       GoRoute(
-        path: '/paymentConfirmation',
-        builder: (context, state) => PaymentConfirmationScreen(),
+        path: '/paymentConfirmation/:id',
+        pageBuilder: (context, state) {
+          final id = state.pathParameters['id']!;
+
+          return CustomTransitionPage(
+            key: state.pageKey,
+            child: PaymentConfirmationScreen(id: id),
+            transitionsBuilder:
+                (context, animation, secondaryAnimation, child) =>
+                    SlideTransition(
+                      position: Tween<Offset>(
+                        begin: Offset(1, 0),
+                        end: Offset.zero,
+                      ).animate(animation),
+                      child: child,
+                    ),
+          );
+        },
       ),
       GoRoute(path: '/explore', builder: (context, state) => ExploreScreen()),
       GoRoute(path: '/chatBot', builder: (context, state) => ChatBotScreen()),

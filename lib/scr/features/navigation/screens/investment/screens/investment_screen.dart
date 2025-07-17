@@ -16,6 +16,7 @@ class _InvestmentScreenState extends ConsumerState<InvestmentScreen> {
     final appDimensions = ref.watch(appDimensionsProvider);
     final searchController = ref.watch(searchProvider);
     final propertyProv = ref.watch(propertyProvider);
+    final bookmarked = ref.watch(bookMarkProvider);
 
     return SafeArea(
       child: GestureDetector(
@@ -41,9 +42,9 @@ class _InvestmentScreenState extends ConsumerState<InvestmentScreen> {
             ),
             body: propertyProv.when(
               data: (property) => ListView.builder(
-                itemCount: 10,
+                itemCount: property.length,
                 itemBuilder: (context, index) {
-                  final bookmark = ref.watch(bookmarkProvider(index));
+                  final isBookmarked = bookmarked.contains(property[index].id);
                   final price = NumberFormat.decimalPattern(
                     "en_IN",
                   ).format(property[index % property.length].pricePerSqFt);
@@ -71,7 +72,12 @@ class _InvestmentScreenState extends ConsumerState<InvestmentScreen> {
                             CircleAvatar(
                               radius: 25,
                               backgroundImage: NetworkImage(
-                                property[index % property.length].images[0],
+                                property[index % property.length]
+                                        .images
+                                        .isNotEmpty
+                                    ? property[index % property.length]
+                                          .images[0]
+                                    : "https://res.cloudinary.com/dowsrgchg/image/upload/v1752232642/properties/gxbw2tvj3qa2wtill46v.webp",
                               ),
                             ),
                             SizedBox(width: appDimensions.horizontalSpaceXS),
@@ -98,15 +104,11 @@ class _InvestmentScreenState extends ConsumerState<InvestmentScreen> {
                               ),
                             ),
                             IconButton(
-                              onPressed: () =>
-                                  ref
-                                          .read(
-                                            bookmarkProvider(index).notifier,
-                                          )
-                                          .state =
-                                      !bookmark,
+                              onPressed: () => ref
+                                  .read(bookMarkProvider.notifier)
+                                  .toggleMarker(property[index].id),
                               icon: Icon(
-                                bookmark
+                                isBookmarked
                                     ? Icons.bookmark
                                     : Icons.bookmark_border,
                                 color: Theme.of(context).colorScheme.primary,

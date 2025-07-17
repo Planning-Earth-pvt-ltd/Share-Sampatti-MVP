@@ -1,4 +1,3 @@
-import 'package:intl/intl.dart';
 import 'package:share_sampatti_mvp/app/app.dart';
 
 class InvestNowDocument extends ConsumerWidget {
@@ -76,10 +75,6 @@ class InvestNowDocument extends ConsumerWidget {
     return SafeArea(
       child: currentPropertyProv.when(
         data: (data) {
-          final price = NumberFormat.decimalPattern(
-            "en_IN",
-          ).format(data.pricePerSqFt);
-
           return Scaffold(
             body: SingleChildScrollView(
               child: Column(
@@ -134,7 +129,7 @@ class InvestNowDocument extends ConsumerWidget {
                 ],
               ),
             ),
-            bottomNavigationBar: SellOrBuy(price: price),
+            bottomNavigationBar: SellOrBuy(id: id, price: data.pricePerSqFt),
           );
         },
         error: (e, _) => Center(child: Text('Invest Now Error: $e')),

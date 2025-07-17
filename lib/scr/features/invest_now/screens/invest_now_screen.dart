@@ -293,7 +293,7 @@ class InvestNowScreen extends ConsumerWidget {
                 ],
               ),
             ),
-            bottomNavigationBar: SellOrBuy(price: price),
+            bottomNavigationBar: SellOrBuy(id: id, price: data.pricePerSqFt),
           );
         },
         error: (e, _) => Center(child: Text('Invest Now Error: $e')),
