@@ -121,7 +121,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                           } else {
                             final errorMsg =
                                 ref.read(authProvider).error ??
-                                "Something went wrong";
+                                "User already exists. Please login.";
                             ScaffoldMessenger.of(
                               context,
                             ).showSnackBar(SnackBar(content: Text(errorMsg)));

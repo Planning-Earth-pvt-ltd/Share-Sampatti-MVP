@@ -23,10 +23,7 @@ class AuthService {
     };
 
     // RESPONSE
-    final response = await _baseService.post(
-      url: ApiRoutes.sendOTP,
-      data: data,
-    );
+    final response = await _baseService.post(ApiRoutes.sendOTP, data);
 
     final rawData = _handleResponseData(response.data);
     log("[Send OTP] Response Data: $rawData");
@@ -56,10 +53,7 @@ class AuthService {
     };
 
     // RESPONSE
-    final response = await _baseService.post(
-      url: ApiRoutes.verifyOtp,
-      data: data,
-    );
+    final response = await _baseService.post(ApiRoutes.verifyOtp, data);
 
     final rawData = _handleResponseData(response.data);
     log("[Verify OTP] Response Data: $rawData");

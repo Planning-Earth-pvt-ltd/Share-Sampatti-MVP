@@ -108,12 +108,12 @@ class AuthController extends StateNotifier<AuthState> {
         type: _mode == AuthMode.signup ? "signup" : "login",
       );
       log("After call sendOtp on AuthController");
-      if (message == "") {
-        await checkAuthStatus();
-        return true;
-      }
+      // if (message == "") {
+      //   await checkAuthStatus();
+      //   return true;
+      // }
       state = state.copyWith(error: message);
-      return false;
+      return true;
     } catch (error) {
       state = state.copyWith(error: error.toString());
       return false;
