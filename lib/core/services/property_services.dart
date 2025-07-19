@@ -6,7 +6,7 @@ class PropertyService {
   final BaseService _baseService = BaseService();
 
   Future<List<PropertyModel>> fetchProperty() async {
-    final response = await _baseService.get(ApiRoutes.property);
+    final response = await _baseService.get(url: ApiRoutes.property);
 
     try {
       log(response.data.toString());
@@ -22,7 +22,9 @@ class PropertyService {
   }
 
   Future<PropertyModel> fetchCurrentProperty(String id) async {
-    final response = await _baseService.get("${ApiRoutes.currentProperty}/$id");
+    final response = await _baseService.get(
+      url: "${ApiRoutes.currentProperty}/$id",
+    );
 
     try {
       log(response.data.toString());
