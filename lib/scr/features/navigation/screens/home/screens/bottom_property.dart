@@ -7,7 +7,7 @@ class BottomProperty extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final appDimensions = ref.watch(appDimensionsProvider);
     final currentPropertyProv = ref.watch(
-      currentPropertyProvider("cmcufto670000v2sg2kh02m7c"),
+      currentPropertyProvider("cmda6d0zy0001v2ms0wmqwee5"),
     );
 
     return currentPropertyProv.when(

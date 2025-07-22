@@ -1,4 +1,5 @@
 import 'package:share_sampatti_mvp/app/app.dart';
+import 'package:share_sampatti_mvp/scr/providers/user_controller.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
