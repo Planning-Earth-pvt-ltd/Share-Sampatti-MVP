@@ -13,5 +13,7 @@ export 'custom_widgets/custom_texts/inter.dart';
 export 'custom_widgets/custom_text_field/text_field.dart';
 
 export 'custom_widgets/profile_list.dart';
-export 'custom_widgets/custom_app_bar.dart';
-export 'custom_widgets/custom_url_launcher.dart';
+export 'custom_widgets/others/custom_app_bar.dart';
+export 'custom_widgets/others/custom_url_launcher.dart';
+export 'custom_widgets/others/custom_snack_bar.dart';
+export 'custom_widgets/others/custom_no_connection.dart';

@@ -101,18 +101,14 @@ class AuthController extends StateNotifier<AuthState> {
     try {
       state = state.copyWith(isLoading: true, error: null);
       log("Before call sendOtp on AuthController - $phone $name $_mode");
-      final message = await _authService.verifyOtp(
+      await _authService.verifyOtp(
         phone: phone,
         otp: otp,
         name: _mode == AuthMode.signup ? name : null,
         type: _mode == AuthMode.signup ? "signup" : "login",
       );
       log("After call sendOtp on AuthController");
-      // if (message == "") {
-      //   await checkAuthStatus();
-      //   return true;
-      // }
-      state = state.copyWith(error: message);
+
       return true;
     } catch (error) {
       state = state.copyWith(error: error.toString());

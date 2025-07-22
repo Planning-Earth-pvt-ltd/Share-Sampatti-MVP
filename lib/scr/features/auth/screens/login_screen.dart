@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:share_sampatti_mvp/app/app.dart';
 
 class LogInScreen extends ConsumerStatefulWidget {
@@ -19,23 +18,6 @@ class _LogInScreenState extends ConsumerState<LogInScreen> {
       profileProvider,
     );
     final mobileValidator = ref.watch(mobileValidatorProvider);
-
-    handleAlert(String errorMsg) {
-      return ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Inter(
-            text: errorMsg,
-            color: AppColors.darkGrey,
-            fontWeight: FontWeight.w600,
-          ),
-          backgroundColor: AppColors.red,
-          behavior: SnackBarBehavior.floating,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadiusGeometry.circular(appDimensions.radiusM),
-          ),
-        ),
-      );
-    }
 
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
@@ -120,14 +102,20 @@ class _LogInScreenState extends ConsumerState<LogInScreen> {
                           );
                           log("After sendOtp call on LogInScreen");
                           if (success) {
+                            // ignore: use_build_context_synchronously
                             context.go("/otpScreen");
                           } else {
+                            log(
+                              "Snackbar Error -> ${ref.watch(authProvider).error}",
+                            );
                             final errorMsg =
                                 ref.watch(authProvider).error ??
                                 "User not found. Please sign up first.";
-                            handleAlert(errorMsg);
+                            // ignore: use_build_context_synchronously
+                            CustomSnackBar.snackbar(context, errorMsg);
 
                             //Reset Error After Showing
+                            // ignore: invalid_use_of_visible_for_testing_member, invalid_use_of_protected_member
                             ref.read(authProvider.notifier).state = ref
                                 .read(authProvider)
                                 .copyWith(error: null);

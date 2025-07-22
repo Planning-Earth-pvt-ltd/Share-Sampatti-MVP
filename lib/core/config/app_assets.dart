@@ -18,6 +18,7 @@ class AppAssets {
       "assets/images/investment_advertisement.png";
   static const String chatNowAssistant = "assets/images/chat_now_assistant.png";
   static const String chatNowUser = "assets/images/chat_now_user.png";
+  static const String noConnection = "assets/images/noConnection.png";
 
   // ONBOARDING
   static const List<String> onboardingImages = [
