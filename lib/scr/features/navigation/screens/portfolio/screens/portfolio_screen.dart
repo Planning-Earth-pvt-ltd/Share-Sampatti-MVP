@@ -5,7 +5,6 @@ class PortfolioScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isChartView = ref.watch(viewToggleProvider);
     final appDimensions = ref.watch(appDimensionsProvider);
 
     balanceCard() {
@@ -150,10 +149,20 @@ class PortfolioScreen extends ConsumerWidget {
     }
 
     return Scaffold(
-      appBar: CustomAppBar.appbar(context, "Portfolio"),
       body: SingleChildScrollView(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Inter(
+              text: "Portfolio",
+              fontSize: appDimensions.fontL,
+              fontWeight: FontWeight.w600,
+            ).withPadAllCustom(
+              appDimensions.horizontalPaddingM,
+              0,
+              appDimensions.horizontalPaddingM,
+              appDimensions.horizontalPaddingM,
+            ),
             balanceCard(),
             Divider(
               color: AppColors.dividerColor,
@@ -164,18 +173,7 @@ class PortfolioScreen extends ConsumerWidget {
               color: AppColors.dividerColor,
               thickness: 2,
             ).withPadSymmetric(0, appDimensions.horizontalPaddingM),
-            isChartView
-                ? Container(
-                    height: 200,
-                    color: Colors.green.withOpacity(0.2),
-                    child: Center(
-                      child: Text(
-                        'Chart View',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ),
-                  )
-                : propertyList(),
+            propertyList(),
           ],
         ),
       ),

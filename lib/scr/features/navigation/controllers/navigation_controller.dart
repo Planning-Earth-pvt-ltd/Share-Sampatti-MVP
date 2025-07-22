@@ -34,3 +34,5 @@ class BookMarkNotifier extends StateNotifier<Set<String>> {
 final bookMarkProvider = StateNotifierProvider<BookMarkNotifier, Set<String>>(
   (ref) => BookMarkNotifier(),
 );
+
+final noConnectionProvider = StateProvider<bool>((ref) => false);

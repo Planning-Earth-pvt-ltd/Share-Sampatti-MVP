@@ -1,6 +1,6 @@
 class UserModel {
   final String id;
-  final String name;
+  final String fullName;
   final String phone;
   final String? email;
   final bool? kycStatus;
@@ -10,7 +10,7 @@ class UserModel {
 
   UserModel({
     required this.id,
-    required this.name,
+    required this.fullName,
     required this.phone,
     this.email,
     this.kycStatus,
@@ -22,10 +22,10 @@ class UserModel {
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
       id: json['id'],
-      name: json["name"],
+      fullName: json["fullName"],
       phone: json["phoneNumber"],
     );
   }
 
-  Map<String, dynamic> toJson() => {'name': name, 'phoneNumber': phone};
+  Map<String, dynamic> toJson() => {'name': fullName, 'phoneNumber': phone};
 }

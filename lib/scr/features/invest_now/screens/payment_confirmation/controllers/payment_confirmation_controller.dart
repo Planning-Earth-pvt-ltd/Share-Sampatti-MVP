@@ -1,8 +1,5 @@
 // invest_now_controller.dart
 import 'dart:developer';
-
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:share_sampatti_mvp/app/app.dart';
 
 class PaymentConfirmationState {
@@ -40,6 +37,7 @@ final paymentConfirmationProvider =
 
 class RazorpayService {
   late Razorpay _razorpay;
+  final _baseServices = BaseService();
 
   RazorpayService() {
     _razorpay = Razorpay();
@@ -71,6 +69,13 @@ class RazorpayService {
       log("Razorpay Error: $e");
     }
   }
+
+  // Future<Map<String, dynamic>> createOrder() async {
+  //   final response = await _baseServices.post(
+  //     url: ApiRoutes.createOrder,
+  //     data: {},
+  //   );
+  // }
 
   _handlePaymentSuccess(PaymentSuccessResponse response) {
     log("Payment Success: ${response.paymentId}");

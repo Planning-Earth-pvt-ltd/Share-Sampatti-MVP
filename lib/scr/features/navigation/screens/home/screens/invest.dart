@@ -8,6 +8,7 @@ class Invest extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final appDimensions = ref.watch(appDimensionsProvider);
     final propertyProv = ref.watch(propertyProvider);
+    final noConnection = ref.watch(noConnectionProvider);
 
     return SizedBox(
       height: appDimensions.width * 0.6,
@@ -100,7 +101,10 @@ class Invest extends ConsumerWidget {
             );
           },
         ),
-        error: (e, _) => Center(child: Text('Error: $e')),
+        error: (e, _) {
+          // ref.read(noConnectionProvider.notifier).state = !noConnection;
+          return Inter(text: "Error -> e");
+        },
         loading: () => const Center(child: CircularProgressIndicator()),
       ),
     ).withPadSymmetric(appDimensions.horizontalPaddingM, 0);

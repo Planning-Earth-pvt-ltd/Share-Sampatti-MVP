@@ -70,7 +70,7 @@ class BottomProperty extends ConsumerWidget {
 
             CustomElevatedButton(
               onPressed: () =>
-                  context.push("/investNow/cmcufto670000v2sg2kh02m7c"),
+                  context.push("/investNow/cmda6d0zy0001v2ms0wmqwee5"),
               text: "Invest Now",
             ),
           ],

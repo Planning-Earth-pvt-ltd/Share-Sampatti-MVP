@@ -2,12 +2,15 @@ import 'dart:developer';
 
 import 'package:share_sampatti_mvp/app/app.dart';
 
-final userProvider = StateNotifierProvider<UserNotifier, UserModel?>(
+final userProvider = StateNotifierProvider<UserNotifier, UserModel>(
   (ref) => UserNotifier(),
 );
 
-class UserNotifier extends StateNotifier<UserModel?> {
-  UserNotifier() : super(null) {
+class UserNotifier extends StateNotifier<UserModel> {
+  UserNotifier()
+    : super(
+        UserModel(id: "temporaryId", fullName: "User", phone: "9876543210"),
+      ) {
     loadUser();
   }
 
@@ -15,10 +18,8 @@ class UserNotifier extends StateNotifier<UserModel?> {
     final user = AuthPreference.getUserData();
 
     if (user != null) {
-      log("User not null");
+      log("User -> $user");
       state = UserModel.fromJson(user);
-    } else {
-      state = UserModel(id: "id", name: "User", phone: "9876543210");
     }
   }
 }

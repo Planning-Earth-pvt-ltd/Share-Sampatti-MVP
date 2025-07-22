@@ -6,6 +6,7 @@ class NavigationScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentIndex = ref.watch(navigationProvider);
+    final noConnection = ref.watch(noConnectionProvider);
 
     bottomIcon(int currentIndex, int index) {
       return SvgPicture.asset(
@@ -19,7 +20,9 @@ class NavigationScreen extends ConsumerWidget {
 
     return SafeArea(
       child: Scaffold(
-        body: Navigation.screen[currentIndex],
+        body: noConnection
+            ? Center(child: Inter(text: "No Connection"))
+            : Navigation.screen[currentIndex],
         bottomNavigationBar: BottomNavigationBar(
           onTap: (index) => ref.read(navigationProvider.notifier).state = index,
           currentIndex: currentIndex,

@@ -4,4 +4,6 @@ class ApiRoutes {
   static const String verifyOtp = '$baseUrl/user/verifyOTP';
   static const String property = '$baseUrl/property/property_home';
   static const String currentProperty = '$baseUrl/property/GET_PROPERTY';
+  static const String createOrder = '$baseUrl/transactions/create';
+  static const String verifyOrder = '$baseUrl/transactions/verify';
 }

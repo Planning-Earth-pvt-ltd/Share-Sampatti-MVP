@@ -11,6 +11,7 @@ export 'features/chat_bot/chat_bot.dart';
 export 'features/explore/explore.dart';
 
 export 'providers/controllers.dart';
+export 'providers/user_controller.dart';
 export 'providers/validators.dart';
 
 export 'model/model.dart';
