@@ -51,6 +51,23 @@ class _OtpVerificationScreenState extends ConsumerState<OtpVerificationScreen> {
     final appDimensions = ref.watch(appDimensionsProvider);
     final authNotifier = ref.read(authProvider.notifier);
 
+    handleAlert(String errorMsg) {
+      return ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Inter(
+            text: errorMsg,
+            color: AppColors.darkGrey,
+            fontWeight: FontWeight.w600,
+          ),
+          backgroundColor: AppColors.red,
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadiusGeometry.circular(appDimensions.radiusM),
+          ),
+        ),
+      );
+    }
+
     pinTheme(Color color) => PinTheme(
       height: appDimensions.defaultPinputRadius,
       width: appDimensions.defaultPinputRadius,
@@ -119,9 +136,7 @@ class _OtpVerificationScreenState extends ConsumerState<OtpVerificationScreen> {
                     final errorMsg =
                         ref.read(authProvider).error ??
                         "Invalid OTP, please try again";
-                    ScaffoldMessenger.of(
-                      context,
-                    ).showSnackBar(SnackBar(content: Text(errorMsg)));
+                    handleAlert(errorMsg);
 
                     // Optionally reset the pinput or show error state
                     ref.read(authProvider.notifier).state = ref

@@ -21,6 +21,23 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
     final nameValidator = ref.watch(nameValidatorProvider);
     final mobileValidator = ref.watch(mobileValidatorProvider);
 
+    handleAlert(String errorMsg) {
+      return ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Inter(
+            text: errorMsg,
+            color: AppColors.darkGrey,
+            fontWeight: FontWeight.w600,
+          ),
+          backgroundColor: AppColors.red,
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadiusGeometry.circular(appDimensions.radiusM),
+          ),
+        ),
+      );
+    }
+
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
@@ -113,18 +130,15 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                             phone: phone,
                             name: name,
                           );
-                          log(
-                            'Read Otp error: ${ref.read(authProvider).error}',
-                          );
+
                           if (success) {
                             context.go("/otpScreen");
                           } else {
                             final errorMsg =
                                 ref.read(authProvider).error ??
-                                "Something went wrong";
-                            ScaffoldMessenger.of(
-                              context,
-                            ).showSnackBar(SnackBar(content: Text(errorMsg)));
+                                "User already exists. Please login.";
+                            log('handleAlert');
+                            handleAlert(errorMsg);
 
                             //Reset Error After Showing
                             ref.read(authProvider.notifier).state = ref
