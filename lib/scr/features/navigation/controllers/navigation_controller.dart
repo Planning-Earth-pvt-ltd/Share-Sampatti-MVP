@@ -1,5 +1,6 @@
 import 'package:share_sampatti_mvp/app/app.dart';
 
+// NAVIGATION
 final navigationProvider = StateProvider<int>((ref) => 0);
 
 class Navigation {
@@ -11,10 +12,15 @@ class Navigation {
   ];
 }
 
+// PROPERTIES
 final PropertyService _propertyService = PropertyService();
-
 final propertyProvider = FutureProvider<List<PropertyModel>>(
   (ref) async => _propertyService.fetchProperty(),
+);
+
+// BOOKMARKS
+final bookMarkProvider = StateNotifierProvider<BookMarkNotifier, Set<String>>(
+  (ref) => BookMarkNotifier(),
 );
 
 class BookMarkNotifier extends StateNotifier<Set<String>> {
@@ -30,9 +36,5 @@ class BookMarkNotifier extends StateNotifier<Set<String>> {
 
   bool isBookMarked(String propertyId) => state.contains(propertyId);
 }
-
-final bookMarkProvider = StateNotifierProvider<BookMarkNotifier, Set<String>>(
-  (ref) => BookMarkNotifier(),
-);
 
 final noConnectionProvider = StateProvider<bool>((ref) => false);

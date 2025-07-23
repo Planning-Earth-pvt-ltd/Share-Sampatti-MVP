@@ -6,7 +6,7 @@ class NavigationScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentIndex = ref.watch(navigationProvider);
-    final noConnection = ref.watch(noConnectionProvider);
+    final propertyProv = ref.watch(propertyProvider);
 
     bottomIcon(int currentIndex, int index) {
       return SvgPicture.asset(
@@ -18,47 +18,60 @@ class NavigationScreen extends ConsumerWidget {
       );
     }
 
-    return SafeArea(
-      child: noConnection
-          ? NoConnection()
-          : Scaffold(
-              body: Navigation.screen[currentIndex],
-              bottomNavigationBar: BottomNavigationBar(
-                onTap: (index) =>
-                    ref.read(navigationProvider.notifier).state = index,
-                currentIndex: currentIndex,
-                backgroundColor: AppColors.darkGrey,
-                selectedItemColor: Theme.of(context).colorScheme.primary,
-                unselectedItemColor: AppColors.lightGrey,
-                type: BottomNavigationBarType.fixed,
-                selectedLabelStyle: TextStyle(
-                  fontFamily: "Inter",
-                  fontWeight: FontWeight.w600,
-                ),
-                unselectedLabelStyle: TextStyle(
-                  fontFamily: "Inter",
-                  fontWeight: FontWeight.w400,
-                ),
-                items: [
-                  BottomNavigationBarItem(
-                    icon: bottomIcon(currentIndex, 0),
-                    label: "Home",
-                  ),
-                  BottomNavigationBarItem(
-                    icon: bottomIcon(currentIndex, 1),
-                    label: "Invest",
-                  ),
-                  BottomNavigationBarItem(
-                    icon: bottomIcon(currentIndex, 2),
-                    label: "Save",
-                  ),
-                  BottomNavigationBarItem(
-                    icon: bottomIcon(currentIndex, 3),
-                    label: "Portfolio",
-                  ),
-                ],
-              ),
+    if (propertyProv.isLoading) {
+      return SafeArea(
+        child: Scaffold(
+          body: Center(
+            child: CircularProgressIndicator(
+              color: Theme.of(context).colorScheme.primary,
             ),
+          ),
+        ),
+      );
+    }
+
+    if (propertyProv.hasError) {
+      return NoConnection();
+    }
+
+    return SafeArea(
+      child: Scaffold(
+        body: Navigation.screen[currentIndex],
+        bottomNavigationBar: BottomNavigationBar(
+          onTap: (index) => ref.read(navigationProvider.notifier).state = index,
+          currentIndex: currentIndex,
+          backgroundColor: AppColors.darkGrey,
+          selectedItemColor: Theme.of(context).colorScheme.primary,
+          unselectedItemColor: AppColors.lightGrey,
+          type: BottomNavigationBarType.fixed,
+          selectedLabelStyle: TextStyle(
+            fontFamily: "Inter",
+            fontWeight: FontWeight.w600,
+          ),
+          unselectedLabelStyle: TextStyle(
+            fontFamily: "Inter",
+            fontWeight: FontWeight.w400,
+          ),
+          items: [
+            BottomNavigationBarItem(
+              icon: bottomIcon(currentIndex, 0),
+              label: "Home",
+            ),
+            BottomNavigationBarItem(
+              icon: bottomIcon(currentIndex, 1),
+              label: "Invest",
+            ),
+            BottomNavigationBarItem(
+              icon: bottomIcon(currentIndex, 2),
+              label: "Save",
+            ),
+            BottomNavigationBarItem(
+              icon: bottomIcon(currentIndex, 3),
+              label: "Portfolio",
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
