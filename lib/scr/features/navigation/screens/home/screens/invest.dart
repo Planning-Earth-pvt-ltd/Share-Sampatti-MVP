@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:intl/intl.dart';
 import 'package:share_sampatti_mvp/app/app.dart';
 

@@ -188,6 +188,48 @@ class InvestNowScreen extends ConsumerWidget {
                             ),
                           ],
                         ),
+                        SizedBox(height: appDimensions.verticalSpaceM),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Container(
+                                height: 12,
+                                decoration: BoxDecoration(
+                                  color: AppColors.darkGrey,
+                                  borderRadius: BorderRadius.circular(
+                                    appDimensions.radiusS,
+                                  ),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      offset: Offset(0, 0),
+                                      spreadRadius: 1,
+                                      blurRadius: 10,
+                                      color: Theme.of(
+                                        context,
+                                      ).colorScheme.secondary.withAlpha(40),
+                                    ),
+                                  ],
+                                ),
+                                child: FractionallySizedBox(
+                                  widthFactor: 0.4,
+                                  alignment: Alignment.centerLeft,
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: Theme.of(
+                                        context,
+                                      ).colorScheme.primary,
+                                      borderRadius: BorderRadius.circular(
+                                        appDimensions.radiusS,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            SizedBox(width: width * 0.03),
+                            Inter(text: "40% Funded", color: AppColors.grey),
+                          ],
+                        ),
                       ],
                     ),
                   ),
@@ -196,34 +238,38 @@ class InvestNowScreen extends ConsumerWidget {
                   buildHeader(
                     "Investment Arena",
                   ).withPadAll(appDimensions.horizontalPaddingM),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  Column(
                     children: [
-                      buildArena(
-                        Wrap(
-                          children: [
-                            Inter(text: "~11%", color: AppColors.darkGrey),
-                            SvgPicture.asset(
-                              AppAssets.arrowUp,
-                              colorFilter: ColorFilter.mode(
-                                Colors.green.shade900,
-                                BlendMode.srcIn,
-                              ),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          buildArena(
+                            Wrap(
+                              children: [
+                                Inter(text: "~11%", color: AppColors.darkGrey),
+                                SvgPicture.asset(
+                                  AppAssets.arrowUp,
+                                  colorFilter: ColorFilter.mode(
+                                    Colors.green.shade900,
+                                    BlendMode.srcIn,
+                                  ),
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
-                        null,
-                        "Potential Long Term ROI",
-                      ),
-                      buildArena(
-                        null,
-                        "~₹$price",
-                        "Potential Long Term SQFT PRICE",
-                      ),
-                      buildArena(
-                        null,
-                        "2.57x",
-                        "Potential Long capital Grains",
+                            null,
+                            "Potential Long Term ROI",
+                          ),
+                          buildArena(
+                            null,
+                            "~₹$price",
+                            "Potential Long Term SQFT PRICE",
+                          ),
+                          buildArena(
+                            null,
+                            "2.57x",
+                            "Potential Long capital Grains",
+                          ),
+                        ],
                       ),
                     ],
                   ),

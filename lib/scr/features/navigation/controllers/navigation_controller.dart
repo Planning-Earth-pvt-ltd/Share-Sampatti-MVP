@@ -36,5 +36,3 @@ class BookMarkNotifier extends StateNotifier<Set<String>> {
 
   bool isBookMarked(String propertyId) => state.contains(propertyId);
 }
-
-final noConnectionProvider = StateProvider<bool>((ref) => false);

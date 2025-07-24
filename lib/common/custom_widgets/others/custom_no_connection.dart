@@ -49,10 +49,7 @@ class NoConnection extends ConsumerWidget {
             ],
           ),
           CustomElevatedButton(
-            onPressed: () {
-              ref.refresh(propertyProvider);
-              ref.read(noConnectionProvider.notifier).state = false;
-            },
+            onPressed: () => ref.refresh(propertyProvider),
             text: "Retry",
           ),
         ],
