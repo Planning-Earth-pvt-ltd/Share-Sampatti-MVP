@@ -120,7 +120,7 @@ class InvestNowScreen extends ConsumerWidget {
         data: (data) {
           final price = NumberFormat.decimalPattern(
             "en_IN",
-          ).format(data.pricePerSqFt);
+          ).format(data.pricePerToken);
 
           return Scaffold(
             body: SingleChildScrollView(
@@ -211,7 +211,7 @@ class InvestNowScreen extends ConsumerWidget {
                                   ],
                                 ),
                                 child: FractionallySizedBox(
-                                  widthFactor: 0.4,
+                                  widthFactor: data.progressPercentage * 0.01,
                                   alignment: Alignment.centerLeft,
                                   child: Container(
                                     decoration: BoxDecoration(
@@ -227,7 +227,10 @@ class InvestNowScreen extends ConsumerWidget {
                               ),
                             ),
                             SizedBox(width: width * 0.03),
-                            Inter(text: "40% Funded", color: AppColors.grey),
+                            Inter(
+                              text: "${data.progressPercentage}% Funded",
+                              color: AppColors.grey,
+                            ),
                           ],
                         ),
                       ],
@@ -339,7 +342,7 @@ class InvestNowScreen extends ConsumerWidget {
                 ],
               ),
             ),
-            bottomNavigationBar: SellOrBuy(id: id, price: data.pricePerSqFt),
+            bottomNavigationBar: SellOrBuy(id: id, price: data.pricePerToken),
           );
         },
         error: (e, _) => Center(child: Text('Invest Now Error: $e')),

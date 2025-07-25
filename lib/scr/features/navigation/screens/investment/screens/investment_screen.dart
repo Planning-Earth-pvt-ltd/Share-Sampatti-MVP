@@ -34,7 +34,7 @@ class _InvestmentScreenState extends ConsumerState<InvestmentScreen> {
                     fontWeight: FontWeight.w600,
                   ),
                   bottom: PreferredSize(
-                    preferredSize: Size.fromHeight(60),
+                    preferredSize: Size.fromHeight(70),
                     child: CustomTextField(
                       controller: searchController["search"]!,
                       hintText: "Search",
@@ -144,12 +144,13 @@ class _InvestmentScreenState extends ConsumerState<InvestmentScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Inter(
-                                      text: "Absolute Returns:",
+                                      text: "Funded:",
                                       color: AppColors.lightGrey,
                                       fontSize: appDimensions.fontS,
                                     ),
                                     Inter(
-                                      text: "24.1 %",
+                                      text:
+                                          "${property[index % property.length].progressPercentage}%",
                                       color: Theme.of(
                                         context,
                                       ).colorScheme.primary,

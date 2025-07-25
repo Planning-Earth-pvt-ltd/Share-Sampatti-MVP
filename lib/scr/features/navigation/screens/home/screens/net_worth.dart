@@ -41,7 +41,8 @@ class NetWorth extends ConsumerWidget {
                 fontWeight: FontWeight.w500,
               ),
               IconButton(
-                onPressed: () {},
+                onPressed: () =>
+                    ref.read(navigationProvider.notifier).state = 3,
                 icon: Icon(
                   Icons.arrow_forward_ios,
                   size: appDimensions.iconsM,

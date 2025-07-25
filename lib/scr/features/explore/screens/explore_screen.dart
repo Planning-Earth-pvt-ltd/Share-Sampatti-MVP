@@ -167,84 +167,91 @@ class ExploreScreen extends ConsumerWidget {
             itemBuilder: (context, index) {
               final bookmark = ref.watch(bookmarkProvider(index));
 
-              return Container(
-                height: 325,
-                margin: EdgeInsets.symmetric(
-                  vertical: appDimensions.verticalPaddingS,
+              return GestureDetector(
+                onTap: () => context.push(
+                  "/investNow/${property[index % property.length].id}",
                 ),
-                padding: EdgeInsets.all(appDimensions.horizontalPaddingM),
-                decoration: BoxDecoration(
-                  color: AppColors.black,
-                  borderRadius: BorderRadius.circular(appDimensions.radiusM),
-                  border: Border.symmetric(
-                    horizontal: BorderSide(color: Colors.white),
+                child: Container(
+                  height: 325,
+                  margin: EdgeInsets.symmetric(
+                    vertical: appDimensions.verticalPaddingS,
                   ),
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      height: 200,
-                      width: appDimensions.width,
-                      alignment: Alignment.topRight,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(
-                          appDimensions.radiusM,
-                        ),
-                        image: DecorationImage(
-                          image: NetworkImage(
-                            property[index % property.length].images.isNotEmpty
-                                ? property[index % property.length].images[0]
-                                : "https://res.cloudinary.com/dowsrgchg/image/upload/v1752232642/properties/gxbw2tvj3qa2wtill46v.webp",
-                          ),
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                      child: IconButton(
-                        onPressed: () =>
-                            ref.read(bookmarkProvider(index).notifier).state =
-                                !bookmark,
-                        icon: Icon(
-                          Icons.bookmark,
-                          color: bookmark
-                              ? Theme.of(context).colorScheme.primary
-                              : AppColors.darkGrey,
-                        ),
-                      ),
+                  padding: EdgeInsets.all(appDimensions.horizontalPaddingM),
+                  decoration: BoxDecoration(
+                    color: AppColors.black,
+                    borderRadius: BorderRadius.circular(appDimensions.radiusM),
+                    border: Border.symmetric(
+                      horizontal: BorderSide(color: Colors.white),
                     ),
-                    Divider(thickness: 2, color: AppColors.dividerColor),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Expanded(
-                          child: Inter(
-                            text: property[index % property.length].title,
-                            maxLines: 2,
-                            fontSize: appDimensions.fontM,
-                            fontWeight: FontWeight.w500,
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        height: 200,
+                        width: appDimensions.width,
+                        alignment: Alignment.topRight,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(
+                            appDimensions.radiusM,
+                          ),
+                          image: DecorationImage(
+                            image: NetworkImage(
+                              property[index % property.length]
+                                      .images
+                                      .isNotEmpty
+                                  ? property[index % property.length].images[0]
+                                  : "https://res.cloudinary.com/dowsrgchg/image/upload/v1752232642/properties/gxbw2tvj3qa2wtill46v.webp",
+                            ),
+                            fit: BoxFit.cover,
                           ),
                         ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Inter(
-                              text: "Absolute Returns:",
-                              color: AppColors.lightGrey,
-                              fontSize: appDimensions.fontS,
-                            ),
-                            Inter(
-                              text: "24.1 %",
-                              color: Theme.of(context).colorScheme.primary,
+                        child: IconButton(
+                          onPressed: () =>
+                              ref.read(bookmarkProvider(index).notifier).state =
+                                  !bookmark,
+                          icon: Icon(
+                            Icons.bookmark,
+                            color: bookmark
+                                ? Theme.of(context).colorScheme.primary
+                                : AppColors.darkGrey,
+                          ),
+                        ),
+                      ),
+                      Divider(thickness: 2, color: AppColors.dividerColor),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            child: Inter(
+                              text: property[index % property.length].title,
+                              maxLines: 2,
                               fontSize: appDimensions.fontM,
                               fontWeight: FontWeight.w500,
                             ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ],
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Inter(
+                                text: "Absolute Returns:",
+                                color: AppColors.lightGrey,
+                                fontSize: appDimensions.fontS,
+                              ),
+                              Inter(
+                                text: "24.1 %",
+                                color: Theme.of(context).colorScheme.primary,
+                                fontSize: appDimensions.fontM,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               );
             },

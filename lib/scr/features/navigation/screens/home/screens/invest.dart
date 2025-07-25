@@ -18,14 +18,13 @@ class Invest extends ConsumerWidget {
     return SizedBox(
       height: appDimensions.width * 0.7,
       child: ListView.builder(
-        itemCount: 10,
-        // itemCount: property.length,
+        itemCount: property.length,
         scrollDirection: Axis.horizontal,
         padding: EdgeInsets.only(right: appDimensions.horizontalPaddingM),
         itemBuilder: (context, index) {
           final price = NumberFormat.decimalPattern(
             "en_IN",
-          ).format(property[index % property.length].pricePerSqFt);
+          ).format(property[index].pricePerSqFt);
 
           return Container(
             height: appDimensions.width * 0.6,
@@ -43,8 +42,8 @@ class Invest extends ConsumerWidget {
                     top: Radius.circular(appDimensions.radiusM),
                   ),
                   child: Image.network(
-                    property[index % property.length].images.isNotEmpty
-                        ? property[index % property.length].images[0]
+                    property[index].images.isNotEmpty
+                        ? property[index].images[0]
                         : "https://res.cloudinary.com/dowsrgchg/image/upload/v1752232642/properties/gxbw2tvj3qa2wtill46v.webp",
                     height: appDimensions.width * 0.38,
                     width: appDimensions.width,
@@ -58,7 +57,7 @@ class Invest extends ConsumerWidget {
                   children: [
                     // TITLE
                     Inter(
-                      text: property[index % property.length].title,
+                      text: property[index].title,
                       fontSize: appDimensions.fontS,
                       fontWeight: FontWeight.w500,
                     ),
@@ -86,9 +85,8 @@ class Invest extends ConsumerWidget {
 
                         // INVEST NOW BUTTON
                         GestureDetector(
-                          onTap: () => context.push(
-                            "/investNow/${property[index % property.length].id}",
-                          ),
+                          onTap: () =>
+                              context.push("/investNow/${property[index].id}"),
                           child: Inter(
                             text: "Invest Now",
                             color: Theme.of(context).colorScheme.primary,

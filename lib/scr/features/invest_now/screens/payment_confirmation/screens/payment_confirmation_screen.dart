@@ -3,15 +3,22 @@ import 'dart:developer';
 import 'package:intl/intl.dart';
 import 'package:share_sampatti_mvp/app/app.dart';
 
-class PaymentConfirmationScreen extends ConsumerWidget {
+class PaymentConfirmationScreen extends ConsumerStatefulWidget {
   const PaymentConfirmationScreen({super.key, required this.id});
 
   final String id;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<PaymentConfirmationScreen> createState() =>
+      _PaymentConfirmationScreen();
+}
+
+class _PaymentConfirmationScreen
+    extends ConsumerState<PaymentConfirmationScreen> {
+  @override
+  Widget build(BuildContext context) {
     final appDimensions = ref.watch(appDimensionsProvider);
-    final currentPropertyProv = ref.watch(currentPropertyProvider(id));
+    final currentPropertyProv = ref.watch(currentPropertyProvider(widget.id));
     final paymentState = ref.watch(paymentConfirmationProvider);
     final paymentController = ref.read(paymentConfirmationProvider.notifier);
 
@@ -88,7 +95,9 @@ class PaymentConfirmationScreen extends ConsumerWidget {
 
     return currentPropertyProv.when(
       data: (data) {
-        double tradeValue = paymentController.requiredAmount(data.pricePerSqFt);
+        double tradeValue = paymentController.requiredAmount(
+          data.pricePerToken,
+        );
         double fees = 110.0;
         double margin = tradeValue * 0.02;
         double totalAmount = tradeValue + fees + margin;
@@ -119,7 +128,7 @@ class PaymentConfirmationScreen extends ConsumerWidget {
                   fontWeight: FontWeight.w700,
                 ),
                 Inter(
-                  text: "₹ ${getPrice(data.pricePerSqFt)}",
+                  text: "₹ ${getPrice(data.pricePerToken)}",
                   fontSize: appDimensions.fontM,
                   fontWeight: FontWeight.w700,
                 ),
@@ -212,15 +221,27 @@ class PaymentConfirmationScreen extends ConsumerWidget {
                 ),
                 SizedBox(height: appDimensions.verticalSpaceM),
                 CustomElevatedButton(
-                  onPressed: () {
-                    final razorpay = ref.read(razorpayProvider);
-                    log("Initiate Razorpay");
-                    razorpay.openCheckout(
-                      amount: totalAmount,
-                      name: "Shubam Patel",
-                      email: "test@gmai.com",
-                      phone: '3837598297',
-                    );
+                  onPressed: () async {
+                    try {
+                      final user = AuthPreference.getUserData();
+                      final razorpay = ref.read(razorpayProvider(context));
+                      await razorpay.createOrder(
+                        userId: user!["id"],
+                        propertyId: widget.id,
+                        quantity: paymentState.sqftCount,
+                        type: "BUY",
+                      );
+
+                      log("Initiate Razorpay");
+                      razorpay.openCheckout(
+                        name: user["fullName"],
+                        email: user["email"] ?? "tempEmail",
+                        phone: user["phoneNumber"],
+                      );
+                    } catch (e) {
+                      // ignore: use_build_context_synchronously
+                      CustomSnackBar.snackbar(context, e.toString());
+                    }
                   },
                   text: "Add ₹ ${getPrice(totalAmount)} or more",
                 ),

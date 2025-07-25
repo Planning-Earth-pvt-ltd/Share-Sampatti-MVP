@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:share_sampatti_mvp/app/app.dart';
 
 class NavigationScreen extends ConsumerWidget {
@@ -30,7 +32,8 @@ class NavigationScreen extends ConsumerWidget {
       );
     }
 
-    if (propertyProv.hasError) {
+    if (propertyProv.hasError || propertyProv.value!.isEmpty) {
+      log(propertyProv.error.toString());
       return NoConnection();
     }
 

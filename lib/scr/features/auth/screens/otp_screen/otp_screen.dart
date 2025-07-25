@@ -83,6 +83,7 @@ class _OtpVerificationScreenState extends ConsumerState<OtpVerificationScreen> {
 
               Pinput(
                 length: _length,
+                autofocus: true,
                 pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
                 onCompleted: (otp) async {
                   final success = await authNotifier.verifyOtp(
