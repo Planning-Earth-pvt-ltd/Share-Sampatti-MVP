@@ -238,6 +238,8 @@ class _PaymentConfirmationScreen
                         email: user["email"] ?? "tempEmail",
                         phone: user["phoneNumber"],
                       );
+
+                      ref.refresh(transactionController);
                     } catch (e) {
                       // ignore: use_build_context_synchronously
                       CustomSnackBar.snackbar(context, e.toString());

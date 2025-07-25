@@ -93,10 +93,10 @@ class ExploreScreen extends ConsumerWidget {
                             right: 10,
                           ),
                     decoration: BoxDecoration(
-                      color: (regionControllers == index)
-                          ? Theme.of(context).colorScheme.primary
-                          : (index == 0)
+                      color: (index == 0)
                           ? Colors.red.shade700
+                          : (regionControllers == index)
+                          ? Theme.of(context).colorScheme.primary
                           : null,
                       borderRadius: BorderRadius.circular(
                         appDimensions.radiusL,
@@ -145,7 +145,7 @@ class ExploreScreen extends ConsumerWidget {
                 onTap: () {
                   ref.read(exploreFilterController.notifier).state =
                       !filterControllers;
-                  ref.read(exploreRegionController.notifier).state = 1;
+                  ref.read(exploreRegionController.notifier).state = 0;
                 },
               ),
             ).withPadAllCustom(
@@ -159,18 +159,18 @@ class ExploreScreen extends ConsumerWidget {
     buildContainers() {
       final listHeight = (325 + (2 * appDimensions.verticalPaddingS));
       return SizedBox(
-        height: listHeight * 10,
+        height: listHeight * propertyProv.value!.length,
         child: propertyProv.when(
           data: (property) => ListView.builder(
-            itemCount: 10,
+            itemCount: property.length,
             physics: NeverScrollableScrollPhysics(),
             itemBuilder: (context, index) {
-              final bookmark = ref.watch(bookmarkProvider(index));
+              final bookmark = ref
+                  .watch(bookMarkProvider)
+                  .contains(property[index].id);
 
               return GestureDetector(
-                onTap: () => context.push(
-                  "/investNow/${property[index % property.length].id}",
-                ),
+                onTap: () => context.push("/investNow/${property[index].id}"),
                 child: Container(
                   height: 325,
                   margin: EdgeInsets.symmetric(
@@ -198,19 +198,17 @@ class ExploreScreen extends ConsumerWidget {
                           ),
                           image: DecorationImage(
                             image: NetworkImage(
-                              property[index % property.length]
-                                      .images
-                                      .isNotEmpty
-                                  ? property[index % property.length].images[0]
+                              property[index].images.isNotEmpty
+                                  ? property[index].images[0]
                                   : "https://res.cloudinary.com/dowsrgchg/image/upload/v1752232642/properties/gxbw2tvj3qa2wtill46v.webp",
                             ),
                             fit: BoxFit.cover,
                           ),
                         ),
                         child: IconButton(
-                          onPressed: () =>
-                              ref.read(bookmarkProvider(index).notifier).state =
-                                  !bookmark,
+                          onPressed: () => ref
+                              .read(bookMarkProvider.notifier)
+                              .toggleMarker(property[index].id),
                           icon: Icon(
                             Icons.bookmark,
                             color: bookmark
@@ -226,7 +224,7 @@ class ExploreScreen extends ConsumerWidget {
                         children: [
                           Expanded(
                             child: Inter(
-                              text: property[index % property.length].title,
+                              text: property[index].title,
                               maxLines: 2,
                               fontSize: appDimensions.fontM,
                               fontWeight: FontWeight.w500,

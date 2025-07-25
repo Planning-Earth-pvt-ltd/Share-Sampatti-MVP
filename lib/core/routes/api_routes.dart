@@ -6,5 +6,7 @@ class ApiRoutes {
   static const String currentProperty = '$baseUrl/property/GET_PROPERTY';
   static const String createOrder = '$baseUrl/transactions/create';
   static const String verifyOrder = '$baseUrl/transactions/verify';
-  static const String getTransactions = '$baseUrl/transactions/user';
+  static const String filterByState = '$baseUrl/property/state/';
+
+  static final String getTransactions = '$baseUrl/transactions/user';
 }

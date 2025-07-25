@@ -1,3 +1,6 @@
+import 'dart:ffi';
+import 'dart:math';
+
 import 'package:intl/intl.dart';
 import 'package:share_sampatti_mvp/app/app.dart';
 
@@ -7,8 +10,12 @@ class PortfolioScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final appDimensions = ref.watch(appDimensionsProvider);
+    final transactions = ref.watch(transactionController);
     final user = ref.watch(userProvider);
-    final price = NumberFormat.decimalPattern("en_IN").format(user.netWorth);
+
+    value(double money) {
+      return NumberFormat.decimalPattern("en_IN").format(money);
+    }
 
     // balanceCard() {
     //   return Container(
@@ -91,7 +98,7 @@ class PortfolioScreen extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Inter(
-                  text: "₹ $price",
+                  text: "₹ ${value(user.netWorth!)}",
                   fontSize: appDimensions.fontL,
                   fontWeight: FontWeight.w600,
                 ),
@@ -161,41 +168,83 @@ class PortfolioScreen extends ConsumerWidget {
     }
 
     propertyList() {
-      final items = [
-        'Mohali Prime Land',
-        'Delhi Invst. Land',
-        'Himachal Invst. Land',
-      ];
+      return transactions.when(
+        data: (data) {
+          if (data.isEmpty) {
+            return Expanded(
+              child: Center(
+                child: Inter(
+                  text: "No transactions",
+                  color: AppColors.lightGrey,
+                ),
+              ),
+            );
+          }
 
-      return ListView.builder(
-        shrinkWrap: true,
-        physics: NeverScrollableScrollPhysics(),
-        itemCount: items.length,
-        itemBuilder: (context, index) => Column(
-          children: [
-            if (index != 0)
-              Divider(
-                color: AppColors.dividerColor,
-              ).withPadSymmetric(0, appDimensions.horizontalPaddingM),
-            ListTile(
-              leading: CircleAvatar(
-                backgroundImage: AssetImage(AppAssets.investNowProperty),
-              ),
-              title: Inter(text: "${items[index]} Property Shares"),
-              trailing: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Inter(text: "₹ 56.84 K", fontSize: appDimensions.fontXXS),
-                  Inter(
-                    text: "28.14%",
-                    color: Theme.of(context).colorScheme.primary,
-                    fontSize: appDimensions.fontXXS,
+          return ListView.builder(
+            shrinkWrap: true,
+            physics: NeverScrollableScrollPhysics(),
+            itemCount: min(data.length, 5),
+            itemBuilder: (context, index) => Column(
+              children: [
+                if (index != 0)
+                  Divider(
+                    color: AppColors.dividerColor,
+                  ).withPadSymmetric(0, appDimensions.horizontalPaddingM),
+                ListTile(
+                  leading: CircleAvatar(
+                    backgroundImage: NetworkImage(data[index].image),
                   ),
-                ],
-              ),
-            ).withPadVertical(appDimensions.verticalPaddingXS),
-          ],
+                  title: Inter(text: data[index].title),
+                  trailing: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Inter(
+                        text: "₹ ${value(data[index].amount)}",
+                        fontSize: appDimensions.fontXXS,
+                      ),
+                      Inter(
+                        text: "28.14%",
+                        color: Theme.of(context).colorScheme.primary,
+                        fontSize: appDimensions.fontXXS,
+                      ),
+                      SizedBox(height: appDimensions.verticalSpaceXS),
+                      Container(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: appDimensions.horizontalPaddingXS,
+                        ),
+                        decoration: BoxDecoration(
+                          color: AppColors.grey,
+                          borderRadius: BorderRadius.circular(
+                            appDimensions.radiusXS,
+                          ),
+                        ),
+                        child: Inter(
+                          text: data[index].status,
+                          color: (data[index].status == "SUCCESS")
+                              ? Theme.of(context).colorScheme.primary
+                              : (data[index].status == "PENDING")
+                              ? Colors.amber
+                              : AppColors.red,
+                          fontSize: appDimensions.fontXXS,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ],
+                  ),
+                ).withPadVertical(appDimensions.verticalPaddingXS),
+              ],
+            ),
+          );
+        },
+        error: (Object error, StackTrace stackTrace) {
+          return Inter(text: "Transaction Error -> $error");
+        },
+        loading: () => Center(
+          child: CircularProgressIndicator(
+            color: Theme.of(context).colorScheme.primary,
+          ),
         ),
       );
     }
