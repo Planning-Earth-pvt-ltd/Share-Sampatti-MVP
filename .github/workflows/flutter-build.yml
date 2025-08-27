@@ -1,4 +1,4 @@
-name: Build and Release Flutter App
+name: Build and Release
 
 on:
   push:
@@ -14,10 +14,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      # Setup Flutter (latest stable version)
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.22.0' # use your Flutter SDK version
+          flutter-version: '3.24.0'  # ensures Dart 3.8.1+
 
       - name: Install dependencies
         run: flutter pub get
@@ -25,20 +26,8 @@ jobs:
       - name: Build APK
         run: flutter build apk --release
 
-      - name: Upload build artifact (APK)
+      - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
-          name: flutter-apk
+          name: app-release-apk
           path: build/app/outputs/flutter-apk/app-release.apk
-
-      # If you also want an iOS build (only works on macOS runners)
-      # - name: Build iOS
-      #   if: runner.os == 'macOS'
-      #   run: flutter build ios --release
-
-      # - name: Upload iOS artifact
-      #   if: runner.os == 'macOS'
-      #   uses: actions/upload-artifact@v4
-      #   with:
-      #     name: flutter-ios
-      #     path: build/ios/ipa
