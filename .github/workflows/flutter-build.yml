@@ -17,7 +17,17 @@ jobs:
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.24.3'   # ✅ includes Dart 3.8.1
+          flutter-version: '3.24.3'
+          channel: 'stable'
+          cache: false  # Ensure no old version is used
+
+      - name: Check Flutter & Dart version
+        run: |
+          flutter --version
+          dart --version
+
+      - name: Clean project
+        run: flutter clean
 
       - name: Install dependencies
         run: flutter pub get
