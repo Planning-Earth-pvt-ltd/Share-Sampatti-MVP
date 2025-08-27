@@ -1,0 +1,8 @@
+export 'screens/profile_screen.dart';
+export 'screens/faq/faq.dart';
+export 'screens/about_us/about_us.dart';
+export 'screens/terms_and_conditions/terms_and_conditions.dart';
+export 'screens/privacy_policy/privacy_policy.dart';
+export 'screens/personal_details/personal_details.dart';
+export 'screens/kyc/kyc.dart';
+export 'screens/bank_details/bank_details.dart';
