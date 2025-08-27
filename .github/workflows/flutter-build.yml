@@ -1,23 +1,23 @@
-name: Flutter Build
+name: Build and Release Flutter App
 
 on:
-  workflow_dispatch:   # manually trigger build
   push:
     branches:
-      - main           # run on push to main
+      - main
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout source
-        uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-      - name: Set up Flutter
+      - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.22.0' # use your Flutter version
+          flutter-version: '3.22.0' # use your Flutter SDK version
 
       - name: Install dependencies
         run: flutter pub get
@@ -25,8 +25,20 @@ jobs:
       - name: Build APK
         run: flutter build apk --release
 
-      - name: Upload artifact
-        uses: actions/upload-artifact@v3
+      - name: Upload build artifact (APK)
+        uses: actions/upload-artifact@v4
         with:
-          name: app-release-apk
+          name: flutter-apk
           path: build/app/outputs/flutter-apk/app-release.apk
+
+      # If you also want an iOS build (only works on macOS runners)
+      # - name: Build iOS
+      #   if: runner.os == 'macOS'
+      #   run: flutter build ios --release
+
+      # - name: Upload iOS artifact
+      #   if: runner.os == 'macOS'
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: flutter-ios
+      #     path: build/ios/ipa
