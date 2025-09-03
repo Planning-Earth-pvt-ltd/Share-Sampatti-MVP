@@ -1,4 +1,5 @@
 import 'package:share_sampatti_mvp/app/app.dart';
+import 'package:share_sampatti_mvp/scr/features/navigation/screens/portfolio/screens/transactions/screens/transactions_details_screen.dart';
 
 class Navigate {
   static final route = GoRouter(
@@ -131,6 +132,11 @@ class Navigate {
       GoRoute(
         path: '/transactions',
         pageBuilder: (context, state) => slide(state, TransactionsScreen()),
+      ),
+      GoRoute(
+        path: '/transactionsDetails',
+        pageBuilder: (context, state) =>
+            slide(state, TransactionsDetailsScreen()),
       ),
 
       // MARK: INVEST NOW

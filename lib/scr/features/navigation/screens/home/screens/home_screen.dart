@@ -24,7 +24,7 @@ class HomeScreen extends ConsumerWidget {
               radius: 16,
               backgroundColor: AppColors.profileBackground,
               child: Inter(
-                text: user.fullName.substring(0, 1),
+                text: user.fullName.substring(0, 1).toUpperCase(),
                 fontSize: appDimensions.fontM,
                 fontWeight: FontWeight.w600,
               ),

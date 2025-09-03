@@ -26,4 +26,22 @@ class TransactionsServices {
       rethrow;
     }
   }
+
+  Future<TransactionsModel> fetchCurrentTransactions(String id) async {
+    final response = await _baseService.get(
+      url: "${ApiRoutes.transactions}/$id",
+    );
+
+    try {
+      log(response.data.toString());
+      if (response.statusCode == 200) {
+        final data = response.data;
+        return TransactionsModel.fromJson(data);
+      } else {
+        throw Exception("Failed to fetch property: ${response.statusCode}");
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

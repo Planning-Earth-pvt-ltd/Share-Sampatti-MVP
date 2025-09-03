@@ -1,4 +1,3 @@
-import 'dart:ffi';
 import 'dart:math';
 
 import 'package:intl/intl.dart';
@@ -185,56 +184,63 @@ class PortfolioScreen extends ConsumerWidget {
             shrinkWrap: true,
             physics: NeverScrollableScrollPhysics(),
             itemCount: min(data.length, 5),
-            itemBuilder: (context, index) => Column(
-              children: [
-                if (index != 0)
-                  Divider(
-                    color: AppColors.dividerColor,
-                  ).withPadSymmetric(0, appDimensions.horizontalPaddingM),
-                ListTile(
-                  leading: CircleAvatar(
-                    backgroundImage: NetworkImage(data[index].image),
-                  ),
-                  title: Inter(text: data[index].title),
-                  trailing: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Inter(
-                        text: "₹ ${value(data[index].amount)}",
-                        fontSize: appDimensions.fontXXS,
-                      ),
-                      Inter(
-                        text: "28.14%",
-                        color: Theme.of(context).colorScheme.primary,
-                        fontSize: appDimensions.fontXXS,
-                      ),
-                      SizedBox(height: appDimensions.verticalSpaceXS),
-                      Container(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: appDimensions.horizontalPaddingXS,
+            itemBuilder: (context, index) => GestureDetector(
+              onTap: () {
+                ref.read(currentTransaction.notifier).state = data[index].id;
+                context.push("/transactionsDetails");
+              },
+              child: Column(
+                children: [
+                  if (index != 0)
+                    Divider(
+                      color: AppColors.dividerColor,
+                    ).withPadSymmetric(0, appDimensions.horizontalPaddingM),
+                  ListTile(
+                    leading: CircleAvatar(
+                      backgroundColor: AppColors.black,
+                      backgroundImage: NetworkImage(data[index].image),
+                    ),
+                    title: Inter(text: data[index].title),
+                    trailing: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Inter(
+                          text: "₹ ${value(data[index].amount)}",
+                          fontSize: appDimensions.fontXXS,
                         ),
-                        decoration: BoxDecoration(
-                          color: AppColors.grey,
-                          borderRadius: BorderRadius.circular(
-                            appDimensions.radiusXS,
+                        Inter(
+                          text: "28.14%",
+                          color: Theme.of(context).colorScheme.primary,
+                          fontSize: appDimensions.fontXXS,
+                        ),
+                        SizedBox(height: appDimensions.verticalSpaceXS),
+                        Container(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: appDimensions.horizontalPaddingXS,
+                          ),
+                          decoration: BoxDecoration(
+                            color: AppColors.grey,
+                            borderRadius: BorderRadius.circular(
+                              appDimensions.radiusXS,
+                            ),
+                          ),
+                          child: Inter(
+                            text: data[index].status,
+                            color: (data[index].status == "SUCCESS")
+                                ? Theme.of(context).colorScheme.primary
+                                : (data[index].status == "PENDING")
+                                ? Colors.amber
+                                : AppColors.red,
+                            fontSize: appDimensions.fontXXS,
+                            fontWeight: FontWeight.w700,
                           ),
                         ),
-                        child: Inter(
-                          text: data[index].status,
-                          color: (data[index].status == "SUCCESS")
-                              ? Theme.of(context).colorScheme.primary
-                              : (data[index].status == "PENDING")
-                              ? Colors.amber
-                              : AppColors.red,
-                          fontSize: appDimensions.fontXXS,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                    ],
-                  ),
-                ).withPadVertical(appDimensions.verticalPaddingXS),
-              ],
+                      ],
+                    ),
+                  ).withPadVertical(appDimensions.verticalPaddingXS),
+                ],
+              ),
             ),
           );
         },

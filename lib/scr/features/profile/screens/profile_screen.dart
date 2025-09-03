@@ -45,7 +45,7 @@ class ProfileScreen extends ConsumerWidget {
                         radius: 20,
                         backgroundColor: AppColors.profileBackground,
                         child: Inter(
-                          text: user.fullName.substring(0, 1),
+                          text: user.fullName.substring(0, 1).toUpperCase(),
                           fontSize: appDimensions.fontL,
                           fontWeight: FontWeight.w600,
                         ),

@@ -9,8 +9,9 @@ class ExploreScreen extends ConsumerWidget {
     final categoriesControllers = ref.watch(exploreCategoriesController);
     final regionControllers = ref.watch(exploreRegionController);
     final filterControllers = ref.watch(exploreFilterController);
-    final propertyProv = ref.watch(propertyProvider);
+    final propertyProv = ref.watch(exploreProvider);
 
+    // MARK: Categories
     buildCategories() {
       return SizedBox(
         height: 35,
@@ -61,6 +62,7 @@ class ExploreScreen extends ConsumerWidget {
       );
     }
 
+    // MARK: Region
     buildRegion() {
       return filterControllers
           ? SizedBox(
@@ -156,104 +158,115 @@ class ExploreScreen extends ConsumerWidget {
             );
     }
 
+    // MARK: Containers
     buildContainers() {
       final listHeight = (325 + (2 * appDimensions.verticalPaddingS));
       return SizedBox(
-        height: listHeight * propertyProv.value!.length,
+        height: propertyProv.hasValue && propertyProv.value!.isNotEmpty
+            ? listHeight * propertyProv.value!.length
+            : appDimensions.height,
         child: propertyProv.when(
-          data: (property) => ListView.builder(
-            itemCount: property.length,
-            physics: NeverScrollableScrollPhysics(),
-            itemBuilder: (context, index) {
-              final bookmark = ref
-                  .watch(bookMarkProvider)
-                  .contains(property[index].id);
+          data: (property) {
+            if (property.isEmpty) {
+              return Center(child: Inter(text: "No Properties"));
+            }
 
-              return GestureDetector(
-                onTap: () => context.push("/investNow/${property[index].id}"),
-                child: Container(
-                  height: 325,
-                  margin: EdgeInsets.symmetric(
-                    vertical: appDimensions.verticalPaddingS,
-                  ),
-                  padding: EdgeInsets.all(appDimensions.horizontalPaddingM),
-                  decoration: BoxDecoration(
-                    color: AppColors.black,
-                    borderRadius: BorderRadius.circular(appDimensions.radiusM),
-                    border: Border.symmetric(
-                      horizontal: BorderSide(color: Colors.white),
+            return ListView.builder(
+              itemCount: property.length,
+              physics: NeverScrollableScrollPhysics(),
+              itemBuilder: (context, index) {
+                final bookmark = ref
+                    .watch(bookMarkProvider)
+                    .contains(property[index].id);
+
+                return GestureDetector(
+                  onTap: () => context.push("/investNow/${property[index].id}"),
+                  child: Container(
+                    height: 325,
+                    margin: EdgeInsets.symmetric(
+                      vertical: appDimensions.verticalPaddingS,
                     ),
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        height: 200,
-                        width: appDimensions.width,
-                        alignment: Alignment.topRight,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(
-                            appDimensions.radiusM,
-                          ),
-                          image: DecorationImage(
-                            image: NetworkImage(
-                              property[index].images.isNotEmpty
-                                  ? property[index].images[0]
-                                  : "https://res.cloudinary.com/dowsrgchg/image/upload/v1752232642/properties/gxbw2tvj3qa2wtill46v.webp",
-                            ),
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                        child: IconButton(
-                          onPressed: () => ref
-                              .read(bookMarkProvider.notifier)
-                              .toggleMarker(property[index].id),
-                          icon: Icon(
-                            Icons.bookmark,
-                            color: bookmark
-                                ? Theme.of(context).colorScheme.primary
-                                : AppColors.darkGrey,
-                          ),
-                        ),
+                    padding: EdgeInsets.all(appDimensions.horizontalPaddingM),
+                    decoration: BoxDecoration(
+                      color: AppColors.black,
+                      borderRadius: BorderRadius.circular(
+                        appDimensions.radiusM,
                       ),
-                      Divider(thickness: 2, color: AppColors.dividerColor),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Expanded(
-                            child: Inter(
-                              text: property[index].title,
-                              maxLines: 2,
-                              fontSize: appDimensions.fontM,
-                              fontWeight: FontWeight.w500,
+                      border: Border.symmetric(
+                        horizontal: BorderSide(color: Colors.white),
+                      ),
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          height: 200,
+                          width: appDimensions.width,
+                          alignment: Alignment.topRight,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(
+                              appDimensions.radiusM,
+                            ),
+                            image: DecorationImage(
+                              image: NetworkImage(
+                                property[index].images.isNotEmpty
+                                    ? property[index].images[0]
+                                    : "https://res.cloudinary.com/dowsrgchg/image/upload/v1752232642/properties/gxbw2tvj3qa2wtill46v.webp",
+                              ),
+                              fit: BoxFit.cover,
                             ),
                           ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              Inter(
-                                text: "Absolute Returns:",
-                                color: AppColors.lightGrey,
-                                fontSize: appDimensions.fontS,
-                              ),
-                              Inter(
-                                text: "24.1 %",
-                                color: Theme.of(context).colorScheme.primary,
+                          child: IconButton(
+                            onPressed: () => ref
+                                .read(bookMarkProvider.notifier)
+                                .toggleMarker(property[index].id),
+                            icon: Icon(
+                              Icons.bookmark,
+                              color: bookmark
+                                  ? Theme.of(context).colorScheme.primary
+                                  : AppColors.darkGrey,
+                            ),
+                          ),
+                        ),
+                        Divider(thickness: 2, color: AppColors.dividerColor),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Expanded(
+                              child: Inter(
+                                text: property[index].title,
+                                maxLines: 2,
                                 fontSize: appDimensions.fontM,
                                 fontWeight: FontWeight.w500,
                               ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ],
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Inter(
+                                  text: "Absolute Returns:",
+                                  color: AppColors.lightGrey,
+                                  fontSize: appDimensions.fontS,
+                                ),
+                                Inter(
+                                  text: "24.1 %",
+                                  color: Theme.of(context).colorScheme.primary,
+                                  fontSize: appDimensions.fontM,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              );
-            },
-          ),
+                );
+              },
+            );
+          },
           error: (e, _) => Center(child: Text('Error: $e')),
           loading: () => const Center(child: CircularProgressIndicator()),
         ),

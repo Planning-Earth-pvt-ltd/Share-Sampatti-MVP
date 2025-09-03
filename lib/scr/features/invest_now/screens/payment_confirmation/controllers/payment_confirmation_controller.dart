@@ -3,37 +3,61 @@ import 'dart:developer';
 import 'package:share_sampatti_mvp/app/app.dart';
 
 class PaymentConfirmationState {
+  final TextEditingController controller;
   final int sqftCount;
-  PaymentConfirmationState({this.sqftCount = 1});
 
-  PaymentConfirmationState copyWith({int? sqftCount}) =>
-      PaymentConfirmationState(sqftCount: sqftCount ?? this.sqftCount);
+  PaymentConfirmationState({required this.controller, required this.sqftCount});
+
+  factory PaymentConfirmationState.initial() {
+    return PaymentConfirmationState(
+      controller: TextEditingController(text: "1"),
+      sqftCount: 1,
+    );
+  }
+
+  PaymentConfirmationState copyWith({int? sqftCount}) {
+    return PaymentConfirmationState(
+      sqftCount: sqftCount ?? this.sqftCount,
+      controller: controller,
+    );
+  }
 }
 
 class PaymentConfirmationController
     extends StateNotifier<PaymentConfirmationState> {
-  PaymentConfirmationController() : super(PaymentConfirmationState());
+  PaymentConfirmationController() : super(PaymentConfirmationState.initial());
+
+  void updateText(String value) {
+    final sqft = int.tryParse(value);
+    if (sqft != null && sqft > 0) {
+      state = state.copyWith(sqftCount: sqft);
+    }
+  }
 
   void increment() {
-    state = state.copyWith(sqftCount: state.sqftCount + 1);
+    final newValue = state.sqftCount + 1;
+    state.controller.text = newValue.toString();
+    state = state.copyWith(sqftCount: newValue);
+    log("increment ${state.sqftCount}");
   }
 
   void decrement() {
     if (state.sqftCount > 1) {
-      state = state.copyWith(sqftCount: state.sqftCount - 1);
+      final newValue = state.sqftCount - 1;
+      state.controller.text = newValue.toString();
+      state = state.copyWith(sqftCount: newValue);
+      log("decrement ${state.sqftCount}");
     }
   }
 
-  double requiredAmount(double pricePerSqft) => state.sqftCount * pricePerSqft;
+  double requiredAmount(double pricePerSqft) => pricePerSqft * state.sqftCount;
 }
 
 final paymentConfirmationProvider =
-    StateNotifierProvider<
+    StateNotifierProvider.autoDispose<
       PaymentConfirmationController,
       PaymentConfirmationState
-    >((ref) {
-      return PaymentConfirmationController();
-    });
+    >((ref) => PaymentConfirmationController());
 
 class RazorpayService {
   final _baseService = BaseService();
@@ -76,11 +100,11 @@ class RazorpayService {
     orderData = response.data;
   }
 
-  void openCheckout({
+  Future<void> openCheckout({
     required String name,
     required String email,
     required String phone,
-  }) {
+  }) async {
     log("Option calling...");
     var options = {
       'key': orderData!["key"],
@@ -153,6 +177,7 @@ final razorpayProvider = Provider.family<RazorpayService, BuildContext>((
       color: AppColors.profileBackground,
     ),
   );
+  ref.invalidate(transactionController);
   ref.onDispose(() {
     service.dispose();
   });

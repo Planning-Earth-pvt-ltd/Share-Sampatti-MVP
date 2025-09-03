@@ -94,6 +94,7 @@ class _OtpVerificationScreenState extends ConsumerState<OtpVerificationScreen> {
                   if (success) {
                     // ignore: use_build_context_synchronously
                     context.go('/navigation');
+                    ref.refresh(userProvider);
                   } else {
                     final errorMsg =
                         ref.read(authProvider).error ??
