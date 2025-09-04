@@ -9,9 +9,8 @@ class ExploreScreen extends ConsumerWidget {
     final categoriesControllers = ref.watch(exploreCategoriesController);
     final regionControllers = ref.watch(exploreRegionController);
     final filterControllers = ref.watch(exploreFilterController);
-    final propertyProv = ref.watch(exploreProvider);
+    final propertyProv = ref.watch(propertyProvider);
 
-    // MARK: Categories
     buildCategories() {
       return SizedBox(
         height: 35,
@@ -62,7 +61,6 @@ class ExploreScreen extends ConsumerWidget {
       );
     }
 
-    // MARK: Region
     buildRegion() {
       return filterControllers
           ? SizedBox(
@@ -95,10 +93,10 @@ class ExploreScreen extends ConsumerWidget {
                             right: 10,
                           ),
                     decoration: BoxDecoration(
-                      color: (index == 0)
-                          ? Colors.red.shade700
-                          : (regionControllers == index)
+                      color: (regionControllers == index)
                           ? Theme.of(context).colorScheme.primary
+                          : (index == 0)
+                          ? Colors.red.shade700
                           : null,
                       borderRadius: BorderRadius.circular(
                         appDimensions.radiusL,
@@ -147,7 +145,7 @@ class ExploreScreen extends ConsumerWidget {
                 onTap: () {
                   ref.read(exploreFilterController.notifier).state =
                       !filterControllers;
-                  ref.read(exploreRegionController.notifier).state = 0;
+                  ref.read(exploreRegionController.notifier).state = 1;
                 },
               ),
             ).withPadAllCustom(
@@ -158,115 +156,99 @@ class ExploreScreen extends ConsumerWidget {
             );
     }
 
-    // MARK: Containers
     buildContainers() {
       final listHeight = (325 + (2 * appDimensions.verticalPaddingS));
       return SizedBox(
-        height: propertyProv.hasValue && propertyProv.value!.isNotEmpty
-            ? listHeight * propertyProv.value!.length
-            : appDimensions.height,
+        height: listHeight * 10,
         child: propertyProv.when(
-          data: (property) {
-            if (property.isEmpty) {
-              return Center(child: Inter(text: "No Properties"));
-            }
+          data: (property) => ListView.builder(
+            itemCount: 10,
+            physics: NeverScrollableScrollPhysics(),
+            itemBuilder: (context, index) {
+              final bookmark = ref.watch(bookmarkProvider(index));
 
-            return ListView.builder(
-              itemCount: property.length,
-              physics: NeverScrollableScrollPhysics(),
-              itemBuilder: (context, index) {
-                final bookmark = ref
-                    .watch(bookMarkProvider)
-                    .contains(property[index].id);
-
-                return GestureDetector(
-                  onTap: () => context.push("/investNow/${property[index].id}"),
-                  child: Container(
-                    height: 325,
-                    margin: EdgeInsets.symmetric(
-                      vertical: appDimensions.verticalPaddingS,
-                    ),
-                    padding: EdgeInsets.all(appDimensions.horizontalPaddingM),
-                    decoration: BoxDecoration(
-                      color: AppColors.black,
-                      borderRadius: BorderRadius.circular(
-                        appDimensions.radiusM,
+              return Container(
+                height: 325,
+                margin: EdgeInsets.symmetric(
+                  vertical: appDimensions.verticalPaddingS,
+                ),
+                padding: EdgeInsets.all(appDimensions.horizontalPaddingM),
+                decoration: BoxDecoration(
+                  color: AppColors.black,
+                  borderRadius: BorderRadius.circular(appDimensions.radiusM),
+                  border: Border.symmetric(
+                    horizontal: BorderSide(color: Colors.white),
+                  ),
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      height: 200,
+                      width: appDimensions.width,
+                      alignment: Alignment.topRight,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(
+                          appDimensions.radiusM,
+                        ),
+                        image: DecorationImage(
+                          image: NetworkImage(
+                            property[index % property.length].images.isNotEmpty
+                                ? property[index % property.length].images[0]
+                                : "https://res.cloudinary.com/dowsrgchg/image/upload/v1752232642/properties/gxbw2tvj3qa2wtill46v.webp",
+                          ),
+                          fit: BoxFit.cover,
+                        ),
                       ),
-                      border: Border.symmetric(
-                        horizontal: BorderSide(color: Colors.white),
+                      child: IconButton(
+                        onPressed: () =>
+                            ref.read(bookmarkProvider(index).notifier).state =
+                                !bookmark,
+                        icon: Icon(
+                          Icons.bookmark,
+                          color: bookmark
+                              ? Theme.of(context).colorScheme.primary
+                              : AppColors.darkGrey,
+                        ),
                       ),
                     ),
-                    child: Column(
+                    Divider(thickness: 2, color: AppColors.dividerColor),
+                    Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Container(
-                          height: 200,
-                          width: appDimensions.width,
-                          alignment: Alignment.topRight,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(
-                              appDimensions.radiusM,
-                            ),
-                            image: DecorationImage(
-                              image: NetworkImage(
-                                property[index].images.isNotEmpty
-                                    ? property[index].images[0]
-                                    : "https://res.cloudinary.com/dowsrgchg/image/upload/v1752232642/properties/gxbw2tvj3qa2wtill46v.webp",
-                              ),
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                          child: IconButton(
-                            onPressed: () => ref
-                                .read(bookMarkProvider.notifier)
-                                .toggleMarker(property[index].id),
-                            icon: Icon(
-                              Icons.bookmark,
-                              color: bookmark
-                                  ? Theme.of(context).colorScheme.primary
-                                  : AppColors.darkGrey,
-                            ),
+                        Expanded(
+                          child: Inter(
+                            text: property[index % property.length].title,
+                            maxLines: 2,
+                            fontSize: appDimensions.fontM,
+                            fontWeight: FontWeight.w500,
                           ),
                         ),
-                        Divider(thickness: 2, color: AppColors.dividerColor),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
-                            Expanded(
-                              child: Inter(
-                                text: property[index].title,
-                                maxLines: 2,
-                                fontSize: appDimensions.fontM,
-                                fontWeight: FontWeight.w500,
-                              ),
+                            Inter(
+                              text: "Absolute Returns:",
+                              color: AppColors.lightGrey,
+                              fontSize: appDimensions.fontS,
                             ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                Inter(
-                                  text: "Absolute Returns:",
-                                  color: AppColors.lightGrey,
-                                  fontSize: appDimensions.fontS,
-                                ),
-                                Inter(
-                                  text: "24.1 %",
-                                  color: Theme.of(context).colorScheme.primary,
-                                  fontSize: appDimensions.fontM,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ],
+                            Inter(
+                              text: "24.1 %",
+                              color: Theme.of(context).colorScheme.primary,
+                              fontSize: appDimensions.fontM,
+                              fontWeight: FontWeight.w500,
                             ),
                           ],
                         ),
                       ],
                     ),
-                  ),
-                );
-              },
-            );
-          },
+                  ],
+                ),
+              );
+            },
+          ),
           error: (e, _) => Center(child: Text('Error: $e')),
           loading: () => const Center(child: CircularProgressIndicator()),
         ),

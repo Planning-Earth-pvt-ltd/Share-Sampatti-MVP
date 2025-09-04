@@ -1,27 +1,17 @@
 import 'dart:developer';
 
-import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:share_sampatti_mvp/app/app.dart';
 
-class PaymentConfirmationScreen extends ConsumerStatefulWidget {
+class PaymentConfirmationScreen extends ConsumerWidget {
   const PaymentConfirmationScreen({super.key, required this.id});
 
   final String id;
 
   @override
-  ConsumerState<PaymentConfirmationScreen> createState() =>
-      _PaymentConfirmationScreen();
-}
-
-class _PaymentConfirmationScreen
-    extends ConsumerState<PaymentConfirmationScreen> {
-  final _key = GlobalKey<FormState>();
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final appDimensions = ref.watch(appDimensionsProvider);
-    final currentPropertyProv = ref.watch(currentPropertyProvider(widget.id));
+    final currentPropertyProv = ref.watch(currentPropertyProvider(id));
     final paymentState = ref.watch(paymentConfirmationProvider);
     final paymentController = ref.read(paymentConfirmationProvider.notifier);
 
@@ -59,33 +49,19 @@ class _PaymentConfirmationScreen
                     color: Theme.of(context).colorScheme.primary,
                   ),
                 ),
-                SizedBox(
-                  height: appDimensions.height * 0.07,
+                Container(
+                  height: appDimensions.height * 0.05,
                   width: appDimensions.width * 0.2,
-                  child: CustomTextField(
-                    controller: paymentState.controller,
-                    keyboardType: TextInputType.number,
-                    inputFormatters: <TextInputFormatter>[
-                      FilteringTextInputFormatter.digitsOnly,
-                    ],
-                    fillColor: AppColors.grey,
-                    textAlign: TextAlign.center,
-                    onChanged: (value) => paymentController.updateText(value),
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    color: AppColors.grey,
+                    borderRadius: BorderRadius.circular(appDimensions.radiusS),
+                  ),
+                  child: Inter(
+                    text: "${paymentState.sqftCount}",
+                    fontSize: appDimensions.fontS,
                   ),
                 ),
-                // Container(
-                //   height: appDimensions.height * 0.05,
-                //   width: appDimensions.width * 0.2,
-                //   alignment: Alignment.center,
-                //   decoration: BoxDecoration(
-                //     color: AppColors.grey,
-                //     borderRadius: BorderRadius.circular(appDimensions.radiusS),
-                //   ),
-                //   child: Inter(
-                //     text: "${paymentState.sqftCount}",
-                //     fontSize: appDimensions.fontS,
-                //   ),
-                // ),
                 IconButton(
                   onPressed: paymentController.increment,
                   icon: Icon(
@@ -112,9 +88,7 @@ class _PaymentConfirmationScreen
 
     return currentPropertyProv.when(
       data: (data) {
-        double tradeValue = paymentController.requiredAmount(
-          data.pricePerToken,
-        );
+        double tradeValue = paymentController.requiredAmount(data.pricePerSqFt);
         double fees = 110.0;
         double margin = tradeValue * 0.02;
         double totalAmount = tradeValue + fees + margin;
@@ -145,7 +119,7 @@ class _PaymentConfirmationScreen
                   fontWeight: FontWeight.w700,
                 ),
                 Inter(
-                  text: "₹ ${getPrice(data.pricePerToken)}",
+                  text: "₹ ${getPrice(data.pricePerSqFt)}",
                   fontSize: appDimensions.fontM,
                   fontWeight: FontWeight.w700,
                 ),
@@ -238,29 +212,15 @@ class _PaymentConfirmationScreen
                 ),
                 SizedBox(height: appDimensions.verticalSpaceM),
                 CustomElevatedButton(
-                  onPressed: () async {
-                    try {
-                      final user = AuthPreference.getUserData();
-                      final razorpay = ref.read(razorpayProvider(context));
-                      await razorpay.createOrder(
-                        userId: user!["id"],
-                        propertyId: widget.id,
-                        quantity: paymentState.sqftCount,
-                        type: "BUY",
-                      );
-
-                      log("Initiate Razorpay");
-                      await razorpay.openCheckout(
-                        name: user["fullName"],
-                        email: user["email"] ?? "tempEmail",
-                        phone: user["phoneNumber"],
-                      );
-
-                      log("End Razorpay");
-                    } catch (e) {
-                      // ignore: use_build_context_synchronously
-                      CustomSnackBar.snackbar(context, e.toString());
-                    }
+                  onPressed: () {
+                    final razorpay = ref.read(razorpayProvider);
+                    log("Initiate Razorpay");
+                    razorpay.openCheckout(
+                      amount: totalAmount,
+                      name: "Shubam Patel",
+                      email: "test@gmai.com",
+                      phone: '3837598297',
+                    );
                   },
                   text: "Add ₹ ${getPrice(totalAmount)} or more",
                 ),
@@ -269,42 +229,29 @@ class _PaymentConfirmationScreen
           );
         }
 
-        return GestureDetector(
-          onTap: () {
-            if (paymentState.controller.text.isEmpty) {
-              paymentController.updateText("1");
-            }
-            FocusScope.of(context).unfocus();
-          },
-          child: Form(
-            key: _key,
-            child: Scaffold(
-              appBar: CustomAppBar.appbar(context, "Payment Confirmation"),
-              body: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    priceCard(),
-                    SizedBox(height: appDimensions.horizontalSpaceS),
-                    quantitySelector(),
-                    SizedBox(height: appDimensions.horizontalSpaceS),
-                    purchaseSummary(),
-                    SizedBox(height: appDimensions.horizontalSpaceS),
-                    Center(
-                      child: Inter(
-                        text:
-                            "Since the DMP differs on a daily basis, a Volatility margin of 2% is included in your trade value. Refund shall be processed after your order’s settlement.",
-                        color: AppColors.lightGrey,
-                        fontSize: appDimensions.fontXXS,
-                        textAlign: TextAlign.center,
-                      ),
-                    ).withPadHorizontal(appDimensions.horizontalPaddingS),
-                  ],
+        return Scaffold(
+          appBar: CustomAppBar.appbar(context, "Payment Confirmation"),
+          body: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              priceCard(),
+              SizedBox(height: appDimensions.horizontalSpaceS),
+              quantitySelector(),
+              SizedBox(height: appDimensions.horizontalSpaceS),
+              purchaseSummary(),
+              SizedBox(height: appDimensions.horizontalSpaceS),
+              Center(
+                child: Inter(
+                  text:
+                      "Since the DMP differs on a daily basis, a Volatility margin of 2% is included in your trade value. Refund shall be processed after your order’s settlement.",
+                  color: AppColors.lightGrey,
+                  fontSize: appDimensions.fontXXS,
+                  textAlign: TextAlign.center,
                 ),
-              ),
-              bottomNavigationBar: bottomCTA(),
-            ),
+              ).withPadHorizontal(appDimensions.horizontalPaddingS),
+            ],
           ),
+          bottomNavigationBar: bottomCTA(),
         );
       },
       error: (e, _) => Center(child: Text('Invest Now Error: $e')),

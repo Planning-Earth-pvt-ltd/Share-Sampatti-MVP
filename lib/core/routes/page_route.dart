@@ -1,5 +1,4 @@
 import 'package:share_sampatti_mvp/app/app.dart';
-import 'package:share_sampatti_mvp/scr/features/navigation/screens/portfolio/screens/transactions/screens/transactions_details_screen.dart';
 
 class Navigate {
   static final route = GoRouter(
@@ -72,72 +71,40 @@ class Navigate {
           );
         },
       ),
-      GoRoute(
-        path: '/explore',
-        pageBuilder: (context, state) => slide(state, ExploreScreen()),
-      ),
-      GoRoute(
-        path: '/chatBot',
-        pageBuilder: (context, state) => slide(state, ChatBotScreen()),
-      ),
+      GoRoute(path: '/explore', builder: (context, state) => ExploreScreen()),
+      GoRoute(path: '/chatBot', builder: (context, state) => ChatBotScreen()),
 
       // MARK: USER PROFILE
       GoRoute(
         path: '/personalDetails',
-        pageBuilder: (context, state) =>
-            slide(state, CompleteYourProfileScreen()),
+        builder: (context, state) => CompleteYourProfileScreen(),
       ),
-      GoRoute(
-        path: '/kyc',
-        pageBuilder: (context, state) => slide(state, KYCScreen()),
-      ),
+      GoRoute(path: '/kyc', builder: (context, state) => KYCScreen()),
 
       // KYC
-      GoRoute(
-        path: '/pan',
-        pageBuilder: (context, state) => slide(state, PanScreen()),
-      ),
-      GoRoute(
-        path: '/addhar',
-        pageBuilder: (context, state) => slide(state, AddharScreen()),
-      ),
+      GoRoute(path: '/pan', builder: (context, state) => PanScreen()),
+      GoRoute(path: '/addhar', builder: (context, state) => AddharScreen()),
 
       // BANK DETAILS
       GoRoute(
         path: '/bankDetails',
-        pageBuilder: (context, state) => slide(state, BankDetailsScreen()),
+        builder: (context, state) => BankDetailsScreen(),
       ),
       GoRoute(
         path: '/enterBankDetails',
-        pageBuilder: (context, state) => slide(state, EnterBankDetailsScreen()),
+        builder: (context, state) => EnterBankDetailsScreen(),
       ),
 
-      GoRoute(
-        path: '/aboutUs',
-        pageBuilder: (context, state) => slide(state, AboutUsScreen()),
-      ),
+      GoRoute(path: '/aboutUs', builder: (context, state) => AboutUsScreen()),
       GoRoute(
         path: '/termsAndConditions',
-        pageBuilder: (context, state) =>
-            slide(state, TermsAndConditionsScreen()),
+        builder: (context, state) => TermsAndConditionsScreen(),
       ),
       GoRoute(
         path: '/privacyPolicy',
-        pageBuilder: (context, state) => slide(state, PrivacyPolicyScreen()),
+        builder: (context, state) => PrivacyPolicyScreen(),
       ),
-      GoRoute(
-        path: '/faq',
-        pageBuilder: (context, state) => slide(state, FAQScreen()),
-      ),
-      GoRoute(
-        path: '/transactions',
-        pageBuilder: (context, state) => slide(state, TransactionsScreen()),
-      ),
-      GoRoute(
-        path: '/transactionsDetails',
-        pageBuilder: (context, state) =>
-            slide(state, TransactionsDetailsScreen()),
-      ),
+      GoRoute(path: '/faq', builder: (context, state) => FAQScreen()),
 
       // MARK: INVEST NOW
       GoRoute(

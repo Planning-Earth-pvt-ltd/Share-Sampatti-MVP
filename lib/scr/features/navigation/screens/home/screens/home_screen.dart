@@ -1,4 +1,5 @@
 import 'package:share_sampatti_mvp/app/app.dart';
+import 'package:share_sampatti_mvp/scr/providers/user_controller.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -6,7 +7,6 @@ class HomeScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final appDimensions = ref.watch(appDimensionsProvider);
-    final user = ref.watch(userProvider);
 
     // MARK: Name
     Widget name() {
@@ -14,7 +14,7 @@ class HomeScreen extends ConsumerWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Inter(
-            text: "Namaste, ${user.fullName}",
+            text: "Namaste, Shubham",
             fontSize: appDimensions.fontL,
             fontWeight: FontWeight.w600,
           ),
@@ -24,7 +24,7 @@ class HomeScreen extends ConsumerWidget {
               radius: 16,
               backgroundColor: AppColors.profileBackground,
               child: Inter(
-                text: user.fullName.substring(0, 1).toUpperCase(),
+                text: "S",
                 fontSize: appDimensions.fontM,
                 fontWeight: FontWeight.w600,
               ),

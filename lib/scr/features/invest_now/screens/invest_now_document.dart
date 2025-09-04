@@ -72,55 +72,12 @@ class InvestNowDocument extends ConsumerWidget {
       );
     }
 
-    // MARK: List
-    buildList(String text, double widthFactor) {
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Inter(text: text),
-          Row(
-            children: [
-              Expanded(
-                child: Container(
-                  height: 10,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(appDimensions.radiusM),
-                  ),
-                  child: FractionallySizedBox(
-                    widthFactor: widthFactor * 0.01,
-                    alignment: Alignment.centerLeft,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).colorScheme.primary,
-                        borderRadius: BorderRadius.circular(
-                          appDimensions.radiusM,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(width: width * 0.03),
-              Inter(
-                text: "${widthFactor.toInt()}%",
-                color: Theme.of(context).colorScheme.primary,
-                fontSize: 20,
-                fontWeight: FontWeight.w500,
-              ),
-            ],
-          ),
-          SizedBox(height: width * 0.05),
-        ],
-      ).withPadHorizontal(width * 0.05);
-    }
-
     return SafeArea(
       child: currentPropertyProv.when(
         data: (data) {
           return Scaffold(
             body: SingleChildScrollView(
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   // MARK: PROPERTY IMAGE
                   Stack(
@@ -161,17 +118,7 @@ class InvestNowDocument extends ConsumerWidget {
                         ),
                       ),
                     ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        buildHeader(data.title),
-                        Inter(
-                          text: "${data.address}, ${data.city}, ${data.state}",
-                          color: AppColors.lightGrey,
-                          fontSize: appDimensions.fontXXS,
-                        ),
-                      ],
-                    ),
+                    child: buildHeader(data.title),
                   ),
                   SizedBox(height: appDimensions.verticalPaddingM),
 
@@ -179,27 +126,6 @@ class InvestNowDocument extends ConsumerWidget {
                     InvestNow.documents.length,
                     (index) => buildDocument(InvestNow.documents[index]),
                   ),
-
-                  // MARK: ABOUT
-                  buildHeader(
-                    "Investment Benefits",
-                  ).withPadAll(appDimensions.horizontalPaddingM),
-                  Inter(
-                    text:
-                        "• Lorem Ipsum is simply dummy text of the printing and typesetting industry. \n"
-                        "• Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took.\n"
-                        "• A galley of type and scrambled it to make a type specimen book.\n"
-                        "• A galley of type and scrambled it to make a type specimen book.",
-                  ).withPadHorizontal(appDimensions.horizontalPaddingM),
-
-                  // MARK: RETURN COMPARISON
-                  buildHeader(
-                    "Returns Comparison",
-                  ).withPadAll(appDimensions.horizontalPaddingM),
-                  buildList("Share Sampatti Private Oppurtunity", 88),
-                  buildList("AAA Bonds", 56),
-                  buildList("Fixed Deposits", 34),
-                  buildList("Gold Investments", 76),
                 ],
               ),
             ),

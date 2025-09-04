@@ -1,4 +1,3 @@
-import 'package:flutter/services.dart';
 import 'package:share_sampatti_mvp/app/app.dart';
 
 class CustomTextField extends ConsumerWidget {
@@ -12,10 +11,6 @@ class CustomTextField extends ConsumerWidget {
     this.validator,
     this.radius,
     this.prefixIcon,
-    this.fillColor,
-    this.textAlign,
-    this.inputFormatters,
-    this.onChanged,
   });
 
   final TextEditingController controller;
@@ -26,10 +21,6 @@ class CustomTextField extends ConsumerWidget {
   final Widget? prefixIcon;
   final double? radius;
   final String? hintText;
-  final Color? fillColor;
-  final TextAlign? textAlign;
-  final List<TextInputFormatter>? inputFormatters;
-  final Function(String)? onChanged;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -47,17 +38,14 @@ class CustomTextField extends ConsumerWidget {
       validator: validator,
       readOnly: readOnly ?? false,
       keyboardType: keyboardType ?? TextInputType.text,
-      onChanged: onChanged,
-      inputFormatters: inputFormatters,
       style: style(
         Theme.of(context).colorScheme.secondary,
         appDimensions.fontS,
         FontWeight.w400,
       ),
-      textAlign: textAlign ?? TextAlign.start,
       decoration: InputDecoration(
         filled: true,
-        fillColor: fillColor ?? AppColors.darkGrey,
+        fillColor: AppColors.darkGrey,
         labelText: labelText,
         hintText: hintText,
         hintStyle: style(AppColors.grey, appDimensions.fontS, FontWeight.w400),

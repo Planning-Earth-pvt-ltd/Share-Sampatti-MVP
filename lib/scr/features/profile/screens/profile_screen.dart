@@ -6,7 +6,6 @@ class ProfileScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final appDimensions = ref.watch(appDimensionsProvider);
-    final user = ref.watch(userProvider);
 
     buildHeadingText(String text) {
       return Inter(
@@ -45,7 +44,7 @@ class ProfileScreen extends ConsumerWidget {
                         radius: 20,
                         backgroundColor: AppColors.profileBackground,
                         child: Inter(
-                          text: user.fullName.substring(0, 1).toUpperCase(),
+                          text: "S",
                           fontSize: appDimensions.fontL,
                           fontWeight: FontWeight.w600,
                         ),
@@ -59,14 +58,14 @@ class ProfileScreen extends ConsumerWidget {
                         children: [
                           // NAME
                           Inter(
-                            text: user.fullName,
+                            text: "Shubham Patel",
                             fontSize: appDimensions.fontM,
                             fontWeight: FontWeight.w600,
                           ),
 
                           // PHONE NUMBER
                           Inter(
-                            text: "+91 XXXXXX${user.phone.substring(6, 10)}",
+                            text: "+91 XXXXXX4475",
                             color: AppColors.lightGrey,
                             fontSize: appDimensions.fontXXS,
                           ),
