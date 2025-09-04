@@ -26,7 +26,7 @@ class AppConstants {
 
   // Home Regions
   static const List<String> regions = [
-    "Mohali",
+    "Punjab",
     "Gujarat",
     "Himachal",
     "Chandigarh",

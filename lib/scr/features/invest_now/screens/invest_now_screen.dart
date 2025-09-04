@@ -14,6 +14,9 @@ class InvestNowScreen extends ConsumerWidget {
     final width = appDimensions.width;
     final height = appDimensions.height;
 
+    formatNumber(dynamic value) =>
+        NumberFormat.decimalPattern("en_IN").format(value);
+
     buildHeader(String text) {
       return Inter(
         text: text,
@@ -24,6 +27,10 @@ class InvestNowScreen extends ConsumerWidget {
 
     buildCard(String text, Color backgroundColor, Color textColor) {
       return Container(
+        margin: EdgeInsets.only(
+          right: appDimensions.horizontalPaddingS,
+          bottom: appDimensions.verticalPaddingXS,
+        ),
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
         decoration: BoxDecoration(
           color: backgroundColor,
@@ -74,53 +81,20 @@ class InvestNowScreen extends ConsumerWidget {
       );
     }
 
-    buildList(String text, double widthFactor) {
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+    buildPropertyDetails(String key, String value) {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Inter(text: text),
-          Row(
-            children: [
-              Expanded(
-                child: Container(
-                  height: 10,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(appDimensions.radiusM),
-                  ),
-                  child: FractionallySizedBox(
-                    widthFactor: widthFactor * 0.01,
-                    alignment: Alignment.centerLeft,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).colorScheme.primary,
-                        borderRadius: BorderRadius.circular(
-                          appDimensions.radiusM,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(width: width * 0.03),
-              Inter(
-                text: "${widthFactor.toInt()}%",
-                color: Theme.of(context).colorScheme.primary,
-                fontSize: 20,
-                fontWeight: FontWeight.w500,
-              ),
-            ],
-          ),
-          SizedBox(height: width * 0.05),
+          Inter(text: key),
+          Inter(text: value, color: AppColors.lightGrey),
         ],
-      ).withPadHorizontal(width * 0.05);
+      ).withPadSymmetric(3, appDimensions.horizontalPaddingM);
     }
 
     return SafeArea(
       child: currentPropertyProv.when(
         data: (data) {
-          final price = NumberFormat.decimalPattern(
-            "en_IN",
-          ).format(data.pricePerSqFt);
+          final price = formatNumber(data.pricePerToken);
 
           return Scaffold(
             body: SingleChildScrollView(
@@ -180,11 +154,60 @@ class InvestNowScreen extends ConsumerWidget {
                               Theme.of(context).colorScheme.primary,
                               AppColors.darkGrey,
                             ),
-                            SizedBox(width: appDimensions.horizontalSpaceS),
                             buildCard(
                               data.propertyType!,
                               AppColors.black,
                               Theme.of(context).colorScheme.secondary,
+                            ),
+                            buildCard(
+                              data.status!,
+                              AppColors.black,
+                              Theme.of(context).colorScheme.secondary,
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: appDimensions.verticalSpaceM),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Container(
+                                height: 12,
+                                decoration: BoxDecoration(
+                                  color: AppColors.darkGrey,
+                                  borderRadius: BorderRadius.circular(
+                                    appDimensions.radiusS,
+                                  ),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      offset: Offset(0, 0),
+                                      spreadRadius: 1,
+                                      blurRadius: 10,
+                                      color: Theme.of(
+                                        context,
+                                      ).colorScheme.secondary.withAlpha(40),
+                                    ),
+                                  ],
+                                ),
+                                child: FractionallySizedBox(
+                                  widthFactor: data.progressPercentage * 0.01,
+                                  alignment: Alignment.centerLeft,
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: Theme.of(
+                                        context,
+                                      ).colorScheme.primary,
+                                      borderRadius: BorderRadius.circular(
+                                        appDimensions.radiusS,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            SizedBox(width: width * 0.03),
+                            Inter(
+                              text: "${data.progressPercentage}% Funded",
+                              color: AppColors.grey,
                             ),
                           ],
                         ),
@@ -196,34 +219,38 @@ class InvestNowScreen extends ConsumerWidget {
                   buildHeader(
                     "Investment Arena",
                   ).withPadAll(appDimensions.horizontalPaddingM),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  Column(
                     children: [
-                      buildArena(
-                        Wrap(
-                          children: [
-                            Inter(text: "~11%", color: AppColors.darkGrey),
-                            SvgPicture.asset(
-                              AppAssets.arrowUp,
-                              colorFilter: ColorFilter.mode(
-                                Colors.green.shade900,
-                                BlendMode.srcIn,
-                              ),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          buildArena(
+                            Wrap(
+                              children: [
+                                Inter(text: "~11%", color: AppColors.darkGrey),
+                                SvgPicture.asset(
+                                  AppAssets.arrowUp,
+                                  colorFilter: ColorFilter.mode(
+                                    Colors.green.shade900,
+                                    BlendMode.srcIn,
+                                  ),
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
-                        null,
-                        "Potential Long Term ROI",
-                      ),
-                      buildArena(
-                        null,
-                        "~₹$price",
-                        "Potential Long Term SQFT PRICE",
-                      ),
-                      buildArena(
-                        null,
-                        "2.57x",
-                        "Potential Long capital Grains",
+                            null,
+                            "Potential Long Term ROI",
+                          ),
+                          buildArena(
+                            null,
+                            "~₹$price",
+                            "Potential Long Term SQFT PRICE",
+                          ),
+                          buildArena(
+                            null,
+                            "2.57x",
+                            "Potential Long capital Grains",
+                          ),
+                        ],
                       ),
                     ],
                   ),
@@ -270,30 +297,35 @@ class InvestNowScreen extends ConsumerWidget {
                     appDimensions.horizontalPaddingM,
                   ),
 
-                  // MARK: ABOUT
                   buildHeader(
-                    "Investment Benefits",
-                  ).withPadAll(appDimensions.horizontalPaddingM),
-                  Inter(
-                    text:
-                        "• Lorem Ipsum is simply dummy text of the printing and typesetting industry. \n"
-                        "• Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took.\n"
-                        "• A galley of type and scrambled it to make a type specimen book.\n"
-                        "• A galley of type and scrambled it to make a type specimen book.",
-                  ).withPadHorizontal(appDimensions.horizontalPaddingM),
+                    "Property Information",
+                  ).withPadSymmetric(10, appDimensions.horizontalPaddingM),
 
-                  // MARK: RETURN COMPARISON
-                  buildHeader(
-                    "Returns Comparison",
-                  ).withPadAll(appDimensions.horizontalPaddingM),
-                  buildList("Share Sampatti Private Oppurtunity", 88),
-                  buildList("AAA Bonds", 56),
-                  buildList("Fixed Deposits", 34),
-                  buildList("Gold Investments", 76),
+                  buildPropertyDetails(
+                    "Total Area SQFT",
+                    data.totalAreaSqft.toString(),
+                  ),
+                  buildPropertyDetails(
+                    "Total Tokens",
+                    data.totalTokens.toString(),
+                  ),
+                  buildPropertyDetails(
+                    "Currency Valuation",
+                    "₹ ${formatNumber(data.currentValuation)}",
+                  ),
+                  buildPropertyDetails(
+                    "Price Per SQFT",
+                    "₹ ${formatNumber(data.pricePerSqFt)}",
+                  ),
+                  buildPropertyDetails(
+                    "Price Per Token",
+                    "₹ ${formatNumber(data.pricePerToken)}",
+                  ),
+                  SizedBox(height: appDimensions.verticalSpaceM),
                 ],
               ),
             ),
-            bottomNavigationBar: SellOrBuy(id: id, price: data.pricePerSqFt),
+            bottomNavigationBar: SellOrBuy(id: id, price: data.pricePerToken),
           );
         },
         error: (e, _) => Center(child: Text('Invest Now Error: $e')),

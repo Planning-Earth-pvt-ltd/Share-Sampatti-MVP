@@ -11,10 +11,13 @@ class BaseService {
   );
 
   // GET
-  Future<Response> get({required String url}) async {
+  Future<Response> get({
+    required String url,
+    Map<String, dynamic>? query,
+  }) async {
     try {
-      log("[GET] Url: $url");
-      final response = await _dio.get(url);
+      log("[GET] Url: $url, Query: $query");
+      final response = await _dio.get(url, queryParameters: query);
       log("GET API Response: ${response.statusCode} => ${response.data}");
       return response;
     } on DioException catch (error) {
