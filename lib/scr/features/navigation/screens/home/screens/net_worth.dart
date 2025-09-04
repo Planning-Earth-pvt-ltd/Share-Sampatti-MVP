@@ -1,4 +1,3 @@
-import 'package:intl/intl.dart';
 import 'package:share_sampatti_mvp/app/app.dart';
 
 class NetWorth extends ConsumerWidget {
@@ -7,8 +6,6 @@ class NetWorth extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final appDimensions = ref.watch(appDimensionsProvider);
-    final user = ref.read(userProvider);
-    final price = NumberFormat.decimalPattern("en_IN").format(user.netWorth);
 
     return Container(
       margin: EdgeInsets.only(bottom: appDimensions.verticalPaddingS),
@@ -36,13 +33,12 @@ class NetWorth extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Inter(
-                text: "₹ $price",
+                text: "₹ 2,34,560",
                 fontSize: appDimensions.fontL,
                 fontWeight: FontWeight.w500,
               ),
               IconButton(
-                onPressed: () =>
-                    ref.read(navigationProvider.notifier).state = 3,
+                onPressed: () {},
                 icon: Icon(
                   Icons.arrow_forward_ios,
                   size: appDimensions.iconsM,

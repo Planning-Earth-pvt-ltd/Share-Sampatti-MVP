@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:share_sampatti_mvp/app/app.dart';
 
 class NavigationScreen extends ConsumerWidget {
@@ -8,7 +6,6 @@ class NavigationScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentIndex = ref.watch(navigationProvider);
-    final propertyProv = ref.watch(propertyProvider);
 
     bottomIcon(int currentIndex, int index) {
       return SvgPicture.asset(
@@ -18,23 +15,6 @@ class NavigationScreen extends ConsumerWidget {
           BlendMode.srcIn,
         ),
       );
-    }
-
-    if (propertyProv.isLoading) {
-      return SafeArea(
-        child: Scaffold(
-          body: Center(
-            child: CircularProgressIndicator(
-              color: Theme.of(context).colorScheme.primary,
-            ),
-          ),
-        ),
-      );
-    }
-
-    if (propertyProv.hasError || propertyProv.value!.isEmpty) {
-      log(propertyProv.error.toString());
-      return NoConnection();
     }
 
     return SafeArea(

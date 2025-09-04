@@ -24,15 +24,7 @@ class Explore extends ConsumerWidget {
       children: List.generate(
         explore.length,
         (index) => InkWell(
-          onTap: () {
-            if (explore[0] == "Punjab") {
-              ref.read(exploreFilterController.notifier).state = true;
-              ref.read(exploreRegionController.notifier).state = index + 1;
-            } else {
-              ref.read(exploreCategoriesController.notifier).state = index + 1;
-            }
-            context.push("/explore");
-          },
+          onTap: () {},
           child: Column(
             children: [
               Container(

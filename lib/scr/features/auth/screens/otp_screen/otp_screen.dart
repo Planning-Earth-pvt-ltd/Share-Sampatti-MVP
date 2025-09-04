@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 import 'package:share_sampatti_mvp/app/app.dart';
 
 class OtpVerificationScreen extends ConsumerStatefulWidget {
@@ -11,6 +12,8 @@ class OtpVerificationScreen extends ConsumerStatefulWidget {
 class _OtpVerificationScreenState extends ConsumerState<OtpVerificationScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final int _length = 6;
+  Timer? _timer;
+  int _timeLeft = 30;
 
   late final String name;
   late final String phone;
@@ -21,12 +24,49 @@ class _OtpVerificationScreenState extends ConsumerState<OtpVerificationScreen> {
     final controller = ref.read(profileProvider);
     name = controller["name"]?.text.trim() ?? "";
     phone = controller["mobileNumber"]!.text.trim();
+
+    // _startTimer();
   }
+
+  // void _startTimer() {
+  //   setState(() => _timeLeft = 30);
+  //   _timer?.cancel();
+  //   _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+  //     if (_timeLeft > 0) {
+  //       setState(() => _timeLeft--);
+  //     } else {
+  //       _timer?.cancel();
+  //     }
+  //   });
+  // }
+
+  // @override
+  // void dispose() {
+  //   _timer?.cancel();
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
     final appDimensions = ref.watch(appDimensionsProvider);
     final authNotifier = ref.read(authProvider.notifier);
+
+    handleAlert(String errorMsg) {
+      return ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Inter(
+            text: errorMsg,
+            color: AppColors.darkGrey,
+            fontWeight: FontWeight.w600,
+          ),
+          backgroundColor: AppColors.red,
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadiusGeometry.circular(appDimensions.radiusM),
+          ),
+        ),
+      );
+    }
 
     pinTheme(Color color) => PinTheme(
       height: appDimensions.defaultPinputRadius,
@@ -83,7 +123,6 @@ class _OtpVerificationScreenState extends ConsumerState<OtpVerificationScreen> {
 
               Pinput(
                 length: _length,
-                autofocus: true,
                 pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
                 onCompleted: (otp) async {
                   final success = await authNotifier.verifyOtp(
@@ -92,18 +131,14 @@ class _OtpVerificationScreenState extends ConsumerState<OtpVerificationScreen> {
                     otp: otp,
                   );
                   if (success) {
-                    // ignore: use_build_context_synchronously
                     context.go('/navigation');
-                    ref.refresh(userProvider);
                   } else {
                     final errorMsg =
                         ref.read(authProvider).error ??
                         "Invalid OTP, please try again";
-                    // ignore: use_build_context_synchronously
-                    CustomSnackBar.snackbar(context, errorMsg);
+                    handleAlert(errorMsg);
 
                     // Optionally reset the pinput or show error state
-                    // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
                     ref.read(authProvider.notifier).state = ref
                         .read(authProvider)
                         .copyWith(error: null);

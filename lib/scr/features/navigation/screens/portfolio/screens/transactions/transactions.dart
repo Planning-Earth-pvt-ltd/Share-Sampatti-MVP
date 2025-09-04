@@ -1,3 +1,0 @@
-export 'controllers/transactions_controller.dart';
-export 'screens/transactions_screen.dart';
-export 'screens/transactions_details_screen.dart';

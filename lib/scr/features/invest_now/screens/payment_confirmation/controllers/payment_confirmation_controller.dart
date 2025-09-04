@@ -1,124 +1,70 @@
 // invest_now_controller.dart
 import 'dart:developer';
+
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:share_sampatti_mvp/app/app.dart';
 
 class PaymentConfirmationState {
-  final TextEditingController controller;
   final int sqftCount;
+  PaymentConfirmationState({this.sqftCount = 1});
 
-  PaymentConfirmationState({required this.controller, required this.sqftCount});
-
-  factory PaymentConfirmationState.initial() {
-    return PaymentConfirmationState(
-      controller: TextEditingController(text: "1"),
-      sqftCount: 1,
-    );
-  }
-
-  PaymentConfirmationState copyWith({int? sqftCount}) {
-    return PaymentConfirmationState(
-      sqftCount: sqftCount ?? this.sqftCount,
-      controller: controller,
-    );
-  }
+  PaymentConfirmationState copyWith({int? sqftCount}) =>
+      PaymentConfirmationState(sqftCount: sqftCount ?? this.sqftCount);
 }
 
 class PaymentConfirmationController
     extends StateNotifier<PaymentConfirmationState> {
-  PaymentConfirmationController() : super(PaymentConfirmationState.initial());
-
-  void updateText(String value) {
-    final sqft = int.tryParse(value);
-    if (sqft != null && sqft > 0) {
-      state = state.copyWith(sqftCount: sqft);
-    }
-  }
+  PaymentConfirmationController() : super(PaymentConfirmationState());
 
   void increment() {
-    final newValue = state.sqftCount + 1;
-    state.controller.text = newValue.toString();
-    state = state.copyWith(sqftCount: newValue);
-    log("increment ${state.sqftCount}");
+    state = state.copyWith(sqftCount: state.sqftCount + 1);
   }
 
   void decrement() {
     if (state.sqftCount > 1) {
-      final newValue = state.sqftCount - 1;
-      state.controller.text = newValue.toString();
-      state = state.copyWith(sqftCount: newValue);
-      log("decrement ${state.sqftCount}");
+      state = state.copyWith(sqftCount: state.sqftCount - 1);
     }
   }
 
-  double requiredAmount(double pricePerSqft) => pricePerSqft * state.sqftCount;
+  double requiredAmount(double pricePerSqft) => state.sqftCount * pricePerSqft;
 }
 
 final paymentConfirmationProvider =
-    StateNotifierProvider.autoDispose<
+    StateNotifierProvider<
       PaymentConfirmationController,
       PaymentConfirmationState
-    >((ref) => PaymentConfirmationController());
+    >((ref) {
+      return PaymentConfirmationController();
+    });
 
 class RazorpayService {
-  final _baseService = BaseService();
   late Razorpay _razorpay;
-  Map<String, dynamic>? orderData;
 
-  Function(PaymentSuccessResponse)? onPaymentSuccess;
-  Function(PaymentFailureResponse)? onPaymentFailed;
-  Function(ExternalWalletResponse)? onExternalWallet;
-
-  RazorpayService({
-    this.onPaymentSuccess,
-    this.onPaymentFailed,
-    this.onExternalWallet,
-  }) {
+  RazorpayService() {
     _razorpay = Razorpay();
     _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
     _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
     _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
   }
 
-  Future<void> createOrder({
-    required String userId,
-    required String propertyId,
-    required int quantity,
-    required String type,
-  }) async {
-    final data = {
-      "userId": userId,
-      "propertyId": propertyId,
-      "quantity": quantity,
-      "type": type,
-    };
-    log(data.toString());
-    final response = await _baseService.post(
-      url: ApiRoutes.createOrder,
-      data: data,
-    );
-    log(response.data.toString());
-    orderData = response.data;
-  }
-
-  Future<void> openCheckout({
+  void openCheckout({
+    required double amount,
     required String name,
     required String email,
     required String phone,
-  }) async {
-    log("Option calling...");
+  }) {
     var options = {
-      'key': orderData!["key"],
-      'amount': orderData!["amount"] * 100,
+      'key': "rzp_test_WLQaPDCwKewx0p",
+      'amount': amount * 100,
       'name': name,
       'description': "Your payment description",
-      'order_id': orderData!["razorpayOrderId"],
       'prefill': {'contact': phone, 'email': email},
       'external': {
         'wallets': ['paytm'],
       },
     };
 
-    log("Option ending...");
     try {
       _razorpay.open(options);
     } catch (e) {
@@ -126,32 +72,16 @@ class RazorpayService {
     }
   }
 
-  _handlePaymentSuccess(PaymentSuccessResponse response) async {
+  _handlePaymentSuccess(PaymentSuccessResponse response) {
     log("Payment Success: ${response.paymentId}");
-    try {
-      await _baseService.post(
-        url: ApiRoutes.verifyOrder,
-        data: {
-          "transactionId": orderData!["transactionId"],
-          "razorpay_payment_id": response.paymentId,
-          "razorpay_order_id": response.orderId,
-          "razorpay_signature": response.signature,
-        },
-      );
-    } catch (e) {
-      log("error at razorpay verification");
-    }
-    onPaymentSuccess?.call(response);
   }
 
   _handlePaymentError(PaymentFailureResponse response) {
     log("Payment Error: ${response.code} | ${response.message}");
-    onPaymentFailed?.call(response);
   }
 
   _handleExternalWallet(ExternalWalletResponse response) {
     log("Payment Waller: ${response.walletName}");
-    onExternalWallet?.call(response);
   }
 
   void dispose() {
@@ -159,25 +89,8 @@ class RazorpayService {
   }
 }
 
-final razorpayProvider = Provider.family<RazorpayService, BuildContext>((
-  ref,
-  context,
-) {
-  final service = RazorpayService(
-    onPaymentSuccess: (val) => CustomSnackBar.snackbar(
-      context,
-      "Payment Successful",
-      color: AppColors.lightGreen,
-    ),
-    onPaymentFailed: (val) =>
-        CustomSnackBar.snackbar(context, "Payment Failed"),
-    onExternalWallet: (val) => CustomSnackBar.snackbar(
-      context,
-      "External Wallet selected",
-      color: AppColors.profileBackground,
-    ),
-  );
-  ref.invalidate(transactionController);
+final razorpayProvider = Provider<RazorpayService>((ref) {
+  final service = RazorpayService();
   ref.onDispose(() {
     service.dispose();
   });
