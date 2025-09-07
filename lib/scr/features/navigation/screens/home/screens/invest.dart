@@ -13,8 +13,8 @@ class Invest extends ConsumerWidget {
       height: appDimensions.width * 0.6,
       child: propertyProv.when(
         data: (property) => ListView.builder(
-          itemCount: 10,
-          // itemCount: property.length,
+          // itemCount: 10,
+          itemCount: property.length,
           scrollDirection: Axis.horizontal,
           padding: EdgeInsets.only(right: appDimensions.horizontalPaddingM),
           itemBuilder: (context, index) {

@@ -11,6 +11,7 @@ class CustomTextField extends ConsumerWidget {
     this.validator,
     this.radius,
     this.prefixIcon,
+    this.textAlign,
   });
 
   final TextEditingController controller;
@@ -21,6 +22,7 @@ class CustomTextField extends ConsumerWidget {
   final Widget? prefixIcon;
   final double? radius;
   final String? hintText;
+  final TextAlign? textAlign;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -37,6 +39,7 @@ class CustomTextField extends ConsumerWidget {
       controller: controller,
       validator: validator,
       readOnly: readOnly ?? false,
+      textAlign: textAlign ?? TextAlign.start,
       keyboardType: keyboardType ?? TextInputType.text,
       style: style(
         Theme.of(context).colorScheme.secondary,

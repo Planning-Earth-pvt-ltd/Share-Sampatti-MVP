@@ -6,9 +6,8 @@ class ExploreScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final appDimensions = ref.watch(appDimensionsProvider);
-    final categoriesControllers = ref.watch(exploreCategoriesController);
-    final regionControllers = ref.watch(exploreRegionController);
-    final filterControllers = ref.watch(exploreFilterController);
+    final filterState = ref.watch(exploreFilterProvider);
+    final filterController = ref.read(exploreFilterProvider.notifier);
     final propertyProv = ref.watch(propertyProvider);
 
     buildCategories() {
@@ -19,15 +18,14 @@ class ExploreScreen extends ConsumerWidget {
           scrollDirection: Axis.horizontal,
           padding: EdgeInsets.only(left: appDimensions.horizontalPaddingS),
           itemBuilder: (context, index) => GestureDetector(
-            onTap: () =>
-                ref.read(exploreCategoriesController.notifier).state = index,
+            onTap: () => filterController.selectCategory(index),
             child: Container(
               margin: EdgeInsets.only(right: appDimensions.horizontalPaddingS),
               padding: (index == 0)
                   ? EdgeInsets.symmetric(horizontal: 20)
                   : EdgeInsets.only(left: 1, bottom: 1, top: 1, right: 10),
               decoration: BoxDecoration(
-                color: (categoriesControllers == index)
+                color: filterController.isCategorySelected(index)
                     ? Theme.of(context).colorScheme.primary
                     : null,
                 borderRadius: BorderRadius.circular(appDimensions.radiusL),
@@ -49,7 +47,7 @@ class ExploreScreen extends ConsumerWidget {
                   Inter(
                     text: AppConstants.exploreTheme[index],
                     fontWeight: FontWeight.w600,
-                    color: (categoriesControllers == index)
+                    color: filterController.isCategorySelected(index)
                         ? AppColors.darkGrey
                         : null,
                   ),
@@ -62,7 +60,7 @@ class ExploreScreen extends ConsumerWidget {
     }
 
     buildRegion() {
-      return filterControllers
+      return filterState.isFilterVisible
           ? SizedBox(
               height: 40,
               child: ListView.builder(
@@ -72,13 +70,7 @@ class ExploreScreen extends ConsumerWidget {
                   left: appDimensions.horizontalPaddingS,
                 ),
                 itemBuilder: (context, index) => GestureDetector(
-                  onTap: () {
-                    ref.read(exploreRegionController.notifier).state = index;
-                    if (index == 0) {
-                      ref.read(exploreFilterController.notifier).state =
-                          !filterControllers;
-                    }
-                  },
+                  onTap: () => filterController.selectRegion(index),
                   child: Container(
                     margin: EdgeInsets.only(
                       right: appDimensions.horizontalPaddingS,
@@ -93,7 +85,7 @@ class ExploreScreen extends ConsumerWidget {
                             right: 10,
                           ),
                     decoration: BoxDecoration(
-                      color: (regionControllers == index)
+                      color: filterController.isRegionSelected(index)
                           ? Theme.of(context).colorScheme.primary
                           : (index == 0)
                           ? Colors.red.shade700
@@ -122,7 +114,7 @@ class ExploreScreen extends ConsumerWidget {
                           Inter(
                             text: AppConstants.regions[index - 1],
                             fontWeight: FontWeight.w600,
-                            color: (regionControllers == index)
+                            color: filterController.isRegionSelected(index)
                                 ? AppColors.darkGrey
                                 : null,
                           ),
@@ -142,11 +134,7 @@ class ExploreScreen extends ConsumerWidget {
               alignment: Alignment.centerRight,
               child: CustomTextButton(
                 text: "filter",
-                onTap: () {
-                  ref.read(exploreFilterController.notifier).state =
-                      !filterControllers;
-                  ref.read(exploreRegionController.notifier).state = 1;
-                },
+                onTap: () => filterController.showFilters(),
               ),
             ).withPadAllCustom(
               appDimensions.verticalPaddingS,
@@ -161,94 +149,101 @@ class ExploreScreen extends ConsumerWidget {
       return SizedBox(
         height: listHeight * 10,
         child: propertyProv.when(
-          data: (property) => ListView.builder(
-            itemCount: 10,
-            physics: NeverScrollableScrollPhysics(),
-            itemBuilder: (context, index) {
-              final bookmark = ref.watch(bookmarkProvider(index));
+          data: (property) {
+            // Apply filters to properties
+            final filteredProperties = filterController.getFilteredProperties(
+              property,
+            );
+            return ListView.builder(
+              itemCount: filteredProperties.length,
+              physics: NeverScrollableScrollPhysics(),
+              itemBuilder: (context, index) {
+                final bookmark = ref.watch(bookmarkProvider(index));
+                final currentProperty = filteredProperties[index];
 
-              return Container(
-                height: 325,
-                margin: EdgeInsets.symmetric(
-                  vertical: appDimensions.verticalPaddingS,
-                ),
-                padding: EdgeInsets.all(appDimensions.horizontalPaddingM),
-                decoration: BoxDecoration(
-                  color: AppColors.black,
-                  borderRadius: BorderRadius.circular(appDimensions.radiusM),
-                  border: Border.symmetric(
-                    horizontal: BorderSide(color: Colors.white),
+                return Container(
+                  height: 325,
+                  margin: EdgeInsets.symmetric(
+                    vertical: appDimensions.verticalPaddingS,
                   ),
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      height: 200,
-                      width: appDimensions.width,
-                      alignment: Alignment.topRight,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(
-                          appDimensions.radiusM,
-                        ),
-                        image: DecorationImage(
-                          image: NetworkImage(
-                            property[index % property.length].images.isNotEmpty
-                                ? property[index % property.length].images[0]
-                                : "https://res.cloudinary.com/dowsrgchg/image/upload/v1752232642/properties/gxbw2tvj3qa2wtill46v.webp",
-                          ),
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                      child: IconButton(
-                        onPressed: () =>
-                            ref.read(bookmarkProvider(index).notifier).state =
-                                !bookmark,
-                        icon: Icon(
-                          Icons.bookmark,
-                          color: bookmark
-                              ? Theme.of(context).colorScheme.primary
-                              : AppColors.darkGrey,
-                        ),
-                      ),
+                  padding: EdgeInsets.all(appDimensions.horizontalPaddingM),
+                  decoration: BoxDecoration(
+                    color: AppColors.black,
+                    borderRadius: BorderRadius.circular(appDimensions.radiusM),
+                    border: Border.symmetric(
+                      horizontal: BorderSide(color: Colors.white),
                     ),
-                    Divider(thickness: 2, color: AppColors.dividerColor),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Expanded(
-                          child: Inter(
-                            text: property[index % property.length].title,
-                            maxLines: 2,
-                            fontSize: appDimensions.fontM,
-                            fontWeight: FontWeight.w500,
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        height: 200,
+                        width: appDimensions.width,
+                        alignment: Alignment.topRight,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(
+                            appDimensions.radiusM,
+                          ),
+                          image: DecorationImage(
+                            image: NetworkImage(
+                              currentProperty.images.isNotEmpty
+                                  ? currentProperty.images[0]
+                                  : "https://res.cloudinary.com/dowsrgchg/image/upload/v1752232642/properties/gxbw2tvj3qa2wtill46v.webp",
+                            ),
+                            fit: BoxFit.cover,
                           ),
                         ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Inter(
-                              text: "Absolute Returns:",
-                              color: AppColors.lightGrey,
-                              fontSize: appDimensions.fontS,
-                            ),
-                            Inter(
-                              text: "24.1 %",
-                              color: Theme.of(context).colorScheme.primary,
+                        child: IconButton(
+                          onPressed: () =>
+                              ref.read(bookmarkProvider(index).notifier).state =
+                                  !bookmark,
+                          icon: Icon(
+                            Icons.bookmark,
+                            color: bookmark
+                                ? Theme.of(context).colorScheme.primary
+                                : AppColors.darkGrey,
+                          ),
+                        ),
+                      ),
+                      Divider(thickness: 2, color: AppColors.dividerColor),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            child: Inter(
+                              text: currentProperty.title,
+                              maxLines: 2,
                               fontSize: appDimensions.fontM,
                               fontWeight: FontWeight.w500,
                             ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              );
-            },
-          ),
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Inter(
+                                text: "Absolute Returns:",
+                                color: AppColors.lightGrey,
+                                fontSize: appDimensions.fontS,
+                              ),
+                              Inter(
+                                text: "24.1 %",
+                                color: Theme.of(context).colorScheme.primary,
+                                fontSize: appDimensions.fontM,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                );
+              },
+            );
+          },
           error: (e, _) => Center(child: Text('Error: $e')),
           loading: () => const Center(child: CircularProgressIndicator()),
         ),

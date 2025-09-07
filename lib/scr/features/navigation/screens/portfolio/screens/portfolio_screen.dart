@@ -1,4 +1,7 @@
 import 'package:share_sampatti_mvp/app/app.dart';
+import 'package:share_sampatti_mvp/scr/providers/user_controller.dart';
+import 'package:share_sampatti_mvp/scr/providers/transaction_controller.dart';
+import 'package:intl/intl.dart';
 
 class PortfolioScreen extends ConsumerWidget {
   const PortfolioScreen({super.key});
@@ -7,6 +10,7 @@ class PortfolioScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final isChartView = ref.watch(viewToggleProvider);
     final appDimensions = ref.watch(appDimensionsProvider);
+    final user = ref.watch(userProvider);
 
     balanceCard() {
       return Container(
@@ -23,7 +27,7 @@ class PortfolioScreen extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Inter(text: "SHUBHAM PATEL", fontSize: appDimensions.fontS),
+            Inter(text: "${user?.name}", fontSize: appDimensions.fontS),
             SizedBox(height: appDimensions.verticalSpaceS),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -50,7 +54,7 @@ class PortfolioScreen extends ConsumerWidget {
               children: [
                 Inter(text: "BALANCE", color: AppColors.lightGrey),
                 Inter(
-                  text: "₹ 2,40,655",
+                  text: "₹ ${user?.netWorth}",
                   fontSize: appDimensions.fontM,
                   color: Theme.of(context).colorScheme.primary,
                 ),
@@ -110,42 +114,69 @@ class PortfolioScreen extends ConsumerWidget {
     }
 
     propertyList() {
-      final items = [
-        'Mohali Prime Land',
-        'Delhi Invst. Land',
-        'Himachal Invst. Land',
-      ];
+      final String userId = user?.id ?? '';
+      final transactionsAsync = ref.watch(transactionsProvider(userId));
 
-      return ListView.builder(
-        shrinkWrap: true,
-        physics: NeverScrollableScrollPhysics(),
-        itemCount: items.length,
-        itemBuilder: (context, index) => Column(
-          children: [
-            if (index != 0)
-              Divider(
-                color: AppColors.dividerColor,
-              ).withPadSymmetric(0, appDimensions.horizontalPaddingM),
-            ListTile(
-              leading: CircleAvatar(
-                backgroundImage: AssetImage(AppAssets.investNowProperty),
-              ),
-              title: Inter(text: "${items[index]} Property Shares"),
-              trailing: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Inter(text: "₹ 56.84 K", fontSize: appDimensions.fontXXS),
-                  Inter(
-                    text: "28.14%",
-                    color: Theme.of(context).colorScheme.primary,
-                    fontSize: appDimensions.fontXXS,
-                  ),
-                ],
-              ),
-            ).withPadVertical(appDimensions.verticalPaddingXS),
-          ],
+      return transactionsAsync.when(
+        loading: () => Padding(
+          padding: EdgeInsets.all(appDimensions.horizontalPaddingM),
+          child: const Center(child: CircularProgressIndicator()),
         ),
+        error: (e, _) => Padding(
+          padding: EdgeInsets.all(appDimensions.horizontalPaddingM),
+          child: Inter(
+            text: e.toString(),
+            color: Theme.of(context).colorScheme.error,
+          ),
+        ),
+        data: (transactions) {
+          if (transactions.isEmpty) {
+            return SizedBox.shrink();
+          }
+
+          return ListView.builder(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: transactions.length,
+            itemBuilder: (context, index) {
+              final t = transactions[index];
+              return Column(
+                children: [
+                  if (index != 0)
+                    Divider(
+                      color: AppColors.dividerColor,
+                    ).withPadSymmetric(0, appDimensions.horizontalPaddingM),
+                  ListTile(
+                    leading: CircleAvatar(
+                      backgroundImage: AssetImage(AppAssets.investNowProperty),
+                    ),
+                    title: Inter(text: t.description ?? t.type),
+                    subtitle: Inter(
+                      text: DateFormat('dd MMM yyyy').format(t.createdAt),
+                      color: AppColors.lightGrey,
+                      fontSize: appDimensions.fontXXS,
+                    ),
+                    trailing: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Inter(
+                          text: "₹ ${t.amount.toStringAsFixed(2)}",
+                          fontSize: appDimensions.fontXXS,
+                        ),
+                        Inter(
+                          text: t.type,
+                          color: Theme.of(context).colorScheme.primary,
+                          fontSize: appDimensions.fontXXS,
+                        ),
+                      ],
+                    ),
+                  ).withPadVertical(appDimensions.verticalPaddingXS),
+                ],
+              );
+            },
+          );
+        },
       );
     }
 

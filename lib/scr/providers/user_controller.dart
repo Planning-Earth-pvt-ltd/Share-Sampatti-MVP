@@ -15,6 +15,7 @@ class UserNotifier extends StateNotifier<UserModel?> {
     final user = AuthPreference.getUserData();
 
     if (user != null) {
+      log("User: $user");
       log("User not null");
       state = UserModel.fromJson(user);
     } else {

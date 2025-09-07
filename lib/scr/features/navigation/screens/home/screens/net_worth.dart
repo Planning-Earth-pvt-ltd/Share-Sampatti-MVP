@@ -1,7 +1,9 @@
+import 'package:intl/intl.dart';
 import 'package:share_sampatti_mvp/app/app.dart';
 
 class NetWorth extends ConsumerWidget {
-  const NetWorth({super.key});
+  final double netWorth;
+  const NetWorth({super.key, required this.netWorth});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -33,7 +35,7 @@ class NetWorth extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Inter(
-                text: "₹ 2,34,560",
+                text: "₹ ${NumberFormat("#,##,##,##0").format(netWorth)}",
                 fontSize: appDimensions.fontL,
                 fontWeight: FontWeight.w500,
               ),

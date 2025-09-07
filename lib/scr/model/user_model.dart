@@ -1,7 +1,7 @@
 class UserModel {
   final String id;
-  final String name;
-  final String phone;
+  final String? name;
+  final String? phone;
   final String? email;
   final bool? kycStatus;
   final List<String>? saveProperty;
@@ -22,10 +22,10 @@ class UserModel {
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
       id: json['id'],
-      name: json["name"],
-      phone: json["phoneNumber"],
+      name: json["fullName"] ?? "User",
+      phone: json["phoneNumber"] ?? "9876543210",
     );
   }
 
-  Map<String, dynamic> toJson() => {'name': name, 'phoneNumber': phone};
+  Map<String, dynamic> toJson() => {'fullName': name, 'phoneNumber': phone};
 }

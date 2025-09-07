@@ -7,6 +7,7 @@ class HomeScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final appDimensions = ref.watch(appDimensionsProvider);
+    final user = ref.watch(userProvider);
 
     // MARK: Name
     Widget name() {
@@ -14,7 +15,7 @@ class HomeScreen extends ConsumerWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Inter(
-            text: "Namaste, Shubham",
+            text: "Namaste, ${user?.name}",
             fontSize: appDimensions.fontL,
             fontWeight: FontWeight.w600,
           ),
@@ -24,7 +25,7 @@ class HomeScreen extends ConsumerWidget {
               radius: 16,
               backgroundColor: AppColors.profileBackground,
               child: Inter(
-                text: "S",
+                text: user?.name![0] ?? "U",
                 fontSize: appDimensions.fontM,
                 fontWeight: FontWeight.w600,
               ),
@@ -42,7 +43,7 @@ class HomeScreen extends ConsumerWidget {
           name(),
 
           // NET WORTH
-          NetWorth(),
+          NetWorth(netWorth: user?.netWorth ?? 0),
 
           // START INVESTMENT NOW
           Inter(
@@ -83,6 +84,7 @@ class HomeScreen extends ConsumerWidget {
           Explore(
             explore: AppConstants.regions,
             images: AppAssets.regionsImages,
+            filterType: FilterType.region,
           ),
           SizedBox(height: appDimensions.verticalSpaceM),
 
@@ -132,7 +134,11 @@ class HomeScreen extends ConsumerWidget {
               ),
             ],
           ).withPadAll(appDimensions.horizontalPaddingM),
-          Explore(explore: AppConstants.themes, images: AppAssets.themesImages),
+          Explore(
+            explore: AppConstants.themes,
+            images: AppAssets.themesImages,
+            filterType: FilterType.category,
+          ),
           SizedBox(height: appDimensions.verticalSpaceM),
 
           // CALL NOW
