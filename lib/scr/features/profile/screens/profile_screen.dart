@@ -1,4 +1,5 @@
 import 'package:share_sampatti_mvp/app/app.dart';
+import 'package:share_sampatti_mvp/scr/providers/user_controller.dart';
 
 class ProfileScreen extends ConsumerWidget {
   const ProfileScreen({super.key});
@@ -6,6 +7,7 @@ class ProfileScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final appDimensions = ref.watch(appDimensionsProvider);
+    final user = ref.watch(userProvider);
 
     buildHeadingText(String text) {
       return Inter(
@@ -44,7 +46,7 @@ class ProfileScreen extends ConsumerWidget {
                         radius: 20,
                         backgroundColor: AppColors.profileBackground,
                         child: Inter(
-                          text: "S",
+                          text: user?.name![0] ?? "U",
                           fontSize: appDimensions.fontL,
                           fontWeight: FontWeight.w600,
                         ),
@@ -58,14 +60,14 @@ class ProfileScreen extends ConsumerWidget {
                         children: [
                           // NAME
                           Inter(
-                            text: "Shubham Patel",
+                            text: user?.name ?? "User",
                             fontSize: appDimensions.fontM,
                             fontWeight: FontWeight.w600,
                           ),
 
                           // PHONE NUMBER
                           Inter(
-                            text: "+91 XXXXXX4475",
+                            text: "+91 XXXXXX${user?.phone!.substring(6)}",
                             color: AppColors.lightGrey,
                             fontSize: appDimensions.fontXXS,
                           ),

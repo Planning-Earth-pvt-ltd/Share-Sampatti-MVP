@@ -6,8 +6,9 @@ class BottomProperty extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final appDimensions = ref.watch(appDimensionsProvider);
+    final propertyProv = ref.watch(propertyProvider);
     final currentPropertyProv = ref.watch(
-      currentPropertyProvider("cmda6d0zy0001v2ms0wmqwee5"),
+      currentPropertyProvider(propertyProv.value?.first.id ?? ""),
     );
 
     return currentPropertyProv.when(
@@ -69,8 +70,9 @@ class BottomProperty extends ConsumerWidget {
             ),
 
             CustomElevatedButton(
-              onPressed: () =>
-                  context.push("/investNow/cmcufto670000v2sg2kh02m7c"),
+              onPressed: () => context.push(
+                "/investNow/${propertyProv.value?.first.id ?? ""}",
+              ),
               text: "Invest Now",
             ),
           ],
