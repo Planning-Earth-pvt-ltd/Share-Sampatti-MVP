@@ -219,7 +219,9 @@ class PaymentConfirmationScreen extends ConsumerWidget {
                     final user = ref.read(userProvider);
                     log("Initiate Razorpay");
                     razorpay.openCheckout(
-                      amount: totalAmount,
+                      amount: num.parse(
+                        totalAmount.toStringAsFixed(2),
+                      ).toDouble(),
                       name: user?.name ?? "User",
                       email: user?.email ?? "test@gmail.com",
                       phone: user?.phone ?? "9876543210",

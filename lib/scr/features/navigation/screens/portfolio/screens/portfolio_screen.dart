@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:share_sampatti_mvp/app/app.dart';
 import 'package:share_sampatti_mvp/scr/providers/user_controller.dart';
 import 'package:share_sampatti_mvp/scr/providers/transaction_controller.dart';
@@ -115,6 +117,7 @@ class PortfolioScreen extends ConsumerWidget {
 
     propertyList() {
       final String userId = user?.id ?? '';
+      log(userId);
       final transactionsAsync = ref.watch(transactionsProvider(userId));
 
       return transactionsAsync.when(
@@ -195,18 +198,7 @@ class PortfolioScreen extends ConsumerWidget {
               color: AppColors.dividerColor,
               thickness: 2,
             ).withPadSymmetric(0, appDimensions.horizontalPaddingM),
-            isChartView
-                ? Container(
-                    height: 200,
-                    color: Colors.green.withOpacity(0.2),
-                    child: Center(
-                      child: Text(
-                        'Chart View',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ),
-                  )
-                : propertyList(),
+            propertyList(),
           ],
         ),
       ),
